@@ -7,17 +7,19 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
+import GalleryIcon from '@material-ui/icons/PhotoLibrary';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const drawerWidth = 240;
+const drawerWidth = '14em';
 
 const styles = theme => ({
   drawerPaperHidden: {
     position: 'relative',
     width: drawerWidth,
     transition: theme.transitions.create('margin-left'),
-    marginLeft: -drawerWidth - 1,
+    marginLeft: 'calc( -' + drawerWidth + ' - 2px)',
   },
   drawerPaperShow: {
     position: 'relative',
@@ -48,21 +50,36 @@ class SideDrawer extends Component {
       >
         <div className={classes.toolbar} />
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+          </Link>
         </List>
+
         <Divider />
+
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
+          <Link to="/gallery" style={{ textDecoration: 'none' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <GalleryIcon />
+              </ListItemIcon>
+              <ListItemText primary="My galleries" />
+            </ListItem>
+          </Link>
+
+          <Link to="/settings" style={{ textDecoration: 'none' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
     )

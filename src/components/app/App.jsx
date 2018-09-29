@@ -6,6 +6,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NavBar from './nav-bar/NavBar';
 import SideDrawer from './side-drawer/SideDrawer';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Gallery from './gallery/Gallery';
+import AppSettings from './app-settings/AppSettings';
+import MyGallery from './my-gallery/MyGallery';
 
 const styles = theme => ({
   root: {
@@ -44,16 +48,24 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <MuiThemeProvider theme={Theme}>
-          <div className={classes.root}>
-            <NavBar onMenuClick={this.handleMenuClick} />
-            <SideDrawer active={this.state.showSideNav} />
-            <main className={classes.content}>
-              <div className={classes.toolbar} />
-              <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
-            </main>
-          </div>
-        </MuiThemeProvider>
+        <BrowserRouter>
+          <MuiThemeProvider theme={Theme}>
+            <div className={classes.root}>
+              <NavBar onMenuClick={this.handleMenuClick} />
+              <SideDrawer active={this.state.showSideNav} />
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+
+
+                <Route exact path="/" render={() => <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>} />
+                <Route exact path="/gallery" component={MyGallery} />
+                <Route exact path="/settings" component={AppSettings} />
+
+
+              </main>
+            </div>
+          </MuiThemeProvider>
+        </BrowserRouter>
       </React.Fragment>
     )
   }

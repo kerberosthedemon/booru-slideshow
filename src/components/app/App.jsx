@@ -12,8 +12,6 @@ const styles = theme => ({
     flexGrow: 1,
     height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
     display: 'flex',
   },
   content: {
@@ -27,16 +25,29 @@ const styles = theme => ({
 
 class App extends Component {
 
+  constructor() {
+    super();
+    this.state = { showSideNav: false, }
+    this.referencia = React.createRef();
+  }
+
+
+  handleMenuClick = () => {
+    this.setState((prevState) => {
+      return { showSideNav: !prevState.showSideNav };
+    })
+  }
 
   render() {
+
     const { classes } = this.props;
 
     return (
       <React.Fragment>
         <MuiThemeProvider theme={Theme}>
           <div className={classes.root}>
-            <NavBar />
-            <SideDrawer />
+            <NavBar onMenuClick={this.handleMenuClick} />
+            <SideDrawer active={this.state.showSideNav} />
             <main className={classes.content}>
               <div className={classes.toolbar} />
               <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>

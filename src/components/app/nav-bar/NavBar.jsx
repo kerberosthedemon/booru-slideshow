@@ -76,7 +76,7 @@ function NavBar(props) {
     <div className={classes.root}>
       <AppBar position="absolute" className={classes.appBar}>
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={props.onMenuClick}>
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="title" color="inherit" noWrap>

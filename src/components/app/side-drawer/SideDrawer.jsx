@@ -13,17 +13,17 @@ import PropTypes from 'prop-types';
 const drawerWidth = 240;
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: '100vh',
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-  },
-  drawerPaper: {
+  drawerPaperHidden: {
     position: 'relative',
     width: drawerWidth,
+    transition: theme.transitions.create('margin-left'),
+    marginLeft: -drawerWidth - 1,
+  },
+  drawerPaperShow: {
+    position: 'relative',
+    width: drawerWidth,
+    transition: theme.transitions.create('margin-left'),
+    marginLeft: 0,
   },
   content: {
     flexGrow: 1,
@@ -32,18 +32,19 @@ const styles = theme => ({
     minWidth: 0, // So the Typography noWrap works
   },
   toolbar: theme.mixins.toolbar,
+  hover: {},
 });
 
 class SideDrawer extends Component {
   render() {
     const { classes } = this.props;
 
+    console.log(this.props.active ? classes.drawerPaperShow : classes.drawerPaperHidden);
+
     return (
       <Drawer
         variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+        classes={{ paper: this.props.active ? classes.drawerPaperShow : classes.drawerPaperHidden }}
       >
         <div className={classes.toolbar} />
         <List>

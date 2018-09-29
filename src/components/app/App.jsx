@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NavBar from './nav-bar/NavBar';
-import SideDrawer from './side-drawer/SideDrawer';
+import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Gallery from './gallery/Gallery';
 import AppSettings from './app-settings/AppSettings';
 import MyGallery from './my-gallery/MyGallery';
 
@@ -52,7 +51,7 @@ class App extends Component {
           <MuiThemeProvider theme={Theme}>
             <div className={classes.root}>
               <NavBar onMenuClick={this.handleMenuClick} />
-              <SideDrawer active={this.state.showSideNav} />
+              <SideNavBar active={this.state.showSideNav} />
               <main className={classes.content}>
                 <div className={classes.toolbar} />
 

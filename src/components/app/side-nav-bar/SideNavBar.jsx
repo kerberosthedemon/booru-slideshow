@@ -34,10 +34,9 @@ const styles = theme => ({
     minWidth: 0, // So the Typography noWrap works
   },
   toolbar: theme.mixins.toolbar,
-  hover: {},
 });
 
-class SideDrawer extends Component {
+class SideNavBar extends Component {
   render() {
     const { classes } = this.props;
 
@@ -50,7 +49,7 @@ class SideDrawer extends Component {
       >
         <div className={classes.toolbar} />
         <List>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'unset' }}>
             <ListItem button>
               <ListItemIcon>
                 <PersonIcon />
@@ -63,7 +62,7 @@ class SideDrawer extends Component {
         <Divider />
 
         <List>
-          <Link to="/gallery" style={{ textDecoration: 'none' }}>
+          <Link to="/gallery" style={{ textDecoration: 'none', color: 'unset' }}>
             <ListItem button>
               <ListItemIcon>
                 <GalleryIcon />
@@ -72,7 +71,7 @@ class SideDrawer extends Component {
             </ListItem>
           </Link>
 
-          <Link to="/settings" style={{ textDecoration: 'none' }}>
+          <Link to="/settings" style={{ textDecoration: 'none', color: 'unset' }}>
             <ListItem button>
               <ListItemIcon>
                 <SettingsIcon />
@@ -86,8 +85,8 @@ class SideDrawer extends Component {
   }
 }
 
-SideDrawer.propTypes = {
+SideNavBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SideDrawer);
+export default withStyles(styles)(SideNavBar);

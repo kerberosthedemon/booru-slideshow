@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
+import Slideshow from './slideshow/Slideshow';
+import Exposition from './exposition/Exposition';
 
 export default class Gallery extends Component {
-  render() {
-    return (
-      <Typography noWrap>Welcome to the Gallery page!</Typography>
-    )
-  }
+    render() {
+        return (
+            <div className="container">
+                <Exposition />
+                <Slideshow />
+            </div>
+        )
+    }
 }

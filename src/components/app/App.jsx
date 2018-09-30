@@ -9,6 +9,7 @@ import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import MyGallery from './my-gallery/MyGallery';
+import Gallery from './gallery/Gallery';
 
 const styles = theme => ({
   root: {
@@ -57,7 +58,7 @@ class App extends Component {
 
 
                 <Route exact path="/" render={() => <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>} />
-                <Route exact path="/gallery" component={MyGallery} />
+                <Route exact path="/gallery" component={Gallery} />
                 <Route exact path="/settings" component={AppSettings} />
 
 

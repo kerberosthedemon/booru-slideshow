@@ -13,6 +13,8 @@ import SearchIcon from '@material-ui/icons/Search';
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    background: 'linear-gradient(45deg, #f6356f 0%,#ff5f50 100%)',
+    boxShadow: theme.shadows[2],
   },
   grow: {
     flexGrow: 1,

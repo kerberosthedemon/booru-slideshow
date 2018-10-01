@@ -8,7 +8,6 @@ import NavBar from './nav-bar/NavBar';
 import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
-import MyGallery from './my-gallery/MyGallery';
 import Gallery from './gallery/Gallery';
 
 const styles = theme => ({
@@ -20,9 +19,12 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.grey['900'],
-    padding: theme.spacing.unit * 3,
+    backgroundColor: Theme.palette.background.default,
+    padding: Theme.spacing.unit * 3,
     minWidth: 0, // So the Typography noWrap works
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   toolbar: theme.mixins.toolbar,
 });

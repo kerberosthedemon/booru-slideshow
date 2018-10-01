@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 const styles = theme => ({
   borderedContainer: {
     border: '1px solid white',
+    flexGrow: 1,
   },
 });
 
@@ -14,7 +15,6 @@ class Slideshow extends Component {
 
     return (
       <div className={classes.borderedContainer}>
-        This is the Slideshow component
       </div>
     )
   }

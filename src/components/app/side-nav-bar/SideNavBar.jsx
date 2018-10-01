@@ -27,12 +27,6 @@ const styles = theme => ({
     transition: theme.transitions.create('margin-left'),
     marginLeft: 0,
   },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.grey['900'],
-    padding: theme.spacing.unit * 3,
-    minWidth: 0, // So the Typography noWrap works
-  },
   toolbar: theme.mixins.toolbar,
 });
 

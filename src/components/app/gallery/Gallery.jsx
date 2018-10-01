@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
-import Slideshow from './slideshow/Slideshow';
 import Exposition from './exposition/Exposition';
+import { withStyles } from '@material-ui/core';
 
-export default class Gallery extends Component {
+const styles = theme => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: '1',
+        overflow: 'auto',
+    },
+});
+
+class Gallery extends Component {
     render() {
+        const { classes } = this.props;
+
         return (
-            <div className="container">
+            <div className={classes.container}>
                 <Exposition />
-                <Slideshow />
             </div>
         )
     }
 }
+
+export default withStyles(styles)(Gallery)

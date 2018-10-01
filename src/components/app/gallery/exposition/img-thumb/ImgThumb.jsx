@@ -17,7 +17,7 @@ const styles = theme => ({
     marginRight: '1px',
     marginBottom: '1px',
     cursor: 'pointer',
-    transition: theme.transitions.create('transform'),
+    transition: 'transform .1s',
     '&:hover': {
       transform: 'scale(1.2)',
     },

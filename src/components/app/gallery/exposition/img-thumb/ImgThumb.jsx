@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types';
-import { withStyles, Button } from '@material-ui/core';
+import { withStyles, Button, Fade, Zoom, Slide } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ReplyIcon from '@material-ui/icons/Reply';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -89,19 +89,31 @@ const styles = theme => ({
 });
 
 class ImgThumb extends Component {
+  state = { mounted: false };
+
+  componentDidMount() {
+    this.setState({ mounted: true });
+  }
+
+  handleClick = (e) => {
+    this.setState({ mounted: false });
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
-      <div className={classes.componentContainer}>
-        <Button variant="contained" color="secondary" className={classes.button}>View</Button>
-        <div className={classes.footerContainer}>
-          <ReplyIcon className={classes.icons} />
-          <GetAppIcon className={classes.icons} />
-          <StarBorderIcon className={classes.icons} />
+      <Fade in={this.state.mounted} style={{ transitionDelay: this.state.mounted ? 500 : 0 }} mountOnEnter unmountOnExit>
+        <div className={classes.componentContainer}>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClick}>View</Button>
+          <div className={classes.footerContainer}>
+            <ReplyIcon className={classes.icons} />
+            <GetAppIcon className={classes.icons} />
+            <StarBorderIcon className={classes.icons} />
+          </div>
+          <img alt="" src={this.props.post.thumbURL} className={classes.image} />
         </div>
-        <img alt="" src={this.props.post.thumbURL} className={classes.image} />
-      </div>
+      </Fade>
     )
   }
 }

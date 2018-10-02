@@ -34,8 +34,6 @@ class SideNavBar extends Component {
   render() {
     const { classes } = this.props;
 
-    console.log(this.props.active ? classes.drawerPaperShow : classes.drawerPaperHidden);
-
     return (
       <Drawer
         variant="permanent"

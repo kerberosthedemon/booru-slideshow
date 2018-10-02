@@ -11,6 +11,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignContent: 'flex-start',
   },
 });
 
@@ -24,7 +25,7 @@ class Exposition extends Component {
 
   generarPosts = () => {
     let lista = [];
-    for (let i = 1; i < 100; i++) {
+    for (let i = 1; i < 30; i++) {
       lista.push(new Post(i, "thumb_" + i, "full_" + i, new Blob(), new Blob()));
     }
     return lista;

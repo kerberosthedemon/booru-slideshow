@@ -1,20 +1,20 @@
 export default class Post {
   constructor(id, thumbURL, fullURL, thumbBlob, fullBlob) {
     this.id = id;
-    this.thumbURL = this.getRandom();
+    this.thumbURL = thumbURL;
     this.fullURL = fullURL;
     this.thumbBlob = thumbBlob;
     this.fullBlob = fullBlob;
   }
 
   getRandom = () => {
-    const imgBag = listaSafe
+    const imgBag = listaSFW
 
     return imgBag[Math.floor(Math.random() * imgBag.length)];
   }
 }
 // eslint-disable-next-line
-const listaNoSafe = [
+const listaNSFW = [
   'https://static1.e621.net/data/sample/0d/f5/0df59cadae7f760a7e672db1e3168fb8.jpg',
   'https://static1.e621.net/data/sample/0f/9c/0f9c44df29b6389cef3fa077324d537a.jpg',
   'https://static1.e621.net/data/sample/d0/05/d00515f9c9ffcaffd3b49103aa7c7fcb.jpg',
@@ -27,7 +27,7 @@ const listaNoSafe = [
 ]
 
 // eslint-disable-next-line
-const listaSafe = [
+const listaSFW = [
   'https://safebooru.org//images/2551/200292afce74992d02dbb3c57e54a04101408525.jpg?2658696',
   'https://safebooru.org//images/2551/0bec0e254c8d771875b9706d8781d9789cc55392.jpg?2658686',
   'https://safebooru.org//samples/2551/sample_a1f12b97559dea02dc8c4f808a490280a0928f37.jpg?2658518',

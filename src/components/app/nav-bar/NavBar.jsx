@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -72,36 +72,49 @@ const styles = theme => ({
   },
 });
 
-function NavBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="absolute" className={classes.appBar}>
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={props.onMenuClick}>
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="title" color="inherit" noWrap>
-            Booru-Slideshow
+class NavBar extends Component {
+
+  state = { searchText: '' };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.onSearchSubmit(this.state.searchText);
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="absolute" className={classes.appBar}>
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={this.props.onMenuClick}>
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.title} variant="title" color="inherit" noWrap>
+              Booru-Slideshow
           </Typography>
-          <div className={classes.grow} />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+            <div className={classes.grow} />
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <form onSubmit={this.handleSubmit}>
+                <Input
+                  placeholder="Search…"
+                  disableUnderline
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  onChange={(event) => this.setState({ searchText: event.target.value })}
+                />
+              </form>
             </div>
-            <Input
-              placeholder="Search…"
-              disableUnderline
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 NavBar.propTypes = {

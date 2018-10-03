@@ -9,6 +9,7 @@ import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
+import E621SearchService from './../model/search/E621SearchService';
 
 const styles = theme => ({
   root: {
@@ -33,8 +34,11 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state = { showSideNav: false, }
-    this.referencia = React.createRef();
+    this.state = {
+      showSideNav: false,
+      postList: [],
+    }
+    this.booruService = new E621SearchService();
   }
 
 
@@ -44,8 +48,18 @@ class App extends Component {
     })
   }
 
-  render() {
+  handleSearchSubmit = (searchText) => {
+    this.booruService.search(searchText)
+      .then((newPostList) => {
+        if (newPostList) {
+          this.setState((prevState) => {
+            return { postList: prevState.postList + newPostList };
+          })
+        }
+      })
+  }
 
+  render() {
     const { classes } = this.props;
 
     return (
@@ -53,14 +67,14 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={Theme}>
             <div className={classes.root}>
-              <NavBar onMenuClick={this.handleMenuClick} />
+              <NavBar onMenuClick={this.handleMenuClick} onSearchSubmit={this.handleSearchSubmit} />
               <SideNavBar active={this.state.showSideNav} />
               <main className={classes.content}>
                 <div className={classes.toolbar} />
 
 
                 <Route exact path="/" render={() => <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>} />
-                <Route exact path="/gallery" component={Gallery} />
+                <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} />} />
                 <Route exact path="/settings" component={AppSettings} />
 
 

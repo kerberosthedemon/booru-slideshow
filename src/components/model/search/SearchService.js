@@ -1,3 +1,7 @@
+
 export default class SearchService {
-  getNext(searchObject);
+  search(searchText) {
+    this.currentSearchObject = this.setupNewSearchObject(searchText);
+    return this.getNext();
+  }
 }

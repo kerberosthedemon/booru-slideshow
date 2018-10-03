@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types';
-import { withStyles, Button, Fade, Zoom, Slide } from '@material-ui/core';
+import { withStyles, Button, Fade } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ReplyIcon from '@material-ui/icons/Reply';
 import GetAppIcon from '@material-ui/icons/GetApp';

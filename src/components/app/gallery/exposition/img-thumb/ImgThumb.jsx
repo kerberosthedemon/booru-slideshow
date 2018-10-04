@@ -53,7 +53,6 @@ const styles = theme => ({
     flexGrow: 1,
   },
   image: {
-    width: '110%',
     transition: 'transform .4s, filter .15s',
     transform: 'translateY(-5.8em)',
   },
@@ -111,7 +110,7 @@ class ImgThumb extends Component {
             <GetAppIcon className={classes.icons} />
             <StarBorderIcon className={classes.icons} />
           </div>
-          <img alt="" src={this.props.post.thumbURL} className={classes.image} />
+          <img alt="" src={this.props.post.fullURL} className={classes.image} style={this.props.post.isVerticalLayout() ? { width: '110%' } : { minHeight: '110%' }} />
         </div>
       </Fade>
     )

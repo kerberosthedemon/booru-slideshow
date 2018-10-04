@@ -39,6 +39,6 @@ export default class E621SearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob());
+    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob(), postJson.width, postJson.height);
   }
 }

@@ -53,7 +53,7 @@ class App extends Component {
       .then((newPostList) => {
         if (newPostList) {
           this.setState((prevState) => {
-            return { postList: prevState.postList + newPostList };
+            return { postList: prevState.postList.concat(newPostList) };
           })
         }
       })

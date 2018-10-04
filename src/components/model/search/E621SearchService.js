@@ -1,6 +1,6 @@
 
 import SearchService from './SearchService';
-import Post from './../Post';
+import Post from '../Post';
 import SearchObject from './SearchObject';
 export default class E621SearchService extends SearchService {
   constructor() {
@@ -17,16 +17,16 @@ export default class E621SearchService extends SearchService {
 
   getNext() {
     return fetch(this.baseURL + this.getTagsQuery(this.currentSearchObject.tags) + this.getPageQuery(this.currentSearchObject.page) + this.getLimitQuery(this.searchLimit))
-      .then((response) => { JSON.parse(response) })
-      .then((response) => {
+      .then((response) => response.json())
+      .then((data) => {
         this.currentSearchObject.page++;
-        return response.map((element) => { return this.convertToPost(element) });
+        return data.map((element) => { return this.convertToPost(element) });
       });
   }
 
   getTagsQuery(tags) {
     let query = "tags="
-    tags.forEach((tag) => { query.concat("+" + tag) });
+    tags.forEach((tag) => { query = query.concat("+" + tag) });
     return query;
   }
 

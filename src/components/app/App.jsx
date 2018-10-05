@@ -44,7 +44,7 @@ class App extends Component {
     this.booruService = new E621SearchService();
   }
 
-  handleThumbClick = (post) => {
+  handleViewButtonClick = (post) => {
     this.setState({
       selectedPost: post,
       showDialog: true,
@@ -89,7 +89,7 @@ class App extends Component {
 
 
                 <Route exact path="/" render={() => <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>} />
-                <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} />} />
+                <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} onViewButtonClick={this.handleViewButtonClick} />} />
                 <Route exact path="/settings" component={AppSettings} />
 
 

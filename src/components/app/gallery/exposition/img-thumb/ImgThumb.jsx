@@ -88,21 +88,21 @@ const styles = theme => ({
 });
 
 class ImgThumb extends Component {
-  state = { mounted: false };
+  state = { show: false };
 
   componentDidMount() {
-    this.setState({ mounted: true });
+    this.setState({ show: true });
   }
 
-  handleClick = (e) => {
-    this.setState({ mounted: false });
+  handleClick = () => {
+    this.props.onViewButtonClick(this.props.post);
   }
 
   render() {
     const { classes } = this.props;
 
     return (
-      <Fade in={this.state.mounted} style={{ transitionDelay: this.state.mounted ? 500 : 0 }} mountOnEnter unmountOnExit>
+      <Fade in={this.state.show} style={{ transitionDelay: this.state.show ? 500 : 0 }} mountOnEnter unmountOnExit>
         <div className={classes.componentContainer}>
           <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClick}>View</Button>
           <div className={classes.footerContainer}>
@@ -110,7 +110,7 @@ class ImgThumb extends Component {
             <GetAppIcon className={classes.icons} />
             <StarBorderIcon className={classes.icons} />
           </div>
-          <img alt="" src={this.props.post.fullURL} className={classes.image} style={this.props.post.isVerticalLayout() ? { width: '110%' } : { minHeight: '110%' }} />
+          <img alt="" src={this.props.post.fullURL} className={classes.image} style={this.props.post.isVerticalLayout() ? { width: '110%' } : { minHeight: '110%' }} onClick={this.handleClick} />
         </div>
       </Fade>
     )

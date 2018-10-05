@@ -12,11 +12,16 @@ const styles = theme => ({
 });
 
 class Gallery extends Component {
+
+    handleViewButtonClick = (post) => {
+        this.props.onViewButtonClick(post)
+    }
+
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.container}>
-                <Exposition postList={this.props.postList} />
+                <Exposition postList={this.props.postList} onViewButtonClick={this.handleViewButtonClick} />
             </div>
         )
     }

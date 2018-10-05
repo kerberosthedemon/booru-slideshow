@@ -16,11 +16,16 @@ const styles = theme => ({
 
 class Exposition extends Component {
 
+  handleViewButtonClick = (post) => {
+    this.props.onViewButtonClick(post)
+  }
+
   render() {
     const { classes } = this.props;
+
     return (
       <div className={classes.borderedContainer}>
-        {this.props.postList.map((post, index) => { return (<ImgThumb post={post} key={"post_" + index} />) })}
+        {this.props.postList.map((post, index) => { return (<ImgThumb onViewButtonClick={this.handleViewButtonClick} post={post} key={"post_" + index} />) })}
       </div>
     )
   }

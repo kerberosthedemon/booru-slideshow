@@ -5,7 +5,7 @@ export default class E621SearchService extends SearchService {
   constructor() {
     super()
     this.baseURL = 'post/index.json?';
-    this.searchLimit = 10;
+    this.searchLimit = 75;
   }
 
   setupNewSearchObject(searchText) {

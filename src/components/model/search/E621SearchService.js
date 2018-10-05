@@ -1,12 +1,11 @@
-
 import SearchService from './SearchService';
 import Post from '../Post';
 import SearchObject from './SearchObject';
 export default class E621SearchService extends SearchService {
   constructor() {
     super()
-    this.baseURL = 'https://e621.net/post/index.json?';
-    this.searchLimit = 50;
+    this.baseURL = 'post/index.json?';
+    this.searchLimit = 10;
   }
 
   setupNewSearchObject(searchText) {
@@ -16,12 +15,16 @@ export default class E621SearchService extends SearchService {
   }
 
   getNext() {
-    return fetch(this.baseURL + this.getTagsQuery(this.currentSearchObject.tags) + this.getPageQuery(this.currentSearchObject.page) + this.getLimitQuery(this.searchLimit))
+    return fetch(this.getRequestString())
       .then((response) => response.json())
       .then((data) => {
         this.currentSearchObject.page++;
         return data.map((element) => { return this.convertToPost(element) });
       });
+  }
+
+  getRequestString() {
+    return this.baseURL + this.getTagsQuery(this.currentSearchObject.tags) + this.getPageQuery(this.currentSearchObject.page) + this.getLimitQuery(this.searchLimit);
   }
 
   getTagsQuery(tags) {

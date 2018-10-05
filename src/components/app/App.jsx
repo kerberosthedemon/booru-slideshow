@@ -10,6 +10,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
 import E621SearchService from './../model/search/E621SearchService';
+import FullDialog from './gallery/full-dialog/FullDialog';
 
 const styles = theme => ({
   root: {
@@ -37,10 +38,24 @@ class App extends Component {
     this.state = {
       showSideNav: false,
       postList: [],
+      selectedPost: null,
+      showDialog: true,
     }
     this.booruService = new E621SearchService();
   }
 
+  handleThumbClick = (post) => {
+    this.setState({
+      selectedPost: post,
+      showDialog: true,
+    })
+  }
+
+  handleDialogClose = (value) => {
+    this.setState({
+      showDialog: false,
+    })
+  }
 
   handleMenuClick = () => {
     this.setState((prevState) => {
@@ -80,6 +95,7 @@ class App extends Component {
 
               </main>
             </div>
+            <FullDialog open={this.state.showDialog} selectedPost={this.state.selectedPost} onClose={this.handleDialogClose} />
           </MuiThemeProvider>
         </BrowserRouter>
       </React.Fragment>

@@ -14,7 +14,6 @@ const styles = theme => ({
 class Gallery extends Component {
     render() {
         const { classes } = this.props;
-        console.log(this.props);
         return (
             <div className={classes.container}>
                 <Exposition postList={this.props.postList} />

@@ -39,7 +39,7 @@ class App extends Component {
       showSideNav: false,
       postList: [],
       selectedPost: null,
-      showDialog: true,
+      showDialog: false,
     }
     this.booruService = new E621SearchService();
   }
@@ -95,7 +95,7 @@ class App extends Component {
 
               </main>
             </div>
-            <FullDialog open={this.state.showDialog} selectedPost={this.state.selectedPost} onClose={this.handleDialogClose} />
+            <FullDialog open={this.state.showDialog} selectedPost={this.state.selectedPost} onClose={this.handleDialogClose} fullScreen />
           </MuiThemeProvider>
         </BrowserRouter>
       </React.Fragment>

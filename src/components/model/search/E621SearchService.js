@@ -29,7 +29,8 @@ export default class E621SearchService extends SearchService {
 
   getTagsQuery(tags) {
     let query = "tags="
-    tags.forEach((tag) => { query = query.concat("+" + tag) });
+    if (tags)
+      tags.forEach((tag) => { query = query.concat("+" + tag) });
     return query;
   }
 
@@ -42,6 +43,7 @@ export default class E621SearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob(), postJson.width, postJson.height);
+    let tags = postJson.tags.split(' ');
+    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob(), postJson.width, postJson.height, tags);
   }
 }

@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import { DialogContent, Divider, Chip } from '@material-ui/core';
 
 const styles = theme => ({
   dialog: {
-    color: 'red',
+
   },
   image: {
-    alignSelf: 'center',
+    maxWidth: '100%',
+    margin: 'auto 0',
+  },
+  content: {
+    overflow: 'auto !important',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '24px !important',
+    backgroundColor: theme.palette.background.default,
+    minHeight: 'calc(100% - 48px)',
+    alignItems: 'center',
+  },
+  chip: {
+    margin: theme.spacing.unit,
+  },
+  footer: {
+    overflow: 'unset',
   },
 })
 
@@ -21,11 +37,30 @@ class FullDialog extends React.Component {
   render() {
     const { selectedPost, classes, ...other } = this.props;
 
+    let tags;
+
+    if (selectedPost) {
+      tags = selectedPost.tags.map((tag, index) => {
+        return (<Chip
+          label={tag}
+          key={"chip_" + index}
+          className={classes.chip}
+          color="primary"
+        />)
+      });
+    }
+
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other} className={classes.dialog}>
-        <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
-        <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://static1.e621.net/data/sample/4e/e5/4ee5fcb87a4ec0235993ff580e049a31.jpg"} />
 
+        <DialogContent className={classes.content}>
+          <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://i.imgur.com/fdOtFO1.png"} />
+        </DialogContent>
+
+        <Divider />
+        <DialogContent className={classes.footer}>
+          {tags}
+        </DialogContent>
       </Dialog>
     );
   }

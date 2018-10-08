@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import { DialogContent, Divider, Chip } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   dialog: {
@@ -27,6 +28,10 @@ const styles = theme => ({
   footer: {
     overflow: 'unset',
   },
+  title: {
+    textDecoration: 'underline',
+    margin: '8px 0',
+  },
 })
 
 class FullDialog extends React.Component {
@@ -37,19 +42,6 @@ class FullDialog extends React.Component {
   render() {
     const { selectedPost, classes, ...other } = this.props;
 
-    let tags;
-
-    if (selectedPost) {
-      tags = selectedPost.tags.map((tag, index) => {
-        return (<Chip
-          label={tag}
-          key={"chip_" + index}
-          className={classes.chip}
-          color="primary"
-        />)
-      });
-    }
-
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other} className={classes.dialog}>
 
@@ -57,10 +49,43 @@ class FullDialog extends React.Component {
           <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://i.imgur.com/fdOtFO1.png"} />
         </DialogContent>
 
-        <Divider />
-        <DialogContent className={classes.footer}>
-          {tags}
-        </DialogContent>
+        {
+          selectedPost && selectedPost.tags &&
+          <React.Fragment>
+            <Divider />
+            <DialogContent className={classes.footer}>
+              <Typography variant="title" className={classes.title}>Tags:</Typography>
+              {selectedPost.tags.map((tag, index) => {
+                return (<Chip
+                  label={tag}
+                  key={"chip_" + index}
+                  className={classes.chip}
+                  color="primary"
+                />)
+              })}
+            </DialogContent>
+          </React.Fragment>
+        }
+
+        {
+          selectedPost && selectedPost.tags &&
+          <React.Fragment>
+            <DialogContent className={classes.footer}>
+              <Typography variant="title" className={classes.title}>Tags:</Typography>
+              {selectedPost.tags.map((tag, index) => {
+                return (<Chip
+                  label={tag}
+                  key={"chip_" + index}
+                  className={classes.chip}
+                  color="primary"
+                />)
+              })}
+            </DialogContent>
+          </React.Fragment>
+        }
+
+
+
       </Dialog>
     );
   }

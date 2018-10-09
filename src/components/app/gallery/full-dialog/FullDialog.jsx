@@ -100,7 +100,7 @@ class FullDialog extends React.Component {
         {
           selectedPost && selectedPost.rating &&
           <DialogContent className={classes.footer}>
-            <Typography variant="title" className={classes.title}>Artists:</Typography>
+            <Typography variant="title" className={classes.title}>Rating:</Typography>
             <Chip
               label={selectedPost.rating}
               className={classes.chip + " " + this.getRatingColor(selectedPost.rating)}

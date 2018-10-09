@@ -106,7 +106,7 @@ class App extends Component {
     let currentIndex = this.state.postList.findIndex(post => post.id === this.state.selectedPost.id);
     let newIndex = stepAmount + currentIndex;
 
-    if (newIndex >= this.state.postList.length()) {
+    if (newIndex >= this.state.postList.length) {
       this.getMorePosts();
     }
 

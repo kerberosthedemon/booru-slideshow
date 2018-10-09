@@ -43,7 +43,27 @@ export default class E621SearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    let tags = postJson.tags.split(' ');
-    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob(), postJson.width, postJson.height, tags);
+    return new Post(postJson.id, postJson.preview_url, postJson.file_url, new Blob(), new Blob(), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+  }
+
+  getTagsFromJson(json) {
+    return json.tags.split(' ');
+  }
+
+  getArtistsFromJson(json) {
+    return json.artist;
+  }
+
+  getRatingFromJson(json) {
+    switch (json.rating) {
+      case "s":
+        return "safe";
+      case "q":
+        return "questionable";
+      case "e":
+        return "explicit";
+      default:
+        return "safe";
+    }
   }
 }

@@ -8,9 +8,12 @@ export default class Post {
     this.width = width;
     this.height = height;
     this.tags = tags;
+    this.artists = artists;
+    this.rating = rating; //Ratings: Safe - Questionable - Explicit
   }
 
   isVerticalLayout = () => {
     return this.width <= this.height;
   }
 }
+

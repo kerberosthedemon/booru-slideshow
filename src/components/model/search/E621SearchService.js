@@ -15,10 +15,10 @@ export default class E621SearchService extends SearchService {
   }
 
   getNext() {
+    this.currentSearchObject.page++;
     return fetch(this.getRequestString())
       .then((response) => response.json())
       .then((data) => {
-        this.currentSearchObject.page++;
         return data.map((element) => { return this.convertToPost(element) });
       });
   }

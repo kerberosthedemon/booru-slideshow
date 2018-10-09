@@ -74,6 +74,17 @@ class App extends Component {
       })
   }
 
+  getMorePosts = () => {
+    this.booruService.getNext()
+      .then((newPostList) => {
+        if (newPostList) {
+          this.setState((prevState) => {
+            return { postList: prevState.postList.concat(newPostList) };
+          })
+        }
+      })
+  }
+
   handleKeyPress = (event) => {
     switch (event.key) {
       case 'a':
@@ -94,6 +105,10 @@ class App extends Component {
   stepSelectedPicture(stepAmount) {
     let currentIndex = this.state.postList.findIndex(post => post.id === this.state.selectedPost.id);
     let newIndex = stepAmount + currentIndex;
+
+    if (newIndex >= this.state.postList.length()) {
+      this.getMorePosts();
+    }
 
     if (newIndex >= 0 && newIndex <= (this.state.postList.length - 1)) {
       let newCurrentPost = this.state.postList[newIndex];

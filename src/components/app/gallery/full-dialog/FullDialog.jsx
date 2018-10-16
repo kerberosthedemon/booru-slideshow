@@ -50,7 +50,7 @@ class FullDialog extends React.Component {
   constructor() {
     super();
     this.state = {
-      explorationModeActive: true,
+      explorationModeActive: false,
       scaleFactor: 1,
       translateFactor: { x: 0, y: 0 },
     }
@@ -82,22 +82,26 @@ class FullDialog extends React.Component {
   handleKeyPress = (event) => {
     if (event.key === 'c') {
       this.resetImageTransform();
+      return;
     }
 
-    if (!this.state.explorationModeActive)
-      this.switchSelectedPicture(event);
-    else
+    if (this.explorationModeActive || event.key === 'q' || event.key === 'e') {
+      this.explorationModeActive = true;
       this.handleExplorationMode(event);
+    }
+    else if (!this.explorationModeActive) {
+      this.switchSelectedPicture(event);
+    }
+
   }
 
   resetImageTransform = () => {
-    this.setState((prevState) => {
-      return {
-        explorationModeActive: !prevState.explorationModeActive,
-        scaleFactor: 1,
-        translateFactor: { x: 0, y: 0 },
-      }
+    this.setState({
+      scaleFactor: 1,
+      translateFactor: { x: 0, y: 0 },
     })
+
+    this.explorationModeActive = false;
   }
 
   handleExplorationMode = (event) => {

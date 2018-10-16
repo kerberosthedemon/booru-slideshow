@@ -17,7 +17,7 @@ const styles = theme => ({
     margin: 'auto 0',
   },
   content: {
-    overflow: 'auto !important',
+    overflow: 'hidden !important',
     display: 'flex',
     flexDirection: 'column',
     padding: '24px !important',
@@ -47,8 +47,18 @@ const styles = theme => ({
 })
 
 class FullDialog extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      explorationModeActive: true,
+      scaleFactor: 1,
+      translateFactor: { x: 0, y: 0 },
+    }
+  }
+
   handleClose = () => {
-    this.props.onClose();
+    this.resetImageTransform();
+    this.props.onDialogClose();
   };
 
   getRatingColor = (post) => {
@@ -69,14 +79,154 @@ class FullDialog extends React.Component {
     }
   }
 
+  handleKeyPress = (event) => {
+    if (event.key === 'c') {
+      this.resetImageTransform();
+    }
+
+    if (!this.state.explorationModeActive)
+      this.switchSelectedPicture(event);
+    else
+      this.handleExplorationMode(event);
+  }
+
+  resetImageTransform = () => {
+    this.setState((prevState) => {
+      return {
+        explorationModeActive: !prevState.explorationModeActive,
+        scaleFactor: 1,
+        translateFactor: { x: 0, y: 0 },
+      }
+    })
+  }
+
+  handleExplorationMode = (event) => {
+    if (!this.scaleInterval) {
+      switch (event.key) {
+        case 'q':
+          this.scaleImage(1); //usar setInterval() y clearInterval() para estas funciones
+          break;
+
+        case 'e':
+          this.scaleImage(-1);
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (!this.translateIntervalX) {
+      switch (event.key) {
+        case 'a':
+          this.translateImageHorizontally(1)
+          break;
+
+        case 'd':
+          this.translateImageHorizontally(-1)
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    if (!this.translateIntervalY) {
+      switch (event.key) {
+        case 'w':
+          this.translateImageVertically(1)
+          break;
+
+        case 's':
+          this.translateImageVertically(-1)
+          break;
+
+        default:
+          break;
+      }
+    }
+
+  }
+
+  scaleImage = (sign) => {
+    this.scaleInterval = setInterval(() => {
+      this.setState(
+        (prevState) => {
+          return { scaleFactor: prevState.scaleFactor += .02 * sign }
+        })
+    }, 5)
+  }
+
+  translateImageVertically = (sign) => {
+    this.translateIntervalY = setInterval(() => {
+      this.setState(
+        (prevState) => {
+          return { translateFactor: { x: prevState.translateFactor.x, y: prevState.translateFactor.y += .2 * sign } }
+        })
+    }, 5)
+  }
+
+  translateImageHorizontally = (sign) => {
+    this.translateIntervalX = setInterval(() => {
+      this.setState(
+        (prevState) => {
+          return { translateFactor: { x: prevState.translateFactor.x += .2 * sign, y: prevState.translateFactor.y } }
+        })
+    }, 5)
+  }
+
+  switchSelectedPicture = (event) => {
+    switch (event.key) {
+      case 'a':
+      case 'ArrowLeft':
+        this.props.moveSelectedPostIndex(-1);
+        break;
+
+      case 'd':
+      case 'ArrowRight':
+        this.props.moveSelectedPostIndex(1);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  handleKeyUp = (event) => {
+    switch (event.key) {
+      case 'q':
+      case 'e':
+        clearInterval(this.scaleInterval);
+        this.scaleInterval = null;
+        break;
+
+      case 'w':
+      case 's':
+        clearInterval(this.translateIntervalY);
+        this.translateIntervalY = null;
+        break;
+
+      case 'a':
+      case 'd':
+        clearInterval(this.translateIntervalX);
+        this.translateIntervalX = null;
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
     const { selectedPost, classes, ...other } = this.props;
 
     return (
-      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other} className={classes.dialog}>
+      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other} className={classes.dialog} onKeyDown={this.handleKeyPress} onKeyUp={this.handleKeyUp}>
 
         <DialogContent className={classes.content}>
-          <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://i.imgur.com/fdOtFO1.png"} />
+          <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://i.imgur.com/fdOtFO1.png"} style={{
+            transform: 'scale(' + this.state.scaleFactor + ') '
+              + 'translateX( ' + this.state.translateFactor.x + 'em ) '
+              + 'translateY( ' + this.state.translateFactor.y + 'em ) ',
+          }} />
         </DialogContent>
 
         {

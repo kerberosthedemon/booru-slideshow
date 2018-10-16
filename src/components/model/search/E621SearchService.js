@@ -11,16 +11,21 @@ export default class E621SearchService extends SearchService {
   setupNewSearchObject(searchText) {
     let searchObject = new SearchObject(searchText);
     searchObject.limit = this.searchLimit;
+    searchObject.page = 1;
     return searchObject;
   }
 
   getNext() {
-    this.currentSearchObject.page++;
     return fetch(this.getRequestString())
       .then((response) => response.json())
       .then((data) => {
+        this.incrementPage(1);
         return data.map((element) => { return this.convertToPost(element) });
       });
+  }
+
+  incrementPage = (amount) => {
+    this.currentSearchObject.page += amount;
   }
 
   getRequestString() {

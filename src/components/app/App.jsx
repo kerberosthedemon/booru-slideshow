@@ -64,6 +64,8 @@ class App extends Component {
   }
 
   handleSearchSubmit = (searchText) => {
+    this.setState({ postList: [] });
+
     this.booruService.search(searchText)
       .then((newPostList) => {
         if (newPostList) {
@@ -85,24 +87,7 @@ class App extends Component {
       })
   }
 
-  handleKeyPress = (event) => {
-    switch (event.key) {
-      case 'a':
-      case 'ArrowLeft':
-        this.stepSelectedPicture(-1);
-        break;
-
-      case 'd':
-      case 'ArrowRight':
-        this.stepSelectedPicture(1);
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  stepSelectedPicture(stepAmount) {
+  moveSelectedPostIndex = (stepAmount) => {
     let currentIndex = this.state.postList.findIndex(post => post.id === this.state.selectedPost.id);
     let newIndex = stepAmount + currentIndex;
 
@@ -138,7 +123,7 @@ class App extends Component {
 
               </main>
             </div>
-            <FullDialog open={this.state.showDialog} selectedPost={this.state.selectedPost} onClose={this.handleDialogClose} fullScreen onKeyDown={this.handleKeyPress} />
+            <FullDialog open={this.state.showDialog} selectedPost={this.state.selectedPost} onDialogClose={this.handleDialogClose} fullScreen moveSelectedPostIndex={this.moveSelectedPostIndex} />
           </MuiThemeProvider>
         </BrowserRouter>
       </React.Fragment>

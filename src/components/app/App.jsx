@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NavBar from './nav-bar/NavBar';
 import SideNavBar from './side-nav-bar/SideNavBar';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
 //import E621SearchService from './../model/search/E621SearchService';
@@ -116,7 +116,7 @@ class App extends Component {
               <main className={classes.content}>
                 <div className={classes.toolbar} />
 
-
+                <Redirect from="/" to="/gallery" /> {/* TEMPORAL HASTA QUE ARME LA PANTALLA DE USUARIO */}
                 <Route exact path="/" render={() => <Typography noWrap>{'Pagina principal'}</Typography>} />
                 <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} onViewButtonClick={this.handleViewButtonClick} />} />
                 <Route exact path="/settings" component={AppSettings} />

@@ -9,8 +9,9 @@ import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
-import E621SearchService from './../model/search/E621SearchService';
+//import E621SearchService from './../model/search/E621SearchService';
 import FullDialog from './gallery/full-dialog/FullDialog';
+import SafeBooruSearchService from './../model/search/SafeBooruSearchService';
 
 const styles = theme => ({
   root: {
@@ -41,7 +42,7 @@ class App extends Component {
       selectedPost: null,
       showDialog: false,
     }
-    this.booruService = new E621SearchService();
+    this.booruService = new SafeBooruSearchService();
   }
 
   handleViewButtonClick = (post) => {
@@ -116,7 +117,7 @@ class App extends Component {
                 <div className={classes.toolbar} />
 
 
-                <Route exact path="/" render={() => <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>} />
+                <Route exact path="/" render={() => <Typography noWrap>{'Pagina principal'}</Typography>} />
                 <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} onViewButtonClick={this.handleViewButtonClick} />} />
                 <Route exact path="/settings" component={AppSettings} />
 

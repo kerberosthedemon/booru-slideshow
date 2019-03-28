@@ -49,7 +49,7 @@ export default class SafeBooruSearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), new Blob(), new Blob(), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
   }
 
   getPreviewURLFromJson(json) {

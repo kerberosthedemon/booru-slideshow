@@ -9,7 +9,7 @@ import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
-//import E621SearchService from './../model/search/E621SearchService';
+import E621SearchService from './../model/search/E621SearchService';
 import FullDialog from './gallery/full-dialog/FullDialog';
 import SafeBooruSearchService from './../model/search/SafeBooruSearchService';
 
@@ -42,7 +42,8 @@ class App extends Component {
       selectedPost: null,
       showDialog: false,
     }
-    this.booruService = new SafeBooruSearchService();
+    this.booruService = new E621SearchService();
+    this.loading = false;
   }
 
   handleViewButtonClick = (post) => {
@@ -73,8 +74,26 @@ class App extends Component {
           this.setState((prevState) => {
             return { postList: prevState.postList.concat(newPostList) };
           })
+          if (!this.loading)
+            this.loadFullImages()
         }
       })
+  }
+
+  loadFullImages = async () => {
+    this.loading = true;
+    const unloadedPost = this.state.postList.find(post => post.fullBlobURL === null)
+    const blob = await this.booruService.getFullBlobURL(unloadedPost)
+    const blobURL = URL.createObjectURL(blob)
+    this.setState((prevState) => {
+      prevState.postList.find(post => post.id === unloadedPost.id).fullBlobURL = blobURL
+      return prevState
+    })
+
+    if (this.state.postList.find(post => post.fullBlobURL === null))
+      return await this.loadFullImages()
+    else
+      this.loading = false;
   }
 
   getMorePosts = () => {
@@ -84,6 +103,8 @@ class App extends Component {
           this.setState((prevState) => {
             return { postList: prevState.postList.concat(newPostList) };
           })
+          if (!this.loading)
+            this.loadFullImages()
         }
       })
   }
@@ -116,7 +137,7 @@ class App extends Component {
               <main className={classes.content}>
                 <div className={classes.toolbar} />
 
-                <Redirect from="/" to="/gallery" /> {/* TEMPORAL HASTA QUE ARME LA PANTALLA DE USUARIO */}
+
                 <Route exact path="/" render={() => <Typography noWrap>{'Pagina principal'}</Typography>} />
                 <Route exact path="/gallery" render={() => <Gallery postList={this.state.postList} onViewButtonClick={this.handleViewButtonClick} />} />
                 <Route exact path="/settings" component={AppSettings} />

@@ -92,7 +92,7 @@ class NavBar extends Component {
             </IconButton>
             <Typography className={classes.title} variant="title" color="inherit" noWrap>
               Booru-Slideshow
-          </Typography>
+            </Typography>
             <div className={classes.grow} />
             <div className={classes.search}>
               <div className={classes.searchIcon}>

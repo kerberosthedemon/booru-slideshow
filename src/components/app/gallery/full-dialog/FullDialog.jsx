@@ -226,7 +226,7 @@ class FullDialog extends React.Component {
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other} className={classes.dialog} onKeyDown={this.handleKeyPress} onKeyUp={this.handleKeyUp}>
 
         <DialogContent className={classes.content}>
-          <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullURL : "https://i.imgur.com/fdOtFO1.png"} style={{
+          <img className={classes.image} alt="" src={selectedPost ? selectedPost.fullBlobURL : "https://i.imgur.com/fdOtFO1.png"} style={{
             transform: 'scale(' + this.state.scaleFactor + ') '
               + 'translateX( ' + this.state.translateFactor.x + 'em ) '
               + 'translateY( ' + this.state.translateFactor.y + 'em ) ',

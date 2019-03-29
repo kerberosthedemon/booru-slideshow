@@ -1,10 +1,13 @@
 import SearchService from './SearchService';
 import Post from '../Post';
 import SearchObject from './SearchObject';
+import xmlToJson from 'xml-to-json-stream';
+
+const xmlParser = xmlToJson({attributeMode: false});
 export default class SafeBooruSearchService extends SearchService {
   constructor() {
     super()
-    this.baseURL = 'index.php?page=dapi&s=post&q=index';
+    this.baseURL = 'https://safebooru.org/index.php?page=dapi&s=post&q=index';
     this.enableJSONQueryStringParameter = '&json=1';
     this.searchLimit = 10;
   }
@@ -18,7 +21,10 @@ export default class SafeBooruSearchService extends SearchService {
 
   getNext() {
     return fetch(this.getRequestString())
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        xmlParser.xmlToJson(response.body)
+      })
       .then((data) => {
         this.incrementPage(1);
         return data.map((element) => { return this.convertToPost(element) });
@@ -53,7 +59,7 @@ export default class SafeBooruSearchService extends SearchService {
   }
 
   getPreviewURLFromJson(json) {
-    return this.getFileURLFromJson(json);
+    return "";
   }
 
   getFileURLFromJson(json) {

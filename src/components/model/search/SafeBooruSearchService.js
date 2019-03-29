@@ -1,15 +1,13 @@
 import SearchService from './SearchService';
 import Post from '../Post';
 import SearchObject from './SearchObject';
-import xmlToJson from 'xml-to-json-stream';
+import xmlJs from 'xml-js';
 
-const xmlParser = xmlToJson({attributeMode: false});
 export default class SafeBooruSearchService extends SearchService {
   constructor() {
     super()
     this.baseURL = 'https://safebooru.org/index.php?page=dapi&s=post&q=index';
-    this.enableJSONQueryStringParameter = '&json=1';
-    this.searchLimit = 10;
+    this.searchLimit = 50;
   }
 
   setupNewSearchObject(searchText) {
@@ -21,13 +19,12 @@ export default class SafeBooruSearchService extends SearchService {
 
   getNext() {
     return fetch(this.getRequestString())
-      .then((response) => {
-        console.log(response)
-        xmlParser.xmlToJson(response.body)
-      })
+      .then((response) => response.text())
+      .then(xmlText => xmlJs.xml2js(xmlText, {compact: true, nativeType: true, nativeTypeAttributes: true}))
       .then((data) => {
         this.incrementPage(1);
-        return data.map((element) => { return this.convertToPost(element) });
+        const {post} = data.posts
+        return post.map((element) => { return this.convertToPost(element._attributes) });
       });
   }
 
@@ -36,11 +33,11 @@ export default class SafeBooruSearchService extends SearchService {
   }
 
   getRequestString() {
-    return this.baseURL + this.getTagsQuery(this.currentSearchObject.tags) + this.getPageQuery(this.currentSearchObject.page) + this.getLimitQuery(this.searchLimit) + this.enableJSONQueryStringParameter;
+    return this.baseURL + this.getTagsQuery(this.currentSearchObject.tags) + this.getPageQuery(this.currentSearchObject.page) + this.getLimitQuery(this.searchLimit);
   }
 
   getTagsQuery(tags) {
-    let query = "&tags=rating:safe+mecha"
+    let query = "&tags="
     if (tags)
       tags.forEach((tag) => { query = query.concat("+" + tag) });
     return query;
@@ -59,11 +56,11 @@ export default class SafeBooruSearchService extends SearchService {
   }
 
   getPreviewURLFromJson(json) {
-    return "";
+    return 'https:' + json.preview_url;
   }
 
   getFileURLFromJson(json) {
-    return 'https://safebooru.org/images/' + json.directory + '/' + json.image;
+    return 'https:' + json.sample_url;
   }
 
   getTagsFromJson(json) {

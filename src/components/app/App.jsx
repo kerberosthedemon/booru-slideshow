@@ -12,6 +12,9 @@ import Gallery from './gallery/Gallery';
 import E621SearchService from './../model/search/E621SearchService';
 import FullDialog from './gallery/full-dialog/FullDialog';
 import SafeBooruSearchService from './../model/search/SafeBooruSearchService';
+import GelbooruSearchService from "../model/search/GelbooruSearchService";
+import DanbooruSearchService from '../model/search/DanbooruSearchService';
+import Rule34XXXSearchService from '../model/search/Rule34XXXSearchService';
 
 const styles = theme => ({
   root: {

@@ -1,11 +1,13 @@
 import SearchService from './SearchService';
 import Post from '../Post';
 import SearchObject from './SearchObject';
-export default class E621SearchService extends SearchService {
+import xmlJs from 'xml-js';
+
+export default class Rule34XXXSearchService extends SearchService {
   constructor() {
     super()
-    this.baseURL = 'post/index.json?';
-    this.searchLimit = 75;
+    this.baseURL = 'https://rule34.xxx/index.php?page=dapi&s=post&q=index';
+    this.searchLimit = 50;
   }
 
   setupNewSearchObject(searchText) {
@@ -16,18 +18,14 @@ export default class E621SearchService extends SearchService {
   }
 
   getNext() {
-    return fetch(this.getRequestString())
-      .then((response) => response.json())
+    return this.axios.get(this.getRequestString(), {})
+      .then((response) => response.data)
+      .then(xmlText => xmlJs.xml2js(xmlText, {compact: true, nativeType: true, nativeTypeAttributes: true}))
       .then((data) => {
         this.incrementPage(1);
-        return data.map((element) => { return this.convertToPost(element) });
+        const {post} = data.posts
+        return post.map((element) => { return this.convertToPost(element._attributes) });
       });
-  }
-
-  getFullBlobURL = async (post) => {
-    return fetch(post.fullURL)
-      .then((response) => response.blob())
-      .then((data) => data)
   }
 
   incrementPage = (amount) => {
@@ -39,14 +37,14 @@ export default class E621SearchService extends SearchService {
   }
 
   getTagsQuery(tags) {
-    let query = "tags="
+    let query = "&tags="
     if (tags)
       tags.forEach((tag) => { query = query.concat("+" + tag) });
     return query;
   }
 
   getPageQuery(page) {
-    return "&page=" + page;
+    return "&pid=" + page;
   }
 
   getLimitQuery(limit) {
@@ -54,7 +52,15 @@ export default class E621SearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, postJson.preview_url, postJson.sample_url, postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+  }
+
+  getPreviewURLFromJson(json) {
+    return json.preview_url;
+  }
+
+  getFileURLFromJson(json) {
+    return json.sample_url;
   }
 
   getTagsFromJson(json) {
@@ -62,7 +68,7 @@ export default class E621SearchService extends SearchService {
   }
 
   getArtistsFromJson(json) {
-    return json.artist;
+    return null;
   }
 
   getRatingFromJson(json) {

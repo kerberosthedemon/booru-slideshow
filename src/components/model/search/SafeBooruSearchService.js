@@ -20,10 +20,10 @@ export default class SafeBooruSearchService extends SearchService {
   getNext() {
     return fetch(this.getRequestString())
       .then((response) => response.text())
-      .then(xmlText => xmlJs.xml2js(xmlText, {compact: true, nativeType: true, nativeTypeAttributes: true}))
+      .then(xmlText => xmlJs.xml2js(xmlText, { compact: true, nativeType: true, nativeTypeAttributes: true }))
       .then((data) => {
         this.incrementPage(1);
-        const {post} = data.posts
+        const { post } = data.posts
         return post.map((element) => { return this.convertToPost(element._attributes) });
       });
   }
@@ -52,15 +52,19 @@ export default class SafeBooruSearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getSampleURLFromJson(postJson), this.getFullURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
   }
 
   getPreviewURLFromJson(json) {
     return 'https:' + json.preview_url;
   }
 
-  getFileURLFromJson(json) {
+  getSampleURLFromJson(json) {
     return 'https:' + json.sample_url;
+  }
+
+  getFullURLFromJson(json) {
+    return 'https:' + json.file_url;
   }
 
   getTagsFromJson(json) {

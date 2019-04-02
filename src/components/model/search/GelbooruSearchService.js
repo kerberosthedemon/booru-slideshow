@@ -11,11 +11,11 @@ export default class GelbooruSearchService extends SearchService {
     setupNewSearchObject(searchText) {
         let searchObject = new SearchObject(searchText);
         searchObject.limit = this.searchLimit;
-        searchObject.page = 1;
+        searchObject.page = 0;
         return searchObject;
     }
     getNext() {
-        return fetch(this.getRequestString(), {credentials: 'include'})
+        return fetch(this.getRequestString(), { credentials: 'include' })
             .then((response) => response.text())
             .then(xmlText => xmlJs.xml2js(xmlText, { compact: true, nativeType: true, nativeTypeAttributes: true }))
             .then((data) => {
@@ -43,13 +43,16 @@ export default class GelbooruSearchService extends SearchService {
         return "&limit=" + limit;
     }
     convertToPost(postJson) {
-        return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+        return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getSampleURL(postJson), this.getFullURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
     }
     getPreviewURLFromJson(json) {
         return json.preview_url;
     }
     getFileURLFromJson(json) {
         return json.sample_url;
+    }
+    getFullURLFromJson(json) {
+        return json.file_url;
     }
     getTagsFromJson(json) {
         return json.tags.split(' ').filter(el => el !== "");

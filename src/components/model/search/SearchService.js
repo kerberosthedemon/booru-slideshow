@@ -3,7 +3,7 @@ import Axios from "axios";
 
 
 export default class SearchService {
-  constructor(){
+  constructor() {
     this.axios = Axios
     this.axios.defaults.withCredentials = true;
   }
@@ -13,8 +13,19 @@ export default class SearchService {
     return this.getNext();
   }
 
+  getBlobURL = (post) => {
+    switch (post.fileType) {
+      case "webm":
+      case "mp4":
+        return post.fullURL
+
+      default:
+        return post.sampleURL
+    }
+  }
+
   getFullBlobURL = async (post) => {
-    return this.axios.get(post.fullURL, {responseType: 'blob'})
+    return this.axios.get(this.getBlobURL(post), { responseType: 'blob' })
       .then((response) => response.data)
       .then((data) => data)
   }

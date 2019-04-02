@@ -1,7 +1,8 @@
 export default class Post {
-  constructor(id, thumbURL, fullURL, width, height, tags, artists, rating) {
+  constructor(id, thumbURL, sampleURL, fullURL, width, height, tags, artists, rating) {
     this.id = id;
     this.thumbURL = thumbURL;
+    this.sampleURL = sampleURL;
     this.fullURL = fullURL;
     this.thumbBlob = null;
     this.fullBlobURL = null;
@@ -10,6 +11,11 @@ export default class Post {
     this.tags = tags;
     this.artists = artists;
     this.rating = rating; //Ratings: Safe - Questionable - Explicit
+    this.fileType = this.getFileType();
+  }
+
+  getFileType = () => {
+    return this.fullURL.substr(this.fullURL.lastIndexOf(".") + 1)
   }
 
   isVerticalLayout = () => {

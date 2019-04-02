@@ -20,10 +20,10 @@ export default class Rule34XXXSearchService extends SearchService {
   getNext() {
     return this.axios.get(this.getRequestString(), {})
       .then((response) => response.data)
-      .then(xmlText => xmlJs.xml2js(xmlText, {compact: true, nativeType: true, nativeTypeAttributes: true}))
+      .then(xmlText => xmlJs.xml2js(xmlText, { compact: true, nativeType: true, nativeTypeAttributes: true }))
       .then((data) => {
         this.incrementPage(1);
-        const {post} = data.posts
+        const { post } = data.posts
         return post.map((element) => { return this.convertToPost(element._attributes) });
       });
   }
@@ -52,15 +52,7 @@ export default class Rule34XXXSearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, this.getPreviewURLFromJson(postJson), this.getFileURLFromJson(postJson), postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
-  }
-
-  getPreviewURLFromJson(json) {
-    return json.preview_url;
-  }
-
-  getFileURLFromJson(json) {
-    return json.sample_url;
+    return new Post(postJson.id, postJson.preview_url, postJson.sample_url, postJson.file_url, postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
   }
 
   getTagsFromJson(json) {

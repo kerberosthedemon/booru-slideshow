@@ -24,12 +24,6 @@ export default class E621SearchService extends SearchService {
       });
   }
 
-  getFullBlobURL = async (post) => {
-    return fetch(post.fullURL)
-      .then((response) => response.blob())
-      .then((data) => data)
-  }
-
   incrementPage = (amount) => {
     this.currentSearchObject.page += amount;
   }
@@ -54,15 +48,11 @@ export default class E621SearchService extends SearchService {
   }
 
   convertToPost(postJson) {
-    return new Post(postJson.id, postJson.preview_url, postJson.sample_url, postJson.file_url, postJson.width, postJson.height, this.getTagsFromJson(postJson), this.getArtistsFromJson(postJson), this.getRatingFromJson(postJson));
+    return new Post(postJson.id, postJson.preview_url, postJson.sample_url, postJson.file_url, postJson.width, postJson.height, this.getTagsFromJson(postJson), postJson.artist, this.getRatingFromJson(postJson));
   }
 
   getTagsFromJson(json) {
     return json.tags.split(' ');
-  }
-
-  getArtistsFromJson(json) {
-    return json.artist;
   }
 
   getRatingFromJson(json) {

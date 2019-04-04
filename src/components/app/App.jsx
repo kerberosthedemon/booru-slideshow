@@ -9,12 +9,8 @@ import SideNavBar from './side-nav-bar/SideNavBar';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
-import E621SearchService from './../model/search/E621SearchService';
 import FullDialog from './gallery/full-dialog/FullDialog';
-import SafeBooruSearchService from './../model/search/SafeBooruSearchService';
-import GelbooruSearchService from "../model/search/GelbooruSearchService";
-import DanbooruSearchService from '../model/search/DanbooruSearchService';
-import Rule34XXXSearchService from '../model/search/Rule34XXXSearchService';
+import E621SearchService from './../model/search/E621SearchService';
 
 const styles = theme => ({
   root: {
@@ -41,9 +37,10 @@ class App extends Component {
     super();
     this.state = {
       showSideNav: false,
+      showDialog: false,
       postList: [],
       selectedPost: null,
-      showDialog: false,
+      selectedServices: [],
     }
     this.booruService = new E621SearchService();
     this.loading = false;
@@ -127,6 +124,13 @@ class App extends Component {
 
   }
 
+  handleToggleService = (service) => {
+    if(!this.state.selectedServices.some(selectedService => selectedService.name === service.name))
+      this.setState(prevState => ({selectedServices: prevState.selectedServices.push(service)}))
+    else
+      this.setState(prevState => ({selectedServices: prevState.selectedServices.filter(selectedService => selectedService.name !== service.name)}))
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -135,7 +139,7 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={Theme}>
             <div className={classes.root}>
-              <NavBar onMenuClick={this.handleMenuClick} onSearchSubmit={this.handleSearchSubmit} />
+              <NavBar onMenuClick={this.handleMenuClick} onSearchSubmit={this.handleSearchSubmit} selectedServices={this.state.selectedServices} onToggleService={this.handleToggleService} />
               <SideNavBar active={this.state.showSideNav} />
               <main className={classes.content}>
                 <div className={classes.toolbar} />

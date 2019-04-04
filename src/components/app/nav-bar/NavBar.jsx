@@ -9,6 +9,35 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import { Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
+import SafebooruSearchService from './../../model/search/SafebooruSearchService';
+import E621SearchService from './../../model/search/E621SearchService';
+import GelbooruSearchService from "./../../model/search/GelbooruSearchService";
+import DanbooruSearchService from './../../model/search/DanbooruSearchService';
+import Rule34XXXSearchService from './../../model/search/Rule34XXXSearchService';
+
+const services = [
+  {
+    name: "Danbooru",
+    service: new DanbooruSearchService(),
+  },
+  {
+    name: "E621",
+    service: new E621SearchService(),
+  },
+  {
+    name: "Gelbooru",
+    service: new GelbooruSearchService(),
+  },
+  {
+    name: "Rule 34",
+    service: new Rule34XXXSearchService(),
+  },
+  {
+    name: "Safebooru",
+    service: new SafebooruSearchService(),
+  }
+]
 
 const styles = theme => ({
   appBar: {
@@ -81,8 +110,12 @@ class NavBar extends Component {
     this.props.onSearchSubmit(this.state.searchText);
   }
 
+  handleChange = (service) => () => {
+    this.props.onToggleService(service)
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, selectedServices } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="absolute" className={classes.appBar}>
@@ -94,6 +127,21 @@ class NavBar extends Component {
               Booru-Slideshow
             </Typography>
             <div className={classes.grow} />
+            <Select
+            multiple
+            value={[]}
+            //onChange={this.handleChange}
+            input={<Input id="select-multiple-checkbox" />}
+            renderValue={selected => selected.join(', ')}
+            //MenuProps={MenuProps}
+          >
+            {services.map(service => (
+              <MenuItem key={"servicio_" + service.name} onChange={this.handleChange(service)}>
+                <Checkbox checked={selectedServices.some(selectedService => selectedService.name === service.name)} disableRipple />
+                <ListItemText primary={service.name} />                                
+              </MenuItem>
+            ))}
+          </Select>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />

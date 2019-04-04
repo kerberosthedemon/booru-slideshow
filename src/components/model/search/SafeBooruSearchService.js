@@ -3,7 +3,7 @@ import Post from '../Post';
 import SearchObject from './SearchObject';
 import xmlJs from 'xml-js';
 
-export default class SafeBooruSearchService extends SearchService {
+export default class SafebooruSearchService extends SearchService {
   constructor() {
     super()
     this.baseURL = 'https://safebooru.org/index.php?page=dapi&s=post&q=index';

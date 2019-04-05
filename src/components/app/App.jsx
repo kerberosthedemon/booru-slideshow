@@ -124,11 +124,8 @@ class App extends Component {
 
   }
 
-  handleToggleService = (service) => {
-    if(!this.state.selectedServices.some(selectedService => selectedService.name === service.name))
-      this.setState(prevState => ({selectedServices: prevState.selectedServices.push(service)}))
-    else
-      this.setState(prevState => ({selectedServices: prevState.selectedServices.filter(selectedService => selectedService.name !== service.name)}))
+  handleToggleService = (newSelectedServices) => {
+      this.setState({selectedServices: newSelectedServices})
   }
 
   render() {

@@ -110,8 +110,8 @@ class NavBar extends Component {
     this.props.onSearchSubmit(this.state.searchText);
   }
 
-  handleChange = (service) => () => {
-    this.props.onToggleService(service)
+  handleChange = (event) => {
+    this.props.onToggleService(event.target.value)
   }
 
   render() {
@@ -128,16 +128,17 @@ class NavBar extends Component {
             </Typography>
             <div className={classes.grow} />
             <Select
+            
             multiple
-            value={[]}
-            //onChange={this.handleChange}
+            value={this.props.selectedServices}
+            onChange={this.handleChange}
             input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => selected.join(', ')}
+            renderValue={selected => selected.map(value => value.name).join(', ')}
             //MenuProps={MenuProps}
           >
             {services.map(service => (
-              <MenuItem key={"servicio_" + service.name} onChange={this.handleChange(service)}>
-                <Checkbox checked={selectedServices.some(selectedService => selectedService.name === service.name)} disableRipple />
+              <MenuItem key={"servicio_" + service.name} value={service}>
+                <Checkbox checked={selectedServices.indexOf(service) > -1} disableRipple />
                 <ListItemText primary={service.name} />                                
               </MenuItem>
             ))}

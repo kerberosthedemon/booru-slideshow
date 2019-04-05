@@ -9,7 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
+import { Select, MenuItem, Checkbox, ListItemText, Chip } from '@material-ui/core';
 import SafebooruSearchService from './../../model/search/SafebooruSearchService';
 import E621SearchService from './../../model/search/E621SearchService';
 import GelbooruSearchService from "./../../model/search/GelbooruSearchService";
@@ -98,6 +98,13 @@ const styles = theme => ({
         width: 200,
       },
     },
+  },  
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
   },
 });
 
@@ -127,13 +134,18 @@ class NavBar extends Component {
               Booru-Slideshow
             </Typography>
             <div className={classes.grow} />
-            <Select
-            
+            <Select            
             multiple
-            value={this.props.selectedServices}
+            value={selectedServices}
             onChange={this.handleChange}
             input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => selected.map(value => value.name).join(', ')}
+            renderValue={selected => 
+              (<div className={classes.chips}>
+                {selected.map(value => (
+                  <Chip key={"chip_" + value.name} label={value.name} className={classes.chip} />
+                ))}
+              </div>)
+            }
             //MenuProps={MenuProps}
           >
             {services.map(service => (

@@ -6,11 +6,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NavBar from './nav-bar/NavBar';
 import SideNavBar from './side-nav-bar/SideNavBar';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import AppSettings from './app-settings/AppSettings';
 import Gallery from './gallery/Gallery';
 import FullDialog from './gallery/full-dialog/FullDialog';
-import E621SearchService from './../model/search/E621SearchService';
+import SearchService from './../services/SearchService';
 
 const styles = theme => ({
   root: {
@@ -42,7 +42,6 @@ class App extends Component {
       selectedPost: null,
       selectedServices: [],
     }
-    this.booruService = new E621SearchService();
     this.loading = false;
   }
 
@@ -68,22 +67,21 @@ class App extends Component {
   handleSearchSubmit = (searchText) => {
     this.setState({ postList: [] });
 
-    this.booruService.search(searchText)
-      .then((newPostList) => {
-        if (newPostList) {
-          this.setState((prevState) => {
-            return { postList: prevState.postList.concat(newPostList) };
-          })
-          if (!this.loading)
-            this.loadFullImages()
-        }
-      })
+    this.state.selectedServices.forEach(async selectedService => {
+      let newPostList = await selectedService.service.search(searchText)
+
+      if (newPostList)
+        this.setState(prevState => ({ postList: prevState.postList.concat(newPostList) }));
+
+      if (!this.loading)
+        this.loadFullImages()
+    })
   }
 
   loadFullImages = async () => {
     this.loading = true;
     const unloadedPost = this.state.postList.find(post => post.fullBlobURL === null)
-    const blob = await this.booruService.getFullBlobURL(unloadedPost)
+    const blob = await SearchService.getFullBlobURL(unloadedPost)
     const blobURL = URL.createObjectURL(blob)
     this.setState((prevState) => {
       prevState.postList.find(post => post.id === unloadedPost.id).fullBlobURL = blobURL
@@ -96,17 +94,16 @@ class App extends Component {
       this.loading = false;
   }
 
-  getMorePosts = () => {
-    this.booruService.getNext()
-      .then((newPostList) => {
-        if (newPostList) {
-          this.setState((prevState) => {
-            return { postList: prevState.postList.concat(newPostList) };
-          })
-          if (!this.loading)
-            this.loadFullImages()
-        }
-      })
+  getMorePosts = async () => {
+    this.state.selectedServices.forEach(async selectedService => {
+      let newPostList = await selectedService.service.searchNextPage()
+
+      if (newPostList)
+        this.setState(prevState => ({ postList: prevState.postList.concat(newPostList) }));
+
+      if (!this.loading)
+        this.loadFullImages()
+    })
   }
 
   moveSelectedPostIndex = (stepAmount) => {
@@ -125,7 +122,7 @@ class App extends Component {
   }
 
   handleToggleService = (newSelectedServices) => {
-      this.setState({selectedServices: newSelectedServices})
+    this.setState({ selectedServices: newSelectedServices })
   }
 
   render() {

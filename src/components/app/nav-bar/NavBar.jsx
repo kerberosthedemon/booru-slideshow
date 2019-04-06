@@ -10,11 +10,12 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Select, MenuItem, Checkbox, ListItemText, Chip } from '@material-ui/core';
-import SafebooruSearchService from './../../model/search/SafebooruSearchService';
-import E621SearchService from './../../model/search/E621SearchService';
-import GelbooruSearchService from "./../../model/search/GelbooruSearchService";
-import DanbooruSearchService from './../../model/search/DanbooruSearchService';
-import Rule34XXXSearchService from './../../model/search/Rule34XXXSearchService';
+import DanbooruSearchService from './../../services/DanbooruSearchService';
+import E621SearchService from './../../services/E621SearchService';
+import GelbooruSearchService from './../../services/GelbooruSearchService';
+import Rule34XXXSearchService from './../../services/Rule34XXXSearchService';
+import SafebooruSearchService from './../../services/SafebooruSearchService';
+import ATFbooruSearchService from './../../services/ATFbooruSearchService';
 
 const services = [
   {
@@ -36,6 +37,10 @@ const services = [
   {
     name: "Safebooru",
     service: new SafebooruSearchService(),
+  },
+  {
+    name: "ATFbooru",
+    service: new ATFbooruSearchService(),
   }
 ]
 
@@ -98,7 +103,7 @@ const styles = theme => ({
         width: 200,
       },
     },
-  },  
+  },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -134,27 +139,27 @@ class NavBar extends Component {
               Booru-Slideshow
             </Typography>
             <div className={classes.grow} />
-            <Select            
-            multiple
-            value={selectedServices}
-            onChange={this.handleChange}
-            input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => 
-              (<div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip key={"chip_" + value.name} label={value.name} className={classes.chip} />
-                ))}
-              </div>)
-            }
+            <Select
+              multiple
+              value={selectedServices}
+              onChange={this.handleChange}
+              input={<Input id="select-multiple-checkbox" />}
+              renderValue={selected =>
+                (<div className={classes.chips}>
+                  {selected.map(value => (
+                    <Chip key={"chip_" + value.name} label={value.name} className={classes.chip} />
+                  ))}
+                </div>)
+              }
             //MenuProps={MenuProps}
-          >
-            {services.map(service => (
-              <MenuItem key={"servicio_" + service.name} value={service}>
-                <Checkbox checked={selectedServices.indexOf(service) > -1} disableRipple />
-                <ListItemText primary={service.name} />                                
-              </MenuItem>
-            ))}
-          </Select>
+            >
+              {services.map(service => (
+                <MenuItem key={"servicio_" + service.name} value={service}>
+                  <Checkbox checked={selectedServices.indexOf(service) > -1} disableRipple />
+                  <ListItemText primary={service.name} />
+                </MenuItem>
+              ))}
+            </Select>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />

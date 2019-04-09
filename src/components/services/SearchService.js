@@ -25,7 +25,14 @@ export default class SearchService {
     let response = await axios.get(this.getRequestString(), { credentials: 'include' })
     const jsonResponse = this.isXMLFormat ? this.formatFromXML(response) : this.formatFromJson(response)
     this.currentSearchPage++
-    return new Promise((resolve, reject) => { resolve(jsonResponse.map(jsonPost => this.convertToPost(jsonPost))) })
+    return new Promise((resolve, reject) => { resolve(jsonResponse.map(jsonPost => {
+      try{
+        return this.convertToPost(jsonPost)
+      }
+      catch(exception){
+        return null;
+      }
+    }).filter(element => element !== null)) })
   }
 
   getRequestString() {

@@ -214,6 +214,11 @@ class FullDialog extends React.Component {
         clearInterval(this.translateIntervalX);
         this.translateIntervalX = null;
         break;
+
+      case 'Escape': //Para Linux
+        this.handleClose();
+        break;
+
       default:
         break;
     }

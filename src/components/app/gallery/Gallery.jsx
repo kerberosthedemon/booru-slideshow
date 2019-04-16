@@ -33,7 +33,8 @@ class Gallery extends Component {
 
     const limitReached = currentScrollValue >= limitScrollValue;
 
-    if (limitReached) alert("limit reached");
+    //if (limitReached) 
+      //alert("limit reached");
   };
 
   render() {

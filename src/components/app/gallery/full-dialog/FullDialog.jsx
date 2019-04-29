@@ -16,6 +16,10 @@ const styles = theme => ({
     maxWidth: '100%',
     margin: 'auto 0',
   },
+  loadingScreen: {
+    maxWidth: '100%',
+    margin: 'auto 0',
+  },
   content: {
     overflow: 'hidden !important',
     display: 'flex',
@@ -227,6 +231,11 @@ class FullDialog extends React.Component {
   switchComponent = () => {
     const { selectedPost, classes } = this.props;
 
+    if(!selectedPost.fullBlobURL)
+    return <div className={classes.loadingScreen}>
+      <Typography>{selectedPost.loadingPercentage}%</Typography>
+    </div>
+
     switch (selectedPost.fileType) {
       case "webm":
       case "mp4":
@@ -241,7 +250,7 @@ class FullDialog extends React.Component {
             + 'translateX( ' + this.state.translateFactor.x + 'em ) '
             + 'translateY( ' + this.state.translateFactor.y + 'em ) ',
         }} />
-    }
+    }    
   }
 
   render() {

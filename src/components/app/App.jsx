@@ -83,7 +83,7 @@ class App extends Component {
     const unloadedPost = this.state.postList.find(
       post => post.fullBlobURL === null
     );
-    const blob = await SearchService.getFullBlobURL(unloadedPost);
+    const blob = await SearchService.getFullBlobURL(unloadedPost, this.handleDownloadProgress);
     const blobURL = URL.createObjectURL(blob);
     this.setState(prevState => {
       prevState.postList.find(
@@ -96,6 +96,13 @@ class App extends Component {
       return await this.loadFullImages();
     else this.loading = false;
   };
+
+  handleDownloadProgress = (loadingPost, progressPercentage) => {
+    this.setState(prevState => {
+      this.state.postList.find(post => post.id === loadingPost.id).loadingPercentage = progressPercentage
+      return prevState
+  })
+}
 
   getMorePosts = async () => {
     this.state.selectedServices.forEach(async selectedService => {
@@ -125,7 +132,6 @@ class App extends Component {
       this.setState({ selectedPost: newCurrentPost });
     }
 
-    document.getElementById("post_" + currentIndex).scrollIntoView();
   };
 
   handleToggleService = newSelectedServices => {

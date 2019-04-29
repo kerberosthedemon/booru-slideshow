@@ -12,6 +12,7 @@ export default class Post {
     this.artists = artists;
     this.rating = rating; //Ratings: Safe - Questionable - Explicit
     this.fileType = this.getFileType();
+    this.loadingPercentage = 0;
   }
 
   getFileType = () => {

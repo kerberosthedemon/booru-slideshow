@@ -123,10 +123,18 @@ export default class SearchService {
     }
   }
 
-  static getFullBlobURL = async (post) => {
-    return axios.get(SearchService.getBlobURL(post), { responseType: 'blob' })
+  static getFullBlobURL = async (post, onDownload) => {
+    return axios.get(SearchService.getBlobURL(post), { responseType: 'blob', 
+    onDownloadProgress: function (progressEvent) {
+    this.onDownload(this.post, Math.trunc(progressEvent.loaded * 100 / progressEvent.total))
+    }.bind({post, onDownload}) })
       .then((response) => response.data)
       .then((data) => data)
+  }
+
+  static handleDownloadProgress = (progressEvent) => {
+    console.log("Progress event", progressEvent)
+    console.log("This", this)
   }
 
   static getBlobURL = (post) => {

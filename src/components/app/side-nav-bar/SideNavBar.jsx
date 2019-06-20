@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Drawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,7 +11,6 @@ import GalleryIcon from '@material-ui/icons/PhotoLibrary';
 import { Link } from 'route-lite';
 import Gallery from '../gallery/Gallery';
 import AppSettings from './../app-settings/AppSettings';
-import { UserContext } from './../App';
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = '14em';
@@ -35,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 export default function SideNavBar() {
 
   const classes = useStyles();
-  const { postList, handleViewButtonClick } = useContext(UserContext);
 
   return (
     <Drawer
@@ -57,7 +55,7 @@ export default function SideNavBar() {
       <Divider />
 
       <List>
-        <Link component={Gallery} componentProps={{postList,handleViewButtonClick}} style={{ textDecoration: 'none', color: 'unset' }}>
+        <Link component={Gallery} style={{ textDecoration: 'none', color: 'unset' }}>
           <ListItem button>
             <ListItemIcon>
               <GalleryIcon />

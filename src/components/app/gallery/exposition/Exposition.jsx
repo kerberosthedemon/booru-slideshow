@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Exposition(props) {
   const classes = useStyles();
-  const { postList } = useContext(UserContext);
+  const { postList, handleViewButtonClick } = useContext(UserContext);
 
-  const handleViewButtonClick = post => {
-    props.onViewButtonClick(post);
+  const handleClick = post => {
+    handleViewButtonClick(post);
   };
 
   return (
@@ -27,7 +27,7 @@ export default function Exposition(props) {
       {postList.map((post, index) => {
         return (
           <ImgThumb
-            onViewButtonClick={handleViewButtonClick}
+            onViewButtonClick={handleClick}
             post={post}
             key={"post_" + index}
           />

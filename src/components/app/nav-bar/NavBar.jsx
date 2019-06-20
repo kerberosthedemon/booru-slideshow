@@ -26,6 +26,8 @@ import GelbooruSearchService from "./../../services/GelbooruSearchService";
 import Rule34XXXSearchService from "./../../services/Rule34XXXSearchService";
 import SafebooruSearchService from "./../../services/SafebooruSearchService";
 import ATFbooruSearchService from "./../../services/ATFbooruSearchService";
+import { goTo } from 'route-lite';
+import Gallery from "../gallery/Gallery";
 
 const services = [
   {
@@ -132,6 +134,7 @@ class NavBar extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    goTo(Gallery);
     this.props.onSearchSubmit(this.state.searchText);
   };
 

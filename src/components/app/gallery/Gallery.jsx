@@ -12,9 +12,6 @@ const styles = theme => ({
 });
 
 class Gallery extends Component {
-  handleViewButtonClick = post => {
-    this.props.handleViewButtonClick(post);
-  };
 
   handleScroll = event => {
     let element = event.target;
@@ -42,9 +39,7 @@ class Gallery extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.container} onScroll={this.handleScroll}>
-        <Exposition
-          onViewButtonClick={this.handleViewButtonClick}
-        />
+        <Exposition />
       </div>
     );
   }

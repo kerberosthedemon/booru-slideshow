@@ -6,11 +6,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import NavBar from "./nav-bar/NavBar";
 import SideNavBar from "./side-nav-bar/SideNavBar";
-import { BrowserRouter, Route } from "react-router-dom";
-import AppSettings from "./app-settings/AppSettings";
-import Gallery from "./gallery/Gallery";
 import FullDialog from "./gallery/full-dialog/FullDialog";
 import SearchService from "./../services/SearchService";
+import Router from "route-lite";
+
+export const UserContext = React.createContext();
 
 const styles = theme => ({
   root: {
@@ -101,8 +101,8 @@ class App extends Component {
     this.setState(prevState => {
       this.state.postList.find(post => post.id === loadingPost.id).loadingPercentage = progressPercentage
       return prevState
-  })
-}
+    })
+  }
 
   getMorePosts = async () => {
     this.state.selectedServices.forEach(async selectedService => {
@@ -142,50 +142,32 @@ class App extends Component {
     const { classes } = this.props;
 
     return (
-      <React.Fragment>
-        <BrowserRouter>
-          <MuiThemeProvider theme={Theme}>
-            <div className={classes.root}>
-              <NavBar
-                onMenuClick={this.handleMenuClick}
-                onSearchSubmit={this.handleSearchSubmit}
-                selectedServices={this.state.selectedServices}
-                onToggleService={this.handleToggleService}
-              />
-              <SideNavBar active={this.state.showSideNav} />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-
-                <Route
-                  exact
-                  path="/"
-                  render={() => (
-                    <Typography noWrap>{"Pagina principal"}</Typography>
-                  )}
-                />
-                <Route
-                  exact
-                  path="/gallery"
-                  render={() => (
-                    <Gallery
-                      postList={this.state.postList}
-                      onViewButtonClick={this.handleViewButtonClick}
-                    />
-                  )}
-                />
-                <Route exact path="/settings" component={AppSettings} />
-              </main>
-            </div>
-            <FullDialog
-              open={this.state.showDialog}
-              selectedPost={this.state.selectedPost}
-              onDialogClose={this.handleDialogClose}
-              fullScreen
-              moveSelectedPostIndex={this.moveSelectedPostIndex}
+      <MuiThemeProvider theme={Theme}>
+        <UserContext.Provider value={{ postList: this.state.postList, handleViewButtonClick: this.handleViewButtonClick }}>
+          <div className={classes.root}>
+            <NavBar
+              onMenuClick={this.handleMenuClick}
+              onSearchSubmit={this.handleSearchSubmit}
+              selectedServices={this.state.selectedServices}
+              onToggleService={this.handleToggleService}
             />
-          </MuiThemeProvider>
-        </BrowserRouter>
-      </React.Fragment>
+            <SideNavBar active={this.state.showSideNav} />
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <Router>
+                <Typography noWrap>{"Pagina principal"}</Typography>
+              </Router>
+            </main>
+          </div>
+          <FullDialog
+            open={this.state.showDialog}
+            selectedPost={this.state.selectedPost}
+            onDialogClose={this.handleDialogClose}
+            fullScreen
+            moveSelectedPostIndex={this.moveSelectedPostIndex}
+          />
+        </UserContext.Provider>
+      </MuiThemeProvider>
     );
   }
 }

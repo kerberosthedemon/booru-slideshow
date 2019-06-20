@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import { withStyles } from "@material-ui/core";
+import React, { useContext } from "react";
 import ImgThumb from "./img-thumb/ImgThumb";
+import { UserContext } from './../../App';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   borderedContainer: {
     //border: '1px solid white',
     flexGrow: 1,
@@ -12,34 +12,28 @@ const styles = theme => ({
     flexWrap: "wrap",
     alignContent: "flex-start"
   }
-});
+}));
 
-class Exposition extends Component {
-  handleViewButtonClick = post => {
-    this.props.onViewButtonClick(post);
+export default function Exposition(props) {
+  const classes = useStyles();
+  const { postList } = useContext(UserContext);
+
+  const handleViewButtonClick = post => {
+    props.onViewButtonClick(post);
   };
 
-  render() {
-    const { classes } = this.props;
+  return (
+    <div className={classes.borderedContainer}>
+      {postList.map((post, index) => {
+        return (
+          <ImgThumb
+            onViewButtonClick={handleViewButtonClick}
+            post={post}
+            key={"post_" + index}
+          />
+        );
+      })}
+    </div>
+  );
 
-    return (
-      <div className={classes.borderedContainer}>
-        {this.props.postList.map((post, index) => {
-          return (
-            <ImgThumb
-              onViewButtonClick={this.handleViewButtonClick}
-              post={post}
-              key={"post_" + index}
-            />
-          );
-        })}
-      </div>
-    );
-  }
 }
-
-Exposition.protoTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Exposition);

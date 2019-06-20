@@ -26,7 +26,6 @@ import GelbooruSearchService from "./../../services/GelbooruSearchService";
 import Rule34XXXSearchService from "./../../services/Rule34XXXSearchService";
 import SafebooruSearchService from "./../../services/SafebooruSearchService";
 import ATFbooruSearchService from "./../../services/ATFbooruSearchService";
-import { withRouter } from 'react-router';
 
 const services = [
   {
@@ -132,7 +131,6 @@ class NavBar extends Component {
   state = { searchText: "" };
 
   handleSubmit = event => {
-    this.props.history.push('/gallery')
     event.preventDefault();
     this.props.onSearchSubmit(this.state.searchText);
   };
@@ -231,4 +229,4 @@ NavBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter(withStyles(styles)(NavBar));
+export default withStyles(styles)(NavBar);

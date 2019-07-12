@@ -45,6 +45,6 @@ export default function SearchInput() {
   const classes = useStyles();
 
   return (
-    <TextField InputProps={{ classes, disableUnderline: true }} placeholder="Search..."> <Chip>Hola</Chip></TextField>
+    <TextField InputProps={{ classes, disableUnderline: true }} placeholder="Search..." />
   );
 }

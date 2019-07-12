@@ -4,7 +4,7 @@ export const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     gradient: {
-      primary: 'linear-gradient(to right, #42275a, #734b6d)'
+      primary: 'linear-gradient(to left, #cb2d3e, #ef473a)'
     }
   }
 })

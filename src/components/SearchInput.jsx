@@ -1,10 +1,12 @@
-import React from 'react'
-import { makeStyles, withStyles } from '@material-ui/styles';
-import { fade } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import { InputBase } from '@material-ui/core';
+import React from 'react';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import { TextField, Chip } from '@material-ui/core';
+import grey from '@material-ui/core/colors/grey'
 
-const BootstrapInput = withStyles(theme => ({
+const borderColorFocused = '#d97f53';
+const backgroundColor = 'rgba(1,0,0,.3)';
+
+const useStyles = makeStyles(theme => ({
   root: {
     'label + &': {
       marginTop: theme.spacing(3),
@@ -13,8 +15,8 @@ const BootstrapInput = withStyles(theme => ({
   input: {
     borderRadius: 4,
     position: 'relative',
-    backgroundColor: 'rgba(0,0,0,.5)',
-    border: '1px solid #ced4da',
+    backgroundColor: backgroundColor,
+    border: `1px solid ${grey[500]}`,
     fontSize: 16,
     width: 'auto',
     padding: '10px 12px',
@@ -32,28 +34,17 @@ const BootstrapInput = withStyles(theme => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
-    '&:focus': {
-      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
+    '&:focus, &:active, &:hover': {
+      boxShadow: `${fade(borderColorFocused, 0.5)} 0 0 0 0.2rem`,
+      borderColor: borderColorFocused,
     },
-  },
-}))(InputBase);
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  margin: {
-    margin: theme.spacing(1),
   },
 }));
 
 export default function SearchInput() {
   const classes = useStyles();
+
   return (
-    <FormControl className={classes.margin}>
-      <BootstrapInput placeholder="Search..." id="bootstrap-input" />
-    </FormControl>
-  )
+    <TextField InputProps={{ classes, disableUnderline: true }} placeholder="Search..."> <Chip>Hola</Chip></TextField>
+  );
 }

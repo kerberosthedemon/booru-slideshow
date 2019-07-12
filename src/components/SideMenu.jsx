@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
 }));
+
 export default function SideMenu({ showSideMenu, toggleDrawer }) {
   const classes = useStyles();
 
@@ -39,7 +40,7 @@ export default function SideMenu({ showSideMenu, toggleDrawer }) {
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           News
-          </Typography>
+        </Typography>
       </Toolbar>
       <Divider />
       <List>

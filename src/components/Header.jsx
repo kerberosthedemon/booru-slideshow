@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Header() {
   const classes = useStyles();
-  const [showSideMenu, setShowSideMenu] = useState(true);
+  const [showSideMenu, setShowSideMenu] = useState(false);
 
   const toggleDrawer = () => {
     setShowSideMenu(!showSideMenu);

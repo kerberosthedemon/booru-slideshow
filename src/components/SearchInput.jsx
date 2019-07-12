@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     position: 'relative',
-    fontSize: 16,
+    fontSize: 15,
     width: 'auto',
     padding: '10px 12px',
     // Use the system font instead of the default Roboto font.
@@ -56,25 +56,32 @@ export default function SearchInput() {
   const classes = useStyles();
   const [tags, setTags] = useState([]);
   const [inputText, setInputText] = useState('');
+  const [textChanged, setTextChanged] = useState(false);
 
   const handleChange = event => {
-    setInputText(event.target.value);
+    const text = event.target.value.trim();
+    setInputText(text);
+
+    setTextChanged(true);
   }
 
   const handleNewTag = event => {
-    if (event.keyCode === 32 && inputText) {
+
+    if (event.keyCode === 32 && inputText.trim() !== '') {
       const newTags = tags.slice();
       newTags.push(inputText.trim());
       setTags(newTags);
       setInputText('');
     }
 
-    if (event.keyCode === 8 && !inputText) {
+    if (event.keyCode === 8 && !inputText && !textChanged) {
       const newTags = tags.slice();
       newTags.pop();
       setTags(newTags);
       setInputText('');
     }
+
+    setTextChanged(false);
   }
 
   return (

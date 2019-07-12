@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
@@ -12,15 +12,30 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(3),
     },
   },
-  input: {
+  contanier: {
+    overflow: 'hidden',
+    display: 'flex',
+    //maxWidth: '300px',
+    cursor: 'text',
     borderRadius: 4,
-    position: 'relative',
     backgroundColor: backgroundColor,
     border: `1px solid ${grey[500]}`,
+    '&:focus, &:active, &:hover': {
+      boxShadow: `${fade(borderColorFocused, 0.5)} 0 0 0 0.2rem`,
+      borderColor: borderColorFocused,
+    },
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+  },
+  chip: {
+    margin: 'auto',
+    marginLeft: '2px',
+  },
+  input: {
+    position: 'relative',
     fontSize: 16,
     width: 'auto',
     padding: '10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
     fontFamily: [
       '-apple-system',
@@ -34,17 +49,38 @@ const useStyles = makeStyles(theme => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
-    '&:focus, &:active, &:hover': {
-      boxShadow: `${fade(borderColorFocused, 0.5)} 0 0 0 0.2rem`,
-      borderColor: borderColorFocused,
-    },
   },
 }));
 
 export default function SearchInput() {
   const classes = useStyles();
+  const [tags, setTags] = useState([]);
+  const [inputText, setInputText] = useState('');
+
+  const handleChange = event => {
+    setInputText(event.target.value);
+  }
+
+  const handleNewTag = event => {
+    if (event.keyCode === 32 && inputText) {
+      const newTags = tags.slice();
+      newTags.push(inputText.trim());
+      setTags(newTags);
+      setInputText('');
+    }
+
+    if (event.keyCode === 8 && !inputText) {
+      const newTags = tags.slice();
+      newTags.pop();
+      setTags(newTags);
+      setInputText('');
+    }
+  }
 
   return (
-    <TextField InputProps={{ classes, disableUnderline: true }} placeholder="Search..." />
+    <div className={classes.contanier}>
+      {tags.map(tag => <Chip className={classes.chip} onDelete={() => { }} label={tag} />)}
+      <TextField InputProps={{ classes, disableUnderline: true }} placeholder={tags.length ? '' : 'Search...'} onKeyUp={handleNewTag} value={inputText} onChange={handleChange} />
+    </div>
   );
 }

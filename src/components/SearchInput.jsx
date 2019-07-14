@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => ({
   contanier: {
     overflow: 'hidden',
     display: 'flex',
-    //maxWidth: '300px',
     cursor: 'text',
     borderRadius: 4,
     backgroundColor: backgroundColor,

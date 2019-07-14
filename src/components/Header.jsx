@@ -10,7 +10,7 @@ import SearchInput from './SearchInput';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    position: 'sticky'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -41,11 +41,11 @@ export default function Header() {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <SearchInput/>
+          <SearchInput />
         </Toolbar>
       </AppBar>
 
-      <SideMenu {...{showSideMenu, toggleDrawer}} />
+      <SideMenu {...{ showSideMenu, toggleDrawer }} />
     </div>
   );
 }

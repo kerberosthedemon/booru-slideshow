@@ -2,6 +2,8 @@ import React from 'react'
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+const scaleAmount = 1.4;
+
 const useStyles = makeStyles(theme => ({
   container: {
     width: '200px',
@@ -18,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'translateX(-50%)',
     transition: theme.transitions.create(['transform']),
     '&:hover': {
-      transform: 'translateX(-50%) scale(2)',
+      transform: `translateX(-50%) scale(${scaleAmount})`,
     }
   },
   verticalImg: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'translateY(-50%)',
     transition: theme.transitions.create(['transform']),
     '&:hover': {
-      transform: 'translateY(-50%) scale(2)',
+      transform: `translateY(-50%) scale(${scaleAmount})`,
     }
   }
 }));

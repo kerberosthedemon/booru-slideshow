@@ -6,11 +6,31 @@ const useStyles = makeStyles(theme => ({
   container: {
     width: '200px',
     height: '200px',
-    display: 'flex'
+    display: 'flex',
+    overflow: 'hidden',
+    marginRight: '1rem'
   },
-  img: {
+  horizontalImg: {
+    cursor: 'pointer',
     flexGrow: 1,
-    margin: 'auto 0'
+    margin: '0 auto',
+    marginLeft: '50%',
+    transform: 'translateX(-50%)',
+    transition: theme.transitions.create(['transform']),
+    '&:hover': {
+      transform: 'translateX(-50%) scale(2)',
+    }
+  },
+  verticalImg: {
+    cursor: 'pointer',
+    width: '100%',
+    margin: 'auto 0',
+    marginTop: '50%',
+    transform: 'translateY(-50%)',
+    transition: theme.transitions.create(['transform']),
+    '&:hover': {
+      transform: 'translateY(-50%) scale(2)',
+    }
   }
 }));
 
@@ -20,7 +40,7 @@ export default function Thumbnail({ post }) {
 
   return (
     <Paper className={classes.container}>
-      <img className={classes.img} alt="" src="https://i.ytimg.com/vi/stdrVr9BHkE/hqdefault.jpg?sqp=-oaymwEiCKgBEF5IWvKriqkDFQgBFQAAAAAYASUAAMhCPQCAokN4AQ==&rs=AOn4CLCNV2wtXJSWArm6mXlglEKNQM5PEg"></img>
+      <img className={post.isVerticallyDisplayed ? classes.verticalImg : classes.horizontalImg} alt="" src={post.thumbURL}></img>
     </Paper>
   )
 }

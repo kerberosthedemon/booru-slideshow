@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { PostListContext } from './../../components/App';
+import { PostListContext, FullScreenModalContext } from './../../components/App';
 import Thumbnail from './thumbnail/Thumbnail';
+import FullModal from './full-modal/FullModal';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,10 +17,18 @@ const useStyles = makeStyles(theme => ({
 export default function Search() {
   const classes = useStyles();
   const [postList] = useContext(PostListContext);
+  const [showModal, setShowModal] = useContext(FullScreenModalContext);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  }
 
   return (
-    <div className={classes.container}>
-      {postList.map(post => <Thumbnail post={post} />)}
-    </div>
+    <React.Fragment>
+      <div className={classes.container}>
+        {postList.map(post => <Thumbnail post={post} onClick={toggleModal} />)}
+      </div>
+      <FullModal open={showModal} onClose={toggleModal} />
+    </React.Fragment>
   )
 }

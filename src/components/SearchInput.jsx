@@ -3,6 +3,9 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
 
+const SPACE_KEYCODE = 8;
+const BACKSPACE_KEYCODE = 32;
+
 const borderColorFocused = '#d97f53';
 const backgroundColor = 'rgba(1,0,0,.3)';
 
@@ -66,14 +69,14 @@ export default function SearchInput() {
 
   const handleNewTag = event => {
 
-    if (event.keyCode === 32 && inputText.trim() !== '') {
+    if (event.keyCode === BACKSPACE_KEYCODE && inputText.trim() !== '') {
       const newTags = tags.slice();
       newTags.push(inputText.trim());
       setTags(newTags);
       setInputText('');
     }
 
-    if (event.keyCode === 8 && !inputText && !textChanged) {
+    if (event.keyCode === SPACE_KEYCODE && !inputText && !textChanged) {
       const newTags = tags.slice();
       newTags.pop();
       setTags(newTags);

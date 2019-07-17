@@ -36,12 +36,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Thumbnail({ post }) {
+export default function Thumbnail({ post, ...rest }) {
 
   const classes = useStyles();
 
   return (
-    <Paper className={classes.container}>
+    <Paper className={classes.container} {...rest}>
       <img className={post.isVerticallyDisplayed ? classes.verticalImg : classes.horizontalImg} alt="" src={post.thumbURL}></img>
     </Paper>
   )

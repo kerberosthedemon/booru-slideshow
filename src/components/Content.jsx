@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import Header from './Header';
-import Search from './../pages/search/Search';
+import SearchPage from './../pages/search/SearchPage';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -20,7 +20,7 @@ export default function Content() {
   return (
     <div className={classes.container}>
       <Header />
-      <Search />
+      <SearchPage />
     </div>
   )
 }

@@ -71,7 +71,7 @@ export default function SearchInput() {
     event.preventDefault();
 
     // Actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
-    event.keyCode = BACKSPACE_KEYCODE;
+    event.keyCode = SPACE_KEYCODE;
     handleNewTag(event);
     // --------------------------------------------------------------------------//
 

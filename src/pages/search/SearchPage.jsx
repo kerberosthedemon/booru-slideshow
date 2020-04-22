@@ -32,7 +32,7 @@ export default function SearchPage() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        {postList.map(post => <Thumbnail post={post} selectPost={selectPost} />)}
+        {postList.map((post,index) => <Thumbnail post={post} selectPost={selectPost} key={`thumbnail_${index}`} />)}
       </div>
       <FullModal open={showModal} onClose={toggleModal} />
     </React.Fragment>

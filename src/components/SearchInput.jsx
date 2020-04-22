@@ -75,7 +75,7 @@ export default function SearchInput() {
     handleNewTag(event);
     // --------------------------------------------------------------------------//
 
-    //setSearchTags(tags);
+    //UP_submitSearch(tags);
   }
 
   const handleNewTag = event => {

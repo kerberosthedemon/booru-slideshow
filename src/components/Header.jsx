@@ -39,7 +39,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            Booru-Slideshow
           </Typography>
           <SearchInput />
         </Toolbar>

@@ -3,8 +3,8 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
 
-const SPACE_KEYCODE = 8;
-const BACKSPACE_KEYCODE = 32;
+const BACKSPACE_KEYCODE = 8;
+const SPACE_KEYCODE = 32;
 
 const borderColorFocused = '#d97f53';
 const backgroundColor = 'rgba(1,0,0,.3)';
@@ -67,16 +67,27 @@ export default function SearchInput() {
     setTextChanged(true);
   }
 
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    // Actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
+    event.keyCode = BACKSPACE_KEYCODE;
+    handleNewTag(event);
+    // --------------------------------------------------------------------------//
+
+    //setSearchTags(tags);
+  }
+
   const handleNewTag = event => {
 
-    if (event.keyCode === BACKSPACE_KEYCODE && inputText.trim() !== '') {
+    if (event.keyCode === SPACE_KEYCODE && inputText.trim() !== '') {
       const newTags = tags.slice();
       newTags.push(inputText.trim());
       setTags(newTags);
       setInputText('');
     }
 
-    if (event.keyCode === SPACE_KEYCODE && !inputText && !textChanged) {
+    if (event.keyCode === BACKSPACE_KEYCODE && !inputText && !textChanged) {
       const newTags = tags.slice();
       newTags.pop();
       setTags(newTags);
@@ -89,7 +100,14 @@ export default function SearchInput() {
   return (
     <div className={classes.contanier}>
       {tags.map(tag => <Chip className={classes.chip} onDelete={() => { }} label={tag} />)}
-      <TextField InputProps={{ classes, disableUnderline: true }} placeholder={tags.length ? '' : 'Search...'} onKeyUp={handleNewTag} value={inputText} onChange={handleChange} />
+      <form onSubmit={handleSubmit}>
+        <TextField
+          InputProps={{ classes, disableUnderline: true }}
+          placeholder={tags.length ? '' : 'Search...'}
+          onKeyUp={handleNewTag}
+          value={inputText}
+          onChange={handleChange} />
+      </form>
     </div>
   );
 }

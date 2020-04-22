@@ -14,7 +14,7 @@ export default function App() {
     fullBlobURL: 'https://i.imgur.com/fdOtFO1.png',
     fileType: 'png'
   });
-  const showFullscreenModal = useState(true);
+  const showFullscreenModal = useState(false);
 
   return (
     <PostListContext.Provider value={postList}>

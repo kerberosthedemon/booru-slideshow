@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
+import { SearchQueryContext } from '../components/App'
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -56,9 +57,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function SearchInput() {
   const classes = useStyles();
-  const [tags, setTags] = useState([]);
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
+  const [searchQuery, setSearchQuery] = useContext(SearchQueryContext);
 
   const handleChange = event => {
     const text = event.target.value.trim();
@@ -81,16 +82,16 @@ export default function SearchInput() {
   const handleNewTag = event => {
 
     if (event.keyCode === SPACE_KEYCODE && inputText.trim() !== '') {
-      const newTags = tags.slice();
+      const newTags = searchQuery.tags.slice();
       newTags.push(inputText.trim());
-      setTags(newTags);
+      setSearchQuery({ tags:newTags });
       setInputText('');
     }
 
     if (event.keyCode === BACKSPACE_KEYCODE && !inputText && !textChanged) {
-      const newTags = tags.slice();
+      const newTags = searchQuery.tags.slice();
       newTags.pop();
-      setTags(newTags);
+      setSearchQuery({ tags: newTags });
       setInputText('');
     }
 
@@ -99,11 +100,11 @@ export default function SearchInput() {
 
   return (
     <div className={classes.contanier}>
-      {tags.map(tag => <Chip className={classes.chip} onDelete={() => { }} label={tag} />)}
+      {searchQuery.tags.map(tag => <Chip className={classes.chip} onDelete={() => { }} label={tag} />)}
       <form onSubmit={handleSubmit}>
         <TextField
           InputProps={{ classes, disableUnderline: true }}
-          placeholder={tags.length ? '' : 'Search...'}
+          placeholder={searchQuery.tags.length ? '' : 'Search...'}
           onKeyUp={handleNewTag}
           value={inputText}
           onChange={handleChange} />

@@ -1,10 +1,15 @@
 import Axios from "axios";
 import xmlJs from 'xml-js';
 import Post from './../model/Post';
+import { PostFactory } from "./Search/PostFactory";
+import { BooruConfiguration } from "../model/BooruConfiguration";
 
 const axios = Axios
 
 export default class SearchService {
+  
+  postFactory = new PostFactory();
+
   constructor(baseURL, startPage = 0, isXMLFormat = true, postLimitPerRequest = 50) {
     this.baseURL = baseURL
     this.startPage = startPage
@@ -15,13 +20,13 @@ export default class SearchService {
     this.currentSearchTags = []
   }
 
-  search = async (searchText) => {
+  search = async (searchQuery, booruConfiguration) => {
     this.currentSearchPage = this.startPage
     this.currentSearchTags = searchText.split(" ")
-    return this.searchNextPage();
+    return this.searchNextPage(searchQuery, booruConfiguration);
   }
 
-  searchNextPage = async () => {
+  searchNextPage = async (searchQuery, booruConfiguration) => {
     let response = await axios.get(this.getRequestString(), { credentials: 'include' })
     const jsonResponse = this.isXMLFormat ? this.formatFromXML(response) : this.formatFromJson(response)
     this.currentSearchPage++
@@ -64,18 +69,8 @@ export default class SearchService {
     return response.data
   }
 
-  convertToPost = (postJson) => {
-    return new Post(
-      this.getPostIdFromJson(postJson), // id
-      this.getPreviewURLFromJson(postJson), // preview_url
-      this.getSampleURLFromJson(postJson), // sample_url
-      this.getFileURLFromJson(postJson), // file_url
-      this.getFileWidthFromJson(postJson), // width
-      this.getFileHeightFromJson(postJson), // height
-      this.getTagsFromJson(postJson), //tags
-      this.getArtistsFromJson(postJson), // artist
-      this.getRatingFromJson(postJson) //rating
-    );
+  convertToPost = (postJson, booruConfiguration) => {
+    return this.postFactory.generateNewPost(postJson, booruConfiguration)
   }
 
   getPostIdFromJson = (json) => {

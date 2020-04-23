@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import Content from './Content';
+import { BooruConfigurationLoader } from './services/BooruConfiguration/BooruConfigurationLoader';
 
 export const PostListContext = createContext();
 export const SelectedPostContext = createContext();
@@ -24,6 +25,8 @@ export default function App() {
   const searchQuery = useState({
     tags: []
   });
+
+  const booruConfigurations = BooruConfigurationLoader.loadConfigurations();
 
   return (
     <SearchQueryContext.Provider value={searchQuery}>

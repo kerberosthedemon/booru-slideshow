@@ -1,3 +1,5 @@
+import Post from './../../model/Post';
+
 export class PostFactory {
   generateNewPost = (postJson, booruConfiguration) => {
     return new Post(
@@ -48,13 +50,13 @@ export class PostFactory {
 
   getRatingFromJson(json, booruConfiguration) {
     switch (json[booruConfiguration.ratingPropertyName]) {
-        case "s":
+      case "s":
         return "safe";
-        case "q":
+      case "q":
         return "questionable";
-        case "e":
+      case "e":
         return "explicit";
-        default:
+      default:
         return "safe";
     }
   }

@@ -1,27 +1,24 @@
 export class SearchQueryService {
 
   getQueryParameters = (searchQuery, booruConfiguration) => {
-    return {
-      ...this.getTagsQuery(searchQuery),
-      ...this.getPageQuery(searchQuery, booruConfiguration),
-      ...this.getLimitQuery(searchQuery)
-    };
+    return this.getTagsQuery(searchQuery)
+      + this.getPageQuery(searchQuery, booruConfiguration)
+      + this.getLimitQuery(searchQuery);
   }
 
   getTagsQuery(searchQuery) {
-    let query = '';
+    let query = "&tags="
     if (searchQuery.tags)
       searchQuery.tags.forEach((tag) => { query = query.concat('+' + tag) });
-    return { tags: query };
+    return query;
   }
 
   getPageQuery(searchQuery, booruConfiguration) {
     const pageNumber = searchQuery.page + booruConfiguration.startPageIndexOffset;
-    return booruConfiguration.isXMLFormat ? { pid: pageNumber } : { page: pageNumber };
+    return booruConfiguration.isXMLFormat ? `&pid=${pageNumber}` : `&page=${pageNumber}`;
   }
 
   getLimitQuery(searchQuery) {
-    const resultsPerPage = searchQuery.resultsPerPage ?? 0;
-    return { limit: resultsPerPage };
+    return searchQuery.resultsPerPage ? `&limit=${searchQuery.resultsPerPage}` : '';
   }
 }

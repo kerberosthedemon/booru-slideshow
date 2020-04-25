@@ -1,6 +1,6 @@
 
 import Axios from "axios";
-import { PostFactory } from "./Search/PostFactory";
+import { PostFactory } from "./PostFactory";
 import { ResponseFormatterService } from './ResponseFormatterService';
 import { SearchQueryService } from "./SearchQueryService";
 
@@ -17,8 +17,8 @@ export class PostSearchService {
   }
 
   searchNextPage = async (searchQuery, booruConfiguration) => {
-    let response = await axios.get(booruConfiguration.baseURL, { params: this.searchQueryService.getQueryParameters(searchQuery, booruConfiguration), credentials: 'include' });
-    const jsonResponse = this.formatterService.formatResponse(response);
+    let response = await axios.get(this.getURL(searchQuery, booruConfiguration), { credentials: 'include' });
+    const jsonResponse = this.formatterService.formatResponse(response, booruConfiguration);
     return new Promise((resolve, reject) => {
       resolve(jsonResponse.map(jsonPost => {
         try {
@@ -31,8 +31,13 @@ export class PostSearchService {
     })
   }
 
+  getURL = (searchQuery, booruConfiguration) => {
+    return booruConfiguration.baseURL
+      + this.searchQueryService.getQueryParameters(searchQuery, booruConfiguration);
+  }
+
   static getFullBlobURL = async (post, onDownload) => {
-    return axios.get(SearchService.getBlobURL(post), {
+    return axios.get(this.getBlobURL(post), {
       responseType: 'blob',
       onDownloadProgress: function (progressEvent) {
         this.onDownload(this.post, Math.trunc(progressEvent.loaded * 100 / progressEvent.total))

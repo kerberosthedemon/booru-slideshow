@@ -2,7 +2,9 @@ import React, { useState, useContext } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
-import { SearchQueryContext } from '../components/App'
+import { SearchQueryContext, PostListContext } from '../components/App'
+import { PostSearchService } from './services/Search/PostSearchService';
+import { BooruConfigurationLoader } from './services/BooruConfiguration/BooruConfigurationLoader';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -56,10 +58,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SearchInput() {
+
+  const searchService = new PostSearchService();
+  const booruConfigurations = BooruConfigurationLoader.loadConfigurations();
+
   const classes = useStyles();
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
   const [searchQuery, setSearchQuery] = useContext(SearchQueryContext);
+  const [postList, setPostList] = useContext(PostListContext);
 
   const handleChange = event => {
     const text = event.target.value.trim();
@@ -68,15 +75,23 @@ export default function SearchInput() {
     setTextChanged(true);
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
+    // Aqui actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
     event.keyCode = SPACE_KEYCODE;
     handleNewTag(event);
-    // --------------------------------------------------------------------------//
 
-    //UP_submitSearch(tags);
+    booruConfigurations.forEach((booruConfiguration) => {
+      if (booruConfiguration.isEnabled) {
+        search(booruConfiguration);
+      }
+    });
+  }
+
+  const search = async (booruConfiguration) => {
+    var posts = await searchService.search(searchQuery, booruConfiguration);
+    setPostList(postList.concat(posts));
   }
 
   const handleNewTag = event => {
@@ -84,14 +99,14 @@ export default function SearchInput() {
     if (event.keyCode === SPACE_KEYCODE && inputText.trim() !== '') {
       const newTags = searchQuery.tags.slice();
       newTags.push(inputText.trim());
-      setSearchQuery({ tags:newTags });
+      setSearchQuery({ ...searchQuery, tags: newTags });
       setInputText('');
     }
 
     if (event.keyCode === BACKSPACE_KEYCODE && !inputText && !textChanged) {
       const newTags = searchQuery.tags.slice();
       newTags.pop();
-      setSearchQuery({ tags: newTags });
+      setSearchQuery({ ...searchQuery, tags: newTags });
       setInputText('');
     }
 

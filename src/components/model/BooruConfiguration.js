@@ -9,6 +9,7 @@ export class BooruConfiguration {
   tagsProperyName = 'tags';
   artistsPropertyName = 'artist';
   ratingPropertyName = 'rating';
-  isXMLFormat = false;
+  isXMLFormat = true;
   startPageIndexOffset = 0;
+  isEnabled = true;
 }

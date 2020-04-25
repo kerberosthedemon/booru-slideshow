@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react'
 import Content from './Content';
-import { BooruConfigurationLoader } from './services/BooruConfiguration/BooruConfigurationLoader';
 
 export const PostListContext = createContext();
 export const SelectedPostContext = createContext();
@@ -23,10 +22,9 @@ export default function App() {
   });
   const showFullscreenModal = useState(false);
   const searchQuery = useState({
-    tags: []
+    tags: [],
+    page: 0
   });
-
-  const booruConfigurations = BooruConfigurationLoader.loadConfigurations();
 
   return (
     <SearchQueryContext.Provider value={searchQuery}>

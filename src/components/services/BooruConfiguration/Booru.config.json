@@ -1,6 +1,17 @@
 [
   {
-    "configName": "Rule 34",
-    "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index"
+    "configName": "E621",
+    "baseURL": "https://e621.net/posts.json?",
+    "isXMLFormat": false,
+    "responseDataObject": "posts",
+    "previewURLPropertyName": "preview.url",
+    "sampleURLPropertyName": "sample.url",
+    "fileURLPropertyName": "file.url",
+    "fileWidthPropertyName": "file.width",
+    "fileHeightPropertyName": "file.height",
+    "tagsProperyName": "tags.general",
+    "artistsPropertyName": "tags.artist",
+    "ratingPropertyName": "rating",
+    "shouldFormatTags": false
   }
 ]

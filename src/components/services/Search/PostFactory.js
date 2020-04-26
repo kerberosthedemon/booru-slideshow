@@ -16,40 +16,41 @@ export class PostFactory {
   }
 
   getPostIdFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.idPropertyName];
+    return this.resolve(booruConfiguration.idPropertyName, json);
   }
 
   getPreviewURLFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.previewURLPropertyName];
+    return this.resolve(booruConfiguration.previewURLPropertyName, json);
   }
 
   getSampleURLFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.sampleURLPropertyName];
+    return this.resolve(booruConfiguration.sampleURLPropertyName, json);
   }
 
   getFileURLFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.fileURLPropertyName];
+    return this.resolve(booruConfiguration.fileURLPropertyName, json);
   }
 
   getFileWidthFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.fileWidthPropertyName];
+    return this.resolve(booruConfiguration.fileWidthPropertyName, json);
   }
 
   getFileHeightFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.fileHeightPropertyName];
+    return this.resolve(booruConfiguration.fileHeightPropertyName, json);
   }
 
   getTagsFromJson = (json, booruConfiguration) => {
-    return json[booruConfiguration.tagsProperyName].split(' ').filter(el => el !== "");
+    const tags = this.resolve(booruConfiguration.tagsProperyName, json);
+    return booruConfiguration.shouldFormatTags ? tags.split(' ').filter(el => el !== "") : tags;
   }
 
   getArtistsFromJson = (json, booruConfiguration) => {
-    const artists = json[booruConfiguration.artistsPropertyName];
-    return this.isXMLFormat ? [artists] : json[artists]
+    const artists = this.resolve(booruConfiguration.artistsPropertyName, json);
+    return this.isXMLFormat ? [artists] : artists
   }
 
-  getRatingFromJson(json, booruConfiguration) {
-    switch (json[booruConfiguration.ratingPropertyName]) {
+  getRatingFromJson = (json, booruConfiguration) => {
+    switch (this.resolve(booruConfiguration.ratingPropertyName, json)) {
       case "s":
         return "safe";
       case "q":
@@ -59,5 +60,10 @@ export class PostFactory {
       default:
         return "safe";
     }
+  }
+
+  resolve = (path, obj, separator = '.') => {
+    var properties = Array.isArray(path) ? path : path.split(separator)
+    return properties.reduce((prev, curr) => prev && prev[curr], obj)
   }
 }

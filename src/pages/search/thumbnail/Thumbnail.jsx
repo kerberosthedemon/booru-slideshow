@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { FullScreenModalContext, SelectedPostContext } from '../../../components/App';
 
 const scaleAmount = 1.4;
 
@@ -39,9 +40,12 @@ const useStyles = makeStyles(theme => ({
 export default function Thumbnail({ post, selectPost, ...rest }) {
 
   const classes = useStyles();
+  const [, setShowModal] = useContext(FullScreenModalContext);
+  const [, setSelectedPost] = useContext(SelectedPostContext);
 
   const handleClick = () => {
-    selectPost(post);
+    setShowModal(true);
+    setSelectedPost(post);
   }
 
   return (

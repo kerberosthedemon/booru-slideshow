@@ -12,4 +12,6 @@ export class BooruConfiguration {
   isXMLFormat = true;
   startPageIndexOffset = 0;
   isEnabled = true;
+  responseDataObject = null;
+  shouldFormatTags = true;
 }

@@ -17,7 +17,7 @@ export class PostSearchService {
   }
 
   searchNextPage = async (searchQuery, booruConfiguration) => {
-    let response = await axios.get(this.getURL(searchQuery, booruConfiguration), { credentials: 'include' });
+    let response = await axios.get(this.getURL(searchQuery, booruConfiguration), { withCredentials: true });
     const jsonResponse = this.formatterService.formatResponse(response, booruConfiguration);
     return new Promise((resolve, reject) => {
       resolve(jsonResponse.map(jsonPost => {

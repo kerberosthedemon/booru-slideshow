@@ -11,10 +11,15 @@ const useStyles = makeStyles(theme => ({
     height: '200px',
     display: 'flex',
     overflow: 'hidden',
-    marginRight: '1rem'
+    marginRight: '.4rem',
+    marginTop: '.5rem',
+    '&:hover': {
+      boxShadow: '0px 0px 8px 2px rgba(66,173,162,1)'
+    }
   },
   horizontalImg: {
     cursor: 'pointer',
+    height: '100%',
     flexGrow: 1,
     margin: '0 auto',
     marginLeft: '50%',
@@ -37,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Thumbnail({ post, selectPost, ...rest }) {
+export default function Thumbnail({ post }) {
 
   const classes = useStyles();
   const [, setShowModal] = useContext(FullScreenModalContext);
@@ -49,8 +54,8 @@ export default function Thumbnail({ post, selectPost, ...rest }) {
   }
 
   return (
-    <Paper className={classes.container} onClick={handleClick} {...rest}>
-      <img className={post.isVerticallyDisplayed ? classes.verticalImg : classes.horizontalImg} alt="" src={post.thumbURL}></img>
+    <Paper className={classes.container} onClick={handleClick}>
+      <img className={post.isVerticalLayout ? classes.verticalImg : classes.horizontalImg} alt="" src={post.thumbURL}></img>
     </Paper>
   )
 }

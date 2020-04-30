@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
@@ -67,6 +67,7 @@ export default function SearchInput() {
   const [textChanged, setTextChanged] = useState(false);
   const [searchQuery, setSearchQuery] = useContext(SearchQueryContext);
   const [postList, setPostList] = useContext(PostListContext);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = event => {
     const text = event.target.value.trim();
@@ -75,18 +76,27 @@ export default function SearchInput() {
     setTextChanged(true);
   }
 
+  useEffect(() => {
+    if (isSubmit) {
+      booruConfigurations.forEach((booruConfiguration) => {
+        if (booruConfiguration.isEnabled) {
+          search(booruConfiguration);
+        }
+      });
+    }
+    return () => {
+      setIsSubmit(false);
+    }
+  }, [searchQuery]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setIsSubmit(true);
 
     // Aqui actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
     event.keyCode = SPACE_KEYCODE;
     handleNewTag(event);
-
-    booruConfigurations.forEach((booruConfiguration) => {
-      if (booruConfiguration.isEnabled) {
-        search(booruConfiguration);
-      }
-    });
   }
 
   const search = async (booruConfiguration) => {

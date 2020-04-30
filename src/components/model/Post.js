@@ -13,13 +13,14 @@ export default class Post {
     this.rating = rating; //Ratings: Safe - Questionable - Explicit
     this.fileType = this.getFileType();
     this.loadingPercentage = 0;
+    this.isVerticalLayout = this.getLayout();
   }
 
   getFileType = () => {
     return this.fullURL.substr(this.fullURL.lastIndexOf(".") + 1)
   }
 
-  isVerticalLayout = () => {
+  getLayout = () => {
     return this.width <= this.height;
   }
 }

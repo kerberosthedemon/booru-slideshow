@@ -11,7 +11,15 @@
     "fileHeightPropertyName": "file.height",
     "tagsProperyName": "tags.general",
     "artistsPropertyName": "tags.artist",
+    "charactersPropertyName": "tags.character",
+    "speciesTagPropertyName": "tags.species",
+    "copyrightTagPropertyName": "tags.copyright",
     "ratingPropertyName": "rating",
-    "shouldFormatTags": false
+    "shouldFormatTags": false,
+    "startPageIndexOffset": 1
+  },
+  {
+    "configName": "Rule 34",
+    "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index"
   }
 ]

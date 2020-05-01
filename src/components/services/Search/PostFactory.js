@@ -11,7 +11,10 @@ export class PostFactory {
       this.getFileHeightFromJson(postJson, booruConfiguration), // height
       this.getTagsFromJson(postJson, booruConfiguration), //tags
       this.getArtistsFromJson(postJson, booruConfiguration), // artist
-      this.getRatingFromJson(postJson, booruConfiguration) //rating
+      this.getRatingFromJson(postJson, booruConfiguration), //rating
+      this.getCharactersFromJson(postJson, booruConfiguration),
+      this.getSpeciesTagFromJson(postJson, booruConfiguration),
+      this.getCopyrightTagFromJson(postJson, booruConfiguration)
     );
   }
 
@@ -45,7 +48,8 @@ export class PostFactory {
   }
 
   getArtistsFromJson = (json, booruConfiguration) => {
-    const artists = this.resolve(booruConfiguration.artistsPropertyName, json);
+    let artists = this.resolve(booruConfiguration.artistsPropertyName, json);
+    if (!artists) artists = [];
     return this.isXMLFormat ? [artists] : artists
   }
 
@@ -60,6 +64,27 @@ export class PostFactory {
       default:
         return "safe";
     }
+  }
+
+  getCharactersFromJson = (json, booruConfiguration) => {
+    if (booruConfiguration.charactersPropertyName)
+      return this.resolve(booruConfiguration.charactersPropertyName, json);
+    else
+      return [];
+  }
+
+  getSpeciesTagFromJson = (json, booruConfiguration) => {
+    if (booruConfiguration.speciesTagPropertyName)
+      return this.resolve(booruConfiguration.speciesTagPropertyName, json)
+    else
+      return [];
+  }
+
+  getCopyrightTagFromJson = (json, booruConfiguration) => {
+    if (booruConfiguration.copyrightTagPropertyName)
+      return this.resolve(booruConfiguration.copyrightTagPropertyName, json)
+    else
+      return [];
   }
 
   resolve = (path, obj, separator = '.') => {

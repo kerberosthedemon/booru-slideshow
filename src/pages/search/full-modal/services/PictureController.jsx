@@ -1,8 +1,9 @@
 export default class PictureController {
 
-  new() {
+  new(handleClose) {
     this.position = { x: 0, y: 0 };
     this.scale = 1;
+    this.handleClose = handleClose;
   }
 
   handleInput = (input, setStyle) => {

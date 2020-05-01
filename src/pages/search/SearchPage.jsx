@@ -20,7 +20,7 @@ export default function SearchPage() {
   const [postList] = useContext(PostListContext);
   const [showModal, setShowModal] = useContext(FullScreenModalContext);
 
-  const toggleModal = () => {
+  const handleClose = () => {
     setShowModal(false);
   }
 
@@ -29,7 +29,7 @@ export default function SearchPage() {
       <div className={classes.container}>
         {postList.map((post, index) => <Thumbnail post={post} key={`thumbnail_${index}`} />)}
       </div>
-      <FullModal open={showModal} onClose={toggleModal} />
+      <FullModal open={showModal} onClose={handleClose} />
     </React.Fragment>
   )
 }

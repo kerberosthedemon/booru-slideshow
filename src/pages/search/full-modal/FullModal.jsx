@@ -1,24 +1,33 @@
 import React, { useContext, useState } from 'react'
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent, makeStyles } from '@material-ui/core';
 import FileRenderer from './file-renderer/FileRenderer';
 import { SelectedPostContext } from '../../../components/App';
 import TagsRenderer from './tags-renderer/TagsRenderer';
 import PictureController from './services/PictureController';
 import { PostListContext } from './../../../components/App';
 
-export default function FullModal({ open, onClose, ...rest }) {
+const useStyles = makeStyles(theme => ({
+  noPadding: {
+    paddingTop: '0 !important'
+  }
+}));
+
+export default function FullModal({ open, onClose }) {
   const [postList] = useContext(PostListContext);
   const [selectedPost, setSelectedPost] = useContext(SelectedPostContext);
   const [editMode, setEditMode] = useState(false);
   const [style, setStyle] = useState();
-  const controller = new PictureController();
+  const controller = new PictureController(onClose);
+  const classes = useStyles();
 
   const handleInputUp = input => {
+    alert('input up');
     input.isKeyUp = true;
     handleInput(input);
   }
 
   const handleInput = input => {
+    alert('input');
     handleEditMode(input);
 
     if (editMode) {
@@ -54,10 +63,9 @@ export default function FullModal({ open, onClose, ...rest }) {
     }
   }
 
-
   return (
-    <Dialog fullScreen open={open} onClose={onClose} {...rest} onKeyDown={handleInput} onKeyUp={handleInputUp}>
-      <DialogContent>
+    <Dialog fullScreen scroll="paper" open={open} onClose={onClose}>
+      <DialogContent onKeyDown={handleInput} onKeyUp={handleInputUp} className={classes.noPadding}>
         {selectedPost && <FileRenderer selectedPost={selectedPost} customStyle={style} />}
         {selectedPost && <TagsRenderer selectedPost={selectedPost} />}
       </DialogContent>

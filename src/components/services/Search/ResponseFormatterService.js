@@ -8,7 +8,10 @@ export class ResponseFormatterService {
   formatFromXML = (response) => {
     let xmlResponse = response.data;
     let jsonResponse = xmlJs.xml2js(xmlResponse, { compact: true, nativeType: true, nativeTypeAttributes: true });
-    return jsonResponse.posts.post.map(element => element._attributes);
+    if (jsonResponse.posts.post)
+      return jsonResponse.posts.post.map(element => element._attributes);
+    else
+      return [];
   }
 
   formatFromJson = (response, booruConfiguration) => {

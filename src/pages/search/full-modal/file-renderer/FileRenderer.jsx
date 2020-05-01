@@ -6,9 +6,13 @@ const useStyles = makeStyles({
     maxWidth: '100%',
     margin: 'auto 0',
   },
+  loadingScreenContainer: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center'
+  },
   loadingScreen: {
-    maxWidth: '100%',
-    margin: 'auto 0',
+    margin: 'auto'
   }
 });
 
@@ -17,9 +21,10 @@ export default function FileRenderer({ selectedPost, customStyle }) {
   const classes = useStyles();
 
   if (!selectedPost.fullBlobURL)
-    return <div className={classes.loadingScreen}>
-      <Typography>{selectedPost.loadingPercentage}%</Typography>
-    </div>
+    return (
+      <div className={classes.loadingScreenContainer}>
+        <Typography className={classes.loadingScreen}>{selectedPost.loadingPercentage}%</Typography>
+      </div>)
 
   switch (selectedPost.fileType) {
     case "webm":
@@ -32,7 +37,7 @@ export default function FileRenderer({ selectedPost, customStyle }) {
     default:
       return <img className={classes.image}
         alt=""
-        src={selectedPost ? selectedPost.fullBlobURL : "https://i.imgur.com/fdOtFO1.png"}
+        src={selectedPost.fullBlobURL}
         style={customStyle} />
   }
 

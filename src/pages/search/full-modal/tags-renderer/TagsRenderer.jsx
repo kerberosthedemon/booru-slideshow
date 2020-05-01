@@ -1,9 +1,17 @@
 import React from 'react'
-import { makeStyles, DialogContent, Chip } from '@material-ui/core';
-import { orange, purple, blue } from '@material-ui/core/colors';
+import { makeStyles, DialogContent, Chip, Grid } from '@material-ui/core';
+import * as colors from '@material-ui/core/colors';
 import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    borderStyle: 'solid',
+    borderColor: '#222',
+    padding: '0px 5px',
+    marginTop: '5px',
+    backgroundColor: '#222',
+    borderRadius: 4,
+  },
   chip: {
     margin: theme.spacing.unit,
   },
@@ -11,18 +19,26 @@ const useStyles = makeStyles(theme => ({
     overflow: 'unset',
   },
   title: {
-    textDecoration: 'underline',
     margin: '8px 0',
   },
-  ratingSafe: {
-    backgroundColor: blue['500'],
+  blueBackground: {
+    backgroundColor: colors.blue['500'],
   },
-  ratingQuestionable: {
-    backgroundColor: orange['800'],
+  orangeBackground: {
+    backgroundColor: colors.orange['800'],
   },
-  ratingExplicit: {
-    backgroundColor: purple['A700'],
+  redBackground: {
+    backgroundColor: colors.red['A400'],
   },
+  purpleBackground: {
+    backgroundColor: colors.purple['A700']
+  },
+  greenBackground: {
+    backgroundColor: colors.green['600']
+  },
+  pinkBackground: {
+    backgroundColor: colors.pink['900']
+  }
 }));
 
 export default function TagsRenderer({ selectedPost }) {
@@ -31,26 +47,49 @@ export default function TagsRenderer({ selectedPost }) {
   const getRatingColor = (rating) => {
     switch (rating) {
       case "safe":
-        return classes.ratingSafe;
+        return classes.blueBackground;
 
       case "questionable":
-        return classes.ratingQuestionable;
+        return classes.orangeBackground;
 
       case "explicit":
-        return classes.ratingExplicit;
+        return classes.redBackground;
 
       default:
         return classes.ratingSafe;
     }
   };
 
+  const tagSection = (title, tags, extraClass) => {
+    return (tags.length > 0 &&
+      <Grid item className={classes.container}>
+        <Typography className={classes.title}>{title}</Typography>
+        {tags.map((tag, index) => (
+          <Chip label={tag} key={`tag_${title}_${index}`} className={extraClass ? `${classes.chip} + ${extraClass}` : classes.chip} />
+        ))}
+      </Grid>
+    );
+  }
+
+  const ratingSection = () => {
+    const chipColorClass = getRatingColor(selectedPost.rating);
+    return tagSection('Rating:', [selectedPost.rating], chipColorClass);
+  };
+
   return (
     <DialogContent className={classes.footer}>
-      <Typography variant="title" className={classes.title}>Rating:</Typography>
-      <Chip
-        label={selectedPost.rating}
-        className={{ ...classes.chip, ...(getRatingColor(selectedPost.rating)) }}
-      />
+      <Grid container direction="column" justify="space-evenly" alignItems="stretch">
+        {ratingSection()}
+        {tagSection('Artist:', selectedPost.artists, classes.purpleBackground)}
+        {tagSection('Characters:', selectedPost.charactersTags, classes.greenBackground)}
+        {tagSection('Species:', selectedPost.speciesTags, classes.orangeBackground)}
+        {tagSection('Copyright:', selectedPost.copyrightTags, classes.pinkBackground)}
+        {tagSection('Tags:', selectedPost.tags, classes.blueBackground)}
+      </Grid>
+
+      <Typography>
+
+      </Typography>
     </DialogContent>
   )
 }

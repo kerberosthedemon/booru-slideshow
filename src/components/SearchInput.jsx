@@ -8,6 +8,7 @@ import { BooruConfigurationLoader } from './services/BooruConfiguration/BooruCon
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
+const ENTER_KEYCODE = 13;
 
 const borderColorFocused = '#d97f53';
 const backgroundColor = 'rgba(1,0,0,.3)';
@@ -66,7 +67,7 @@ export default function SearchInput() {
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
   const [searchQuery, setSearchQuery] = useContext(SearchQueryContext);
-  const [postList, setPostList] = useContext(PostListContext);
+  const [, setPostList] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = event => {
@@ -89,19 +90,9 @@ export default function SearchInput() {
     }
   }, [searchQuery]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    setIsSubmit(true);
-
-    // Aqui actualizo la lista de tags por si quedo algo escrito en la barra de busqueda
-    event.keyCode = SPACE_KEYCODE;
-    handleNewTag(event);
-  }
-
   const search = async (booruConfiguration) => {
     var posts = await searchService.search(searchQuery, booruConfiguration);
-    setPostList(postList.concat(posts));
+    setPostList(prevState => prevState.concat(posts));
   }
 
   const handleNewTag = event => {
@@ -109,31 +100,47 @@ export default function SearchInput() {
     if (event.keyCode === SPACE_KEYCODE && inputText.trim() !== '') {
       const newTags = searchQuery.tags.slice();
       newTags.push(inputText.trim());
-      setSearchQuery({ ...searchQuery, tags: newTags });
+      setSearchQuery(prevState => ({ ...prevState, tags: newTags }));
       setInputText('');
     }
 
     if (event.keyCode === BACKSPACE_KEYCODE && !inputText && !textChanged) {
       const newTags = searchQuery.tags.slice();
       newTags.pop();
-      setSearchQuery({ ...searchQuery, tags: newTags });
+      setSearchQuery(prevState => ({ ...prevState, tags: newTags }));
       setInputText('');
+    }
+
+    if (event.keyCode === ENTER_KEYCODE) {
+      setIsSubmit(true);
+
+      if (inputText.trim() !== '') {
+        const newTags = searchQuery.tags.slice();
+        newTags.push(inputText.trim());
+        setSearchQuery({ ...searchQuery, tags: newTags });
+        setInputText('');
+      }
+      else {
+        setSearchQuery(prevState => ({ ...prevState }));;
+      }
     }
 
     setTextChanged(false);
   }
 
+  const removeTagAtIndex = (index) => {
+    setSearchQuery(prevState => ({ ...prevState, tags: prevState.tags.filter((_, tagIndex) => tagIndex !== index) }));
+  }
+
   return (
     <div className={classes.contanier}>
-      {searchQuery.tags.map(tag => <Chip className={classes.chip} onDelete={() => { }} label={tag} />)}
-      <form onSubmit={handleSubmit}>
-        <TextField
-          InputProps={{ classes, disableUnderline: true }}
-          placeholder={searchQuery.tags.length ? '' : 'Search...'}
-          onKeyUp={handleNewTag}
-          value={inputText}
-          onChange={handleChange} />
-      </form>
+      {searchQuery.tags.map((tag, index) => <Chip className={classes.chip} onDelete={() => { removeTagAtIndex(index) }} label={tag} />)}
+      <TextField
+        InputProps={{ classes, disableUnderline: true }}
+        placeholder={searchQuery.tags.length ? '' : 'Search...'}
+        onKeyUp={handleNewTag}
+        value={inputText}
+        onChange={handleChange} />
     </div>
   );
 }

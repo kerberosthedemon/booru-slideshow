@@ -1,5 +1,5 @@
 export default class Post {
-  constructor(id, thumbURL, sampleURL, fullURL, width, height, tags, artists, rating) {
+  constructor(id, thumbURL, sampleURL, fullURL, width, height, tags, artists, rating, charactersTags, speciesTags, copyrightTags) {
     this.id = id;
     this.thumbURL = thumbURL;
     this.sampleURL = sampleURL;
@@ -14,6 +14,9 @@ export default class Post {
     this.fileType = this.getFileType();
     this.loadingPercentage = 0;
     this.isVerticalLayout = this.getLayout();
+    this.charactersTags = charactersTags;
+    this.speciesTags = speciesTags;
+    this.copyrightTags = copyrightTags;
   }
 
   getFileType = () => {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { PostListContext, FullScreenModalContext, SelectedPostContext } from '../../components/App';
+import { PostListContext, FullScreenModalContext, SelectedPostIndexContext } from '../../components/App';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import PostService from '../../components/services/Post/PostService';
@@ -22,7 +22,7 @@ export default function SearchPage() {
   const [postCount, setPostCount] = useState(0);
   const [postList, setPostList] = useContext(PostListContext);
   const [showModal, setShowModal] = useContext(FullScreenModalContext);
-  const [selectedPost, setSelectedPost] = useContext(SelectedPostContext);
+  const [selectedPostIndex,] = useContext(SelectedPostIndexContext);
 
   const handleClose = () => {
     setShowModal(false);
@@ -37,20 +37,10 @@ export default function SearchPage() {
   }
 
   const handleProgress = (index, progressEvent) => {
-    if (selectedPost && postList[index].fullURL === selectedPost.fullURL) {
-      setSelectedPost(prevState => {
-        const newObj = {};
-        Object.assign(newObj, prevState);
-        newObj.loadingPercentage = calculateProgress(progressEvent);
-        return newObj;
-      });
-    }
-    else {
-      setPostList(prevState => {
-        prevState[index].loadingPercentage = calculateProgress(progressEvent);
-        return prevState;
-      });
-    }
+    setPostList(prevState => {
+      prevState[index].loadingPercentage = calculateProgress(progressEvent);
+      return {...prevState};
+    });
   }
 
   const calculateProgress = (progressEvent) => {
@@ -74,7 +64,7 @@ export default function SearchPage() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        {postList.map((post, index) => <Thumbnail post={post} key={`thumbnail_${index}`} />)}
+        {postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} />)}
       </div>
       <FullModal open={showModal} onClose={handleClose} />
     </React.Fragment>

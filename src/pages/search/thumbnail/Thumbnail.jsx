@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FullScreenModalContext, SelectedPostContext } from '../../../components/App';
+import { FullScreenModalContext, SelectedPostIndexContext } from '../../../components/App';
 
 const scaleAmount = 1.4;
 
@@ -42,15 +42,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Thumbnail({ post }) {
+export default function Thumbnail({ post, index }) {
 
   const classes = useStyles();
   const [, setShowModal] = useContext(FullScreenModalContext);
-  const [, setSelectedPost] = useContext(SelectedPostContext);
+  const [, setSelectedPostIndex] = useContext(SelectedPostIndexContext);
 
   const handleClick = () => {
     setShowModal(true);
-    setSelectedPost(post);
+    setSelectedPostIndex(index);
   }
 
   return (

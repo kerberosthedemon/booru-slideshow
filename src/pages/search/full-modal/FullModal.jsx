@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Dialog, DialogContent, makeStyles } from '@material-ui/core';
 import FileRenderer from './file-renderer/FileRenderer';
-import { SelectedPostContext } from '../../../components/App';
+import { SelectedPostIndexContext } from '../../../components/App';
 import TagsRenderer from './tags-renderer/TagsRenderer';
 import PictureController from './services/PictureController';
 import { PostListContext } from './../../../components/App';
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function FullModal({ open, onClose }) {
   const [postList] = useContext(PostListContext);
-  const [selectedPost, setSelectedPost] = useContext(SelectedPostContext);
+  const [selectedPostIndex, setSelectedPostIndex] = useContext(SelectedPostIndexContext);
   const [editMode, setEditMode] = useState(false);
   const [style, setStyle] = useState();
   const controller = new PictureController(onClose);
@@ -49,12 +49,12 @@ export default function FullModal({ open, onClose }) {
     switch (input.key) {
       case 'a':
       case 'ArrowLeft':
-        setSelectedPost(postList[selectedPost.index - 1]);
+        setSelectedPostIndex(selectedPostIndex - 1);
         break;
 
       case 'd':
       case 'ArrowRight':
-        setSelectedPost(postList[selectedPost.index + 1]);
+        setSelectedPostIndex(selectedPostIndex + 1);
         break;
       default:
         break;
@@ -64,8 +64,8 @@ export default function FullModal({ open, onClose }) {
   return (
     <Dialog fullScreen scroll="paper" open={open} onClose={onClose}>
       <DialogContent onKeyDown={handleInput} onKeyUp={handleInputUp} className={classes.noPadding}>
-        {selectedPost && <FileRenderer selectedPost={selectedPost} customStyle={style} />}
-        {selectedPost && <TagsRenderer selectedPost={selectedPost} />}
+        {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} customStyle={style} />}
+        {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}
       </DialogContent>
     </Dialog>
   )

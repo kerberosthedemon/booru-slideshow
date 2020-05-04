@@ -11,10 +11,6 @@ export default class PostService {
       .then((data) => URL.createObjectURL(data))
   }
 
-  function(progressEvent) {
-    this.onDownload(this.post, Math.trunc(progressEvent.loaded * 100 / progressEvent.total))
-  }
-
   static getBlobURL = (post) => {
     switch (post.fileType) {
       case "webm":

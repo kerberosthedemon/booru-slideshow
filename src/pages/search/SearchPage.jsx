@@ -22,7 +22,6 @@ export default function SearchPage() {
   const [postCount, setPostCount] = useState(0);
   const [postList, setPostList] = useContext(PostListContext);
   const [showModal, setShowModal] = useContext(FullScreenModalContext);
-  const [selectedPostIndex,] = useContext(SelectedPostIndexContext);
 
   const handleClose = () => {
     setShowModal(false);
@@ -37,10 +36,14 @@ export default function SearchPage() {
   }
 
   const handleProgress = (index, progressEvent) => {
-    setPostList(prevState => {
-      prevState[index].loadingPercentage = calculateProgress(progressEvent);
-      return {...prevState};
-    });
+    if (postList) {
+      setPostList(prevState => {
+        let newPostList = [];
+        prevState[index].loadingPercentage = calculateProgress(progressEvent);
+        newPostList = newPostList.concat(prevState);
+        return newPostList;
+      });
+    }
   }
 
   const calculateProgress = (progressEvent) => {
@@ -48,7 +51,7 @@ export default function SearchPage() {
   }
 
   const handleError = (error) => {
-    console.log(error, "error");
+    alert(error.message);
   }
 
   useEffect(() => {
@@ -64,7 +67,7 @@ export default function SearchPage() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        {postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} />)}
+        {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} />)}
       </div>
       <FullModal open={showModal} onClose={handleClose} />
     </React.Fragment>

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { PostListContext, FullScreenModalContext } from '../../components/App';
+import { PostListContext, FullScreenModalContext, SelectedPostContext } from '../../components/App';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
+import PostService from '../../components/services/Post/PostService';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,13 +17,59 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchPage() {
+  const postService = new PostService();
   const classes = useStyles();
-  const [postList] = useContext(PostListContext);
+  const [postCount, setPostCount] = useState(0);
+  const [postList, setPostList] = useContext(PostListContext);
   const [showModal, setShowModal] = useContext(FullScreenModalContext);
+  const [selectedPost, setSelectedPost] = useContext(SelectedPostContext);
 
   const handleClose = () => {
     setShowModal(false);
   }
+
+  const loadPost = async (post, index) => {
+    const blobURL = await postService.loadPost(post, (progressEvent) => handleProgress(index, progressEvent), handleError);
+    setPostList(prevState => {
+      prevState[index].fullBlobURL = blobURL;
+      return prevState;
+    });
+  }
+
+  const handleProgress = (index, progressEvent) => {
+    if (selectedPost && postList[index].fullURL === selectedPost.fullURL) {
+      setSelectedPost(prevState => {
+        const newObj = {};
+        Object.assign(newObj, prevState);
+        newObj.loadingPercentage = calculateProgress(progressEvent);
+        return newObj;
+      });
+    }
+    else {
+      setPostList(prevState => {
+        prevState[index].loadingPercentage = calculateProgress(progressEvent);
+        return prevState;
+      });
+    }
+  }
+
+  const calculateProgress = (progressEvent) => {
+    return Math.trunc(progressEvent.loaded * 100 / progressEvent.total);
+  }
+
+  const handleError = (error) => {
+    console.log(error, "error");
+  }
+
+  useEffect(() => {
+    if (postList.length !== postCount) {
+      loadPost(postList[0], 0);
+    }
+
+    return () => {
+      setPostCount(postList.length);
+    }
+  }, [postList])
 
   return (
     <React.Fragment>

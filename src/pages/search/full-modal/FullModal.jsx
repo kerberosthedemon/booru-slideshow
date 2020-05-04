@@ -21,13 +21,11 @@ export default function FullModal({ open, onClose }) {
   const classes = useStyles();
 
   const handleInputUp = input => {
-    alert('input up');
     input.isKeyUp = true;
     handleInput(input);
   }
 
   const handleInput = input => {
-    alert('input');
     handleEditMode(input);
 
     if (editMode) {

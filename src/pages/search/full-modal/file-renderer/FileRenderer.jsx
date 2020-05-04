@@ -3,8 +3,8 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   image: {
-    maxWidth: '100%',
-    margin: 'auto 0',
+    height: '100%',
+    margin: 'auto',
   },
   loadingScreenContainer: {
     height: '100%',
@@ -29,16 +29,21 @@ export default function FileRenderer({ selectedPost, customStyle }) {
   switch (selectedPost.fileType) {
     case "webm":
     case "mp4":
-      return <video autoPlay loop className={classes.image} controls key={`video_${selectedPost.id}`}>
-        <source src={selectedPost.fullBlobURL} />
-        Your browser does not support the video tag.
-      </video>
+      return (
+        <div className={classes.loadingScreenContainer}>
+          <video autoPlay loop className={classes.image} controls key={`video_${selectedPost.id}`}>
+            <source src={selectedPost.fullBlobURL} />
+          Your browser does not support the video tag.
+        </video>
+        </div>);
 
     default:
-      return <img className={classes.image}
-        alt=""
-        src={selectedPost.fullBlobURL}
-        style={customStyle} />
+      return <div className={classes.loadingScreenContainer}>
+        <img className={classes.image}
+          alt=""
+          src={selectedPost.fullBlobURL}
+          style={customStyle} />
+      </div>
   }
 
 }

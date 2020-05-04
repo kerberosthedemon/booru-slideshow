@@ -16,10 +16,18 @@
     "copyrightTagPropertyName": "tags.copyright",
     "ratingPropertyName": "rating",
     "shouldFormatTags": false,
-    "startPageIndexOffset": 1
+    "startPageIndexOffset": 1,
+    "isEnabled": true
   },
   {
     "configName": "Rule 34",
-    "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index"
+    "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index",
+    "isEnabled": false
+  },
+  {
+    "configName": "SakugaBooru",
+    "baseURL": "https://www.sakugabooru.com/post.json?",
+    "isXMLFormat": false,
+    "isEnabled": false
   }
 ]

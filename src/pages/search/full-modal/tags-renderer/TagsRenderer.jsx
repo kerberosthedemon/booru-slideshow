@@ -86,10 +86,6 @@ export default function TagsRenderer({ selectedPost }) {
         {tagSection('Copyright:', selectedPost.copyrightTags, classes.pinkBackground)}
         {tagSection('Tags:', selectedPost.tags, classes.blueBackground)}
       </Grid>
-
-      <Typography>
-
-      </Typography>
     </DialogContent>
   )
 }

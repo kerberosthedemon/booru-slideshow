@@ -1,16 +1,17 @@
 export default class PictureController {
-
-  new(handleClose) {
+  
+  
+  constructor(handleCloseFunc) {
     this.position = { x: 0, y: 0 };
     this.scale = 1;
-    this.handleClose = handleClose;
+    this.handleClose = handleCloseFunc;
   }
 
   handleInput = (input, setStyle) => {
     if (input.key === 'c')
       this.resetImageTransform(setStyle);
 
-    if (input.isKeyUp)
+    if (input.type !== 'keydown')
       this.handleKeyUp(input);
     else
       this.handleKeyDown(input);
@@ -32,7 +33,7 @@ export default class PictureController {
   handleKeyDown(input) {
 
     switch (input.key) {
-      case 'q' && !this.scaleInterval:
+      case 'q':
         this.scaleImage(1); //usar setInterval() y clearInterval() para estas funciones
         break;
 

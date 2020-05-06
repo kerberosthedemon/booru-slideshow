@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { PostListContext, FullScreenModalContext, SelectedPostIndexContext } from '../../components/App';
+import { PostListContext, FullScreenModalContext } from '../../components/App';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import PostService from '../../components/services/Post/PostService';
@@ -33,6 +33,8 @@ export default function SearchPage() {
       prevState[index].fullBlobURL = blobURL;
       return prevState;
     });
+    if(postList[index+1])
+      loadPost(postList[index + 1], index + 1);
   }
 
   const handleProgress = (index, progressEvent) => {

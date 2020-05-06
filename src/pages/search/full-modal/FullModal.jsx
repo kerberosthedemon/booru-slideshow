@@ -32,7 +32,8 @@ export default function FullModal({ open, onClose }) {
       controller.handleInput(input, setStyle);
     }
     else {
-      switchSelectedPicture(input);
+      if(input.type === "keyup")
+        switchSelectedPicture(input);
     }
   }
 
@@ -49,12 +50,14 @@ export default function FullModal({ open, onClose }) {
     switch (input.key) {
       case 'a':
       case 'ArrowLeft':
-        setSelectedPostIndex(selectedPostIndex - 1);
+        if(postList[selectedPostIndex - 1])
+          setSelectedPostIndex(selectedPostIndex - 1);
         break;
 
       case 'd':
       case 'ArrowRight':
-        setSelectedPostIndex(selectedPostIndex + 1);
+        if(postList[selectedPostIndex + 1])
+          setSelectedPostIndex(selectedPostIndex + 1);
         break;
       default:
         break;
@@ -62,8 +65,8 @@ export default function FullModal({ open, onClose }) {
   }
 
   return (
-    <Dialog fullScreen scroll="paper" open={open} onClose={onClose}>
-      <DialogContent onKeyDown={handleInput} onKeyUp={handleInputUp} className={classes.noPadding}>
+    <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleInput} onKeyUp={handleInputUp}>
+      <DialogContent className={classes.noPadding}>
         {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} customStyle={style} />}
         {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}
       </DialogContent>

@@ -33,7 +33,7 @@ export default function SearchPage() {
       prevState[index].fullBlobURL = blobURL;
       return prevState;
     });
-    if(postList[index+1])
+    if (postList[index + 1])
       loadPost(postList[index + 1], index + 1);
   }
 

@@ -25,7 +25,7 @@ export class PostSearchService {
           return this.postFactory.generateNewPost(jsonPost, booruConfiguration);
         }
         catch (exception) {
-          return alert(exception);
+          return alert(`Post ID: ${jsonPost.id} \n Exception: ${exception}`);
         }
       }).filter(element => element !== null))
     })

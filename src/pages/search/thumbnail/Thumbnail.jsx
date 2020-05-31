@@ -12,10 +12,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     overflow: 'hidden',
     marginRight: '.4rem',
-    marginTop: '.5rem',
+    marginBottom: '.5rem',
     '&:hover': {
       boxShadow: '0px 0px 8px 2px rgba(66,173,162,1)'
-    }
+    },
+    alignItems: 'center',
+  },
+  containerFix: {
+    flexDirection: 'column',
   },
   horizontalImg: {
     cursor: 'pointer',
@@ -27,7 +31,11 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create(['transform']),
     '&:hover': {
       transform: `translateX(-50%) scale(${scaleAmount})`,
-    }
+    },
+
+  },
+  horizontalFix: {
+    marginTop: '-18px'
   },
   verticalImg: {
     cursor: 'pointer',
@@ -39,6 +47,13 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       transform: `translateY(-50%) scale(${scaleAmount})`,
     }
+  },
+  verticalFix: {
+    marginTop: 'calc(50% - 18px) !important',
+  },
+  percentageText: {
+    zIndex: 100,
+    backgroundColor: 'black',
   }
 }));
 
@@ -54,8 +69,16 @@ export default function Thumbnail({ post, index }) {
   }
 
   return (
-    <Paper className={classes.container} onClick={handleClick}>
-      <img className={post.isVerticalLayout ? classes.verticalImg : classes.horizontalImg} alt="" src={post.thumbURL}></img>
+    <Paper className={`${classes.container} ${post.fullBlobURL ? '' : classes.containerFix}`} onClick={handleClick}>
+      {!post.fullBlobURL && <div className={classes.percentageText}>{post.loadingPercentage}%</div>}
+      <img
+        className={
+          `${post.isVerticalLayout ?
+            (classes.verticalImg + (post.fullBlobURL ? '' : ` ${classes.verticalFix}`))
+            : (classes.horizontalImg + (post.fullBlobURL ? '' : ` ${classes.horizontalFix}`))}`
+        }
+        alt=""
+        src={post.thumbURL} />
     </Paper>
   )
 }

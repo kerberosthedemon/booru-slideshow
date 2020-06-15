@@ -71,10 +71,11 @@ export default function SearchInput() {
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = event => {
-    const text = event.target.value.trim();
-    setInputText(text);
-
-    setTextChanged(true);
+    const text = event.target.value;
+    if (text.trim() !== '') {
+      setInputText(text);
+      setTextChanged(true);
+    }
   }
 
   useEffect(() => {
@@ -95,17 +96,14 @@ export default function SearchInput() {
     setPostList(prevState => prevState.concat(posts));
   }
 
-  const handleNewTag = event => {
+  const handleKeyUp = event => {
 
     if (event.keyCode === SPACE_KEYCODE && inputText.trim() !== '') {
-      const newTags = searchQuery.tags.slice();
-      newTags.push(inputText.trim());
-      setSearchQuery(prevState => ({ ...prevState, tags: newTags }));
-      setInputText('');
+      setTags();
     }
 
     if (event.keyCode === BACKSPACE_KEYCODE && !inputText && !textChanged) {
-      const newTags = searchQuery.tags.slice();
+      let newTags = searchQuery.tags;
       newTags.pop();
       setSearchQuery(prevState => ({ ...prevState, tags: newTags }));
       setInputText('');
@@ -115,10 +113,7 @@ export default function SearchInput() {
       setIsSubmit(true);
 
       if (inputText.trim() !== '') {
-        const newTags = searchQuery.tags.slice();
-        newTags.push(inputText.trim());
-        setSearchQuery({ ...searchQuery, tags: newTags });
-        setInputText('');
+        setTags();
       }
       else {
         setSearchQuery(prevState => ({ ...prevState }));;
@@ -126,6 +121,19 @@ export default function SearchInput() {
     }
 
     setTextChanged(false);
+  }
+
+  const getTagsFromString = text => {
+    let tags = inputText.split(' ');
+    return tags.filter(t => t !== '');
+  }
+
+  const setTags = () => {
+    setSearchQuery(prevState => ({
+      ...searchQuery,
+      tags: prevState.tags.concat(getTagsFromString(inputText))
+    }));
+    setInputText('');
   }
 
   const removeTagAtIndex = (index) => {
@@ -138,7 +146,7 @@ export default function SearchInput() {
       <TextField
         InputProps={{ classes, disableUnderline: true }}
         placeholder={searchQuery.tags.length ? '' : 'Search...'}
-        onKeyUp={handleNewTag}
+        onKeyUp={handleKeyUp}
         value={inputText}
         onChange={handleChange} />
     </div>

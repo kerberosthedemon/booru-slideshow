@@ -19,7 +19,7 @@ export class PostSearchService {
   searchNextPage = async (searchQuery, booruConfiguration) => {
     let response = await axios.get(this.getURL(searchQuery, booruConfiguration), { withCredentials: true });
     const jsonResponse = this.formatterService.formatResponse(response, booruConfiguration);
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(jsonResponse.map(jsonPost => {
         try {
           return this.postFactory.generateNewPost(jsonPost, booruConfiguration);

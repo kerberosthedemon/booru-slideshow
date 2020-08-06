@@ -1,6 +1,8 @@
 {
-    "editor.formatOnSave": true,
-    "editor.detectIndentation": false,
-    "editor.tabSize": 2,
-    "javascript.implicitProjectConfig.checkJs": true
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "javascript.implicitProjectConfig.checkJs": true,
+  "eslint.lintTask.enable": true,
+  "eslint.alwaysShowStatus": true
 }

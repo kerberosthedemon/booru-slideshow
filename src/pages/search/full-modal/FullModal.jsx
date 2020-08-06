@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { Dialog, DialogContent, makeStyles } from '@material-ui/core';
 import FileRenderer from './file-renderer/FileRenderer';
-import { SelectedPostIndexContext } from '../../../components/App';
 import TagsRenderer from './tags-renderer/TagsRenderer';
 import PictureController from './services/PictureController';
-import { PostListContext } from './../../../components/App';
+import { SelectedPostIndexContext, PostListContext } from '../../../components/ui/App';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   noPadding: {
     paddingTop: '0 !important'
   }
@@ -32,7 +31,7 @@ export default function FullModal({ open, onClose }) {
       controller.handleInput(input, setStyle);
     }
     else {
-      if(input.type === "keyup")
+      if (input.type === "keyup")
         switchSelectedPicture(input);
     }
   }
@@ -50,13 +49,13 @@ export default function FullModal({ open, onClose }) {
     switch (input.key) {
       case 'a':
       case 'ArrowLeft':
-        if(postList[selectedPostIndex - 1])
+        if (postList[selectedPostIndex - 1])
           setSelectedPostIndex(selectedPostIndex - 1);
         break;
 
       case 'd':
       case 'ArrowRight':
-        if(postList[selectedPostIndex + 1])
+        if (postList[selectedPostIndex + 1])
           setSelectedPostIndex(selectedPostIndex + 1);
         break;
       default:

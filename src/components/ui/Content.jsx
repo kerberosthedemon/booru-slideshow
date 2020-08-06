@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import Header from './Header';
-import SearchPage from './../pages/search/SearchPage';
+import SearchPage from '../../pages/search/SearchPage';
 
 const useStyles = makeStyles(theme => ({
   container: {

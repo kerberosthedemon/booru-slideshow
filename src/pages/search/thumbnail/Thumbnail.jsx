@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FullScreenModalContext, SelectedPostIndexContext } from '../../../components/App';
+import { FullScreenModalContext, SelectedPostIndexContext } from '../../../components/ui/App';
 
 const scaleAmount = 1.4;
 

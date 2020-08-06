@@ -36,7 +36,7 @@ export class PostSearchService {
       + this.searchQueryService.getQueryParameters(searchQuery, booruConfiguration);
   }
 
-  static getFullBlobURL = async (post, onDownload) => {
+  getFullBlobURL = async (post, onDownload) => {
     return axios.get(this.getBlobURL(post), {
       responseType: 'blob',
       onDownloadProgress: function (progressEvent) {
@@ -47,7 +47,7 @@ export class PostSearchService {
       .then((data) => data)
   }
 
-  static getBlobURL = (post) => {
+  getBlobURL = (post) => {
     switch (post.fileType) {
       case "webm":
       case "mp4":

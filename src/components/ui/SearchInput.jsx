@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
-import { SearchQueryContext, PostListContext } from '../components/App'
-import { PostSearchService } from './services/Search/PostSearchService';
-import { BooruConfigurationLoader } from './services/BooruConfiguration/BooruConfigurationLoader';
+import { SearchQueryContext, PostListContext } from './App';
+import { BooruConfigurationLoader } from '../services/BooruConfiguration/BooruConfigurationLoader';
+import { PostSearchService } from '../services/Search/PostSearchService';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -124,7 +124,7 @@ export default function SearchInput() {
   }
 
   const getTagsFromString = text => {
-    let tags = inputText.split(' ');
+    let tags = text.split(' ');
     return tags.filter(t => t !== '');
   }
 

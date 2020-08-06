@@ -1,10 +1,10 @@
 import React, { createContext, useState } from 'react'
 import Content from './Content';
 
-export const PostListContext = createContext();
-export const SelectedPostIndexContext = createContext();
-export const FullScreenModalContext = createContext();
-export const SearchQueryContext = createContext();
+export const PostListContext = createContext({});
+export const SelectedPostIndexContext = createContext({});
+export const FullScreenModalContext = createContext({});
+export const SearchQueryContext = createContext({});
 
 export default function App() {
   const postList = useState([]);

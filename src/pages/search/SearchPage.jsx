@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { PostListContext, FullScreenModalContext } from '../../components/App';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import PostService from '../../components/services/Post/PostService';
+import { PostListContext, FullScreenModalContext } from '../../components/ui/App';
 
 const useStyles = makeStyles(theme => ({
   container: {

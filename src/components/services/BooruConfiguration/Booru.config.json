@@ -18,12 +18,12 @@
     "ratingPropertyName": "rating",
     "shouldFormatTags": false,
     "startPageIndexOffset": 1,
-    "isEnabled": true
+    "isEnabled": false
   },
   {
     "configName": "Rule 34",
     "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index",
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "SakugaBooru",

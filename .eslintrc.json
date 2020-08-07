@@ -15,6 +15,9 @@
   "plugins": [
     "react"
   ],
+  "ignorePatterns": [
+    "registerServiceWorker.js"
+  ],
   "rules": {},
   "settings": {
     "react": {

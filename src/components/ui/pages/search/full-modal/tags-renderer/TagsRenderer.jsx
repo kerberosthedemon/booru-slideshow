@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
   },
   chip: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   footer: {
     overflow: 'unset',

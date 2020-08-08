@@ -142,9 +142,9 @@ export default function SearchInput() {
 
   return (
     <div className={classes.contanier}>
-      {searchQuery.tags.map((tag, index) => <Chip className={classes.chip} onDelete={() => { removeTagAtIndex(index) }} label={tag} />)}
+      {searchQuery.tags.map((tag, index) => <Chip key={`chip_${index}`} className={classes.chip} onDelete={() => { removeTagAtIndex(index) }} label={tag} />)}
       <TextField
-        InputProps={{ classes, disableUnderline: true }}
+        InputProps={{ classes: { input: classes.input }, disableUnderline: true }}
         placeholder={searchQuery.tags.length ? '' : 'Search...'}
         onKeyUp={handleKeyUp}
         value={inputText}

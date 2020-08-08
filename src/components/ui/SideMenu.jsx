@@ -45,18 +45,18 @@ export default function SideMenu({ showSideMenu, toggleDrawer }) {
       <Divider />
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem button key={`listItem1_${text}`}>
+            <ListItemIcon key={`listItemIcon1_${text}`}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText key={`listItemText1_${text}`} primary={text} />
           </ListItem>
         ))}
       </List>
       <Divider />
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem button key={`listItem2_${text}`}>
+            <ListItemIcon key={`listItemIcon2_${text}`}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText key={`listItemText2_${text}`} primary={text} />
           </ListItem>
         ))}
       </List>

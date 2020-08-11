@@ -5,6 +5,7 @@ import grey from '@material-ui/core/colors/grey'
 import { SearchQueryContext, PostListContext } from './App';
 import { BooruConfigurationLoader } from '../services/BooruConfiguration/BooruConfigurationLoader';
 import { PostSearchService } from '../services/Search/PostSearchService';
+import useFocusOnStart from './../hooks/useFocusOnStart';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -69,6 +70,7 @@ export default function SearchInput() {
   const [tags, actions] = useContext(SearchQueryContext);
   const [, setPostList] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
+  const inputRef = useFocusOnStart();
 
   const handleChange = event => {
     const text = event.target.value;
@@ -123,6 +125,7 @@ export default function SearchInput() {
     <div className={classes.contanier}>
       {tags.map((tag, index) => <Chip key={`chip_${index}`} className={classes.chip} onDelete={() => { actions.removeTagAtIndex(index) }} label={tag} />)}
       <TextField
+        inputRef={inputRef}
         InputProps={{ classes: { input: classes.input }, disableUnderline: true }}
         placeholder={tags.length ? '' : 'Search...'}
         onKeyUp={handleKeyUp}

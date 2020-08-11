@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import Content from './Content';
+import useSearchQuery from '../hooks/useSearchQuery';
 
 export const PostListContext = createContext({});
 export const SelectedPostIndexContext = createContext({});
@@ -10,7 +11,7 @@ export default function App() {
   const postList = useState([]);
   const selectedPostIndex = useState(null);
   const showFullscreenModal = useState(false);
-  const searchQuery = useState({ tags: [], page: 0 });
+  const searchQuery = useSearchQuery();
 
   return (
     <SearchQueryContext.Provider value={searchQuery}>

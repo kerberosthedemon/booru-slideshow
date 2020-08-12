@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import { TextField, Chip } from '@material-ui/core';
+import { TextField, Chip, IconButton } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
 import { SearchQueryContext, PostListContext } from './App';
 import { BooruConfigurationLoader } from '../services/BooruConfiguration/BooruConfigurationLoader';
 import { PostSearchService } from '../services/Search/PostSearchService';
-import useFocusOnStart from './../hooks/useFocusOnStart';
+import useFocusElementOnStart from '../hooks/useFocusOnStart';
+import { useConfiguration } from '../hooks/useConfiguration';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -57,12 +59,16 @@ const useStyles = makeStyles(theme => ({
       '"Segoe UI Symbol"',
     ].join(','),
   },
+  settingsIcon: {
+    padding: '0px',
+    margin: 'auto'
+  }
 }));
 
 export default function SearchInput() {
 
   const searchService = new PostSearchService();
-  const booruConfigurations = BooruConfigurationLoader.loadConfigurations();
+  const [configurations, configActions] = useConfiguration();
 
   const classes = useStyles();
   const [inputText, setInputText] = useState('');
@@ -70,30 +76,28 @@ export default function SearchInput() {
   const [tags, actions] = useContext(SearchQueryContext);
   const [, setPostList] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
-  const inputRef = useFocusOnStart();
+  const inputRef = useFocusElementOnStart();
 
   const handleChange = event => {
     const text = event.target.value;
     setInputText(text);
   }
 
-  // useEffect(() => {
-  //   if (isSubmit) {
-  //     booruConfigurations.forEach((booruConfiguration) => {
-  //       if (booruConfiguration.isEnabled) {
-  //         search(booruConfiguration);
-  //       }
-  //     });
-  //   }
-  //   return () => {
-  //     setIsSubmit(false);
-  //   }
-  // }, [searchQuery]);
+  useEffect(() => {
+    const search = async (booruConfiguration) => {
+      var posts = await searchService.search({ tags, page: 0 }, booruConfiguration);
+      setPostList(prevState => prevState.concat(posts));
+    }
 
-  // const search = async (booruConfiguration) => {
-  //   var posts = await searchService.search({ tags, page: 0 }, booruConfiguration);
-  //   setPostList(prevState => prevState.concat(posts));
-  // }
+    if (isSubmit) {
+      configurations.forEach((config) => {
+        if (config.isEnabled) {
+          search(config);
+        }
+      });
+    }
+  }, [tags]);
+
 
   const handleKeyUp = event => {
 
@@ -110,8 +114,10 @@ export default function SearchInput() {
         break;
 
       case BACKSPACE_KEYCODE:
-        actions.removeLastTag();
-        setInputText('');
+        if (inputText === '') {
+          actions.removeLastTag();
+          setInputText('');
+        }
         break;
 
       default:
@@ -131,6 +137,9 @@ export default function SearchInput() {
         onKeyUp={handleKeyUp}
         value={inputText}
         onChange={handleChange} />
+      <IconButton aria-label="delete" className={classes.settingsIcon}>
+        <DeleteIcon />
+      </IconButton>
     </div>
   );
 }

@@ -1,12 +1,17 @@
 
 import React, { useEffect } from 'react';
 
-export default function useFocusOnStart() {
+export default function useFocusElementOnStart() {
   const ref = React.createRef();
 
+  const focus = () => {
+    ref.current.focus()
+  };
+
   useEffect(() => {
-    ref.current.focus();
-  }, [ref]);
+    focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return ref;
 };

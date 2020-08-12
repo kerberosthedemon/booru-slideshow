@@ -19,8 +19,8 @@ export default function useTags() {
 
   const removeLastTag = () => {
     setTags((oldTags) => {
-      oldTags.pop();
-      return oldTags;
+      const newTags = oldTags.slice(0, oldTags.length - 1);
+      return newTags;
     });
   };
 

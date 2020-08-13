@@ -1,8 +1,8 @@
 
 import Axios from "axios";
-import { PostFactory } from "./PostFactory";
 import { ResponseFormatterService } from './ResponseFormatterService';
 import { SearchQueryService } from "./SearchQueryService";
+import { PostFactory } from './../Post/PostFactory';
 
 const axios = Axios
 

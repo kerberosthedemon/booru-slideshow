@@ -17,7 +17,7 @@ export class PostSearchService {
   }
 
   searchNextPage = async (searchQuery, booruConfiguration) => {
-    let response = await axios.get(this.getURL(searchQuery, booruConfiguration), { withCredentials: true });
+    let response = await this.getPosts(searchQuery, booruConfiguration);
     const jsonResponse = this.formatterService.formatResponse(response, booruConfiguration);
     return new Promise((resolve) => {
       resolve(jsonResponse.map(jsonPost => {
@@ -56,5 +56,9 @@ export class PostSearchService {
       default:
         return post.sampleURL
     }
+  }
+
+  getPosts(searchQuery, booruConfiguration) {
+    return axios.get(this.getURL(searchQuery, booruConfiguration), { withCredentials: true });
   }
 }

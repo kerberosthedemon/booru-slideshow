@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/styles';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import PostService from '../../../services/Post/PostService';
-import { PostListContext, FullScreenModalContext } from '../../App';
+import { PostListContext } from './../../../context/PostContextProvider';
+import { FullScreenModalContext } from './../../App';
 
 const useStyles = makeStyles(theme => ({
   container: {

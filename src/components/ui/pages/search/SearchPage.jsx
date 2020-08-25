@@ -5,6 +5,7 @@ import FullModal from './full-modal/FullModal';
 import PostService from '../../../services/Post/PostService';
 import { PostListContext } from './../../../context/PostContextProvider';
 import { FullScreenModalContext } from './../../App';
+import PostMockService from './../../../services/Post/mock/PostMockService';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,11 +19,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchPage() {
-  const postService = new PostService();
+  const postService = new PostMockService();
   const classes = useStyles();
   const [postCount, setPostCount] = useState(0);
   const [postList, setPostList] = useContext(PostListContext);
   const [showModal, setShowModal] = useContext(FullScreenModalContext);
+  const [loadingPost, setLoadingPost] = useState(false);
 
   const handleClose = () => {
     setShowModal(false);
@@ -34,8 +36,11 @@ export default function SearchPage() {
       prevState[index].fullBlobURL = blobURL;
       return prevState;
     });
-    if (postList[index + 1])
+    if (postList[index + 1]) {
       loadPost(postList[index + 1], index + 1);
+    } else {
+      setLoadingPost(false);
+    }
   }
 
   const handleProgress = (index, progressEvent) => {
@@ -58,7 +63,8 @@ export default function SearchPage() {
   }
 
   useEffect(() => {
-    if (postList.length !== postCount) {
+    if (postList.length !== postCount && !loadingPost) {
+      setLoadingPost(true);
       loadPost(postList[0], 0);
     }
 

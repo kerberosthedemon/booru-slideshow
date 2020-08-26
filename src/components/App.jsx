@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
 import useSearchQuery from '../hooks/useSearchQuery';
 import { PostContextProvider } from '../context/PostContextProvider';
 import Content from './Content/Content';

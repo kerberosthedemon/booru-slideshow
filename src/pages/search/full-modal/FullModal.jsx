@@ -65,7 +65,7 @@ export default function FullModal({ open, onClose }) {
   }
 
   return (
-    <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleInput} onKeyUp={handleInputUp}>
+    <Dialog fullScreen scroll="paper" open={open} onClose={onClose}>
       <DialogContent className={classes.noPadding}>
         {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} customStyle={style} />}
         {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}

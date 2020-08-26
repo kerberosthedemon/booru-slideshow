@@ -1,60 +1,52 @@
 import React, { useContext } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FullScreenModalContext } from '../../../components/App';
 import { SelectedPostIndexContext } from 'context/PostContextProvider';
 
-const scaleAmount = 1.4;
-
 const useStyles = makeStyles(theme => ({
-  container: {
+  thumbnail: {
     width: '200px',
     height: '200px',
-    display: 'flex',
     overflow: 'hidden',
     marginRight: '.4rem',
     marginBottom: '.5rem',
+    backgroundPosition: 'center',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
+    transition: theme.transitions.create(['background-size']),
     '&:hover': {
-      boxShadow: '0px 0px 8px 2px rgba(66,173,162,1)'
+      boxShadow: '0px 0px 8px 2px rgba(66,173,162,1)',
+      backgroundSize: '150%',
     },
-    alignItems: 'center',
-  },
-  containerFix: {
-    flexDirection: 'column',
-  },
-  horizontalImg: {
     cursor: 'pointer',
+  },
+  loaderContainer: {
     height: '100%',
-    flexGrow: 1,
-    margin: '0 auto',
-    marginLeft: '50%',
-    transform: 'translateX(-50%)',
-    transition: theme.transitions.create(['transform']),
-    '&:hover': {
-      transform: `translateX(-50%) scale(${scaleAmount})`,
-    },
-
-  },
-  horizontalFix: {
-    marginTop: '-18px'
-  },
-  verticalImg: {
-    cursor: 'pointer',
     width: '100%',
-    margin: 'auto 0',
-    marginTop: '50%',
-    transform: 'translateY(-50%)',
-    transition: theme.transitions.create(['transform']),
-    '&:hover': {
-      transform: `translateY(-50%) scale(${scaleAmount})`,
-    }
-  },
-  verticalFix: {
-    marginTop: 'calc(50% - 18px) !important',
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: '1fr',
+    alignItems: 'center',
+    justifyItems: 'center'
   },
   percentageText: {
-    zIndex: 100,
-    backgroundColor: 'black',
+    zIndex: 1,
+    gridColumn: '1/2',
+    gridRow: '1/2'
+  },
+  spinner: {
+    gridColumn: '1/2',
+    gridRow: '1/2'
+  },
+  background: {
+    backgroundColor: '#0000007a',
+    gridColumn: '1/2',
+    gridRow: '1/2',
+    height: '100%',
+    width: '100%'
+  },
+  circularProgress: {
+    animationDuration: "550ms",
   }
 }));
 
@@ -69,16 +61,18 @@ export default function Thumbnail({ post, index, modalActions }) {
   }
 
   return (
-    <Paper className={`${classes.container} ${post.fullBlobURL ? '' : classes.containerFix}`} onClick={handleClick}>
-      {!post.fullBlobURL && <div className={classes.percentageText}>{post.loadingPercentage}%</div>}
-      <img
-        className={
-          `${post.isVerticalLayout ?
-            (classes.verticalImg + (post.fullBlobURL ? '' : ` ${classes.verticalFix}`))
-            : (classes.horizontalImg + (post.fullBlobURL ? '' : ` ${classes.horizontalFix}`))}`
-        }
-        alt=""
-        src={post.thumbURL} />
+    <Paper className={classes.thumbnail} style={{ backgroundImage: `url(${post.thumbURL})` }} onClick={handleClick}>
+      {
+        !post.fullBlobURL &&
+        (
+          <div className={classes.loaderContainer}>
+            <div className={classes.percentageText}>{post.loadingPercentage}%</div>
+            {/* <div className={classes.loadingBackground}></div> */}
+            <div className={classes.spinner}><CircularProgress className={classes.circularProgress} disableShrink color="secondary" size={60} /></div>
+            <div className={classes.background}></div>
+          </div>
+        )
+      }
     </Paper>
   )
 }

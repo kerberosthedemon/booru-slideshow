@@ -58,15 +58,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Thumbnail({ post, index }) {
+export default function Thumbnail({ post, index, modalActions }) {
 
   const classes = useStyles();
-  const [, setShowModal] = useContext(FullScreenModalContext);
   const [, setSelectedPostIndex] = useContext(SelectedPostIndexContext);
 
   const handleClick = () => {
-    setShowModal(true);
     setSelectedPostIndex(index);
+    modalActions.openModal();
   }
 
   return (

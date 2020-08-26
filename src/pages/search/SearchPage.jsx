@@ -5,6 +5,7 @@ import FullModal from './full-modal/FullModal';
 import { PostListContext } from '../../context/PostContextProvider';
 import { FullScreenModalContext } from '../../components/App';
 import PostMockService from './../../services/Post/mock/PostMockService';
+import useModal from './useModal';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,16 +19,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchPage() {
-  const postService = new PostMockService();
+
   const classes = useStyles();
+
+  const postService = new PostMockService();
+  const [showModal, modalActions] = useModal();
   const [postCount, setPostCount] = useState(0);
   const [postList, setPostList] = useContext(PostListContext);
-  const [showModal, setShowModal] = useContext(FullScreenModalContext);
-  const [loadingPost, setLoadingPost] = useState(false);
 
-  const handleClose = () => {
-    setShowModal(false);
-  }
+  const [loadingPost, setLoadingPost] = useState(false);
 
   const loadPost = async (post, index) => {
     const blobURL = await postService.loadPost(post, (progressEvent) => handleProgress(index, progressEvent), handleError);
@@ -75,9 +75,9 @@ export default function SearchPage() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} />)}
+        {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} modalActions={modalActions} />)}
       </div>
-      <FullModal open={showModal} onClose={handleClose} />
+      <FullModal open={showModal} onClose={modalActions.closeModal} />
     </React.Fragment>
   )
 }

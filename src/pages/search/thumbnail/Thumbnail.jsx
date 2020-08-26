@@ -5,13 +5,11 @@ import { SelectedPostIndexContext } from 'context/PostContextProvider';
 
 const useStyles = makeStyles(theme => ({
   thumbnail: {
-    width: '200px',
-    height: '200px',
+    // width: '200px',
+    // height: '200px',
     overflow: 'hidden',
-    marginRight: '.4rem',
-    marginBottom: '.5rem',
     backgroundPosition: 'center',
-    backgroundSize: '100%',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     transition: theme.transitions.create(['background-size']),
     '&:hover': {
@@ -19,6 +17,7 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: '150%',
     },
     cursor: 'pointer',
+    // margin: theme.spacing(1)
   },
   loaderContainer: {
     height: '100%',

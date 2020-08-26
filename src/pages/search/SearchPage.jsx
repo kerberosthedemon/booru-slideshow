@@ -8,10 +8,29 @@ import usePostList from './usePostList';
 const useStyles = makeStyles(theme => ({
   container: {
     flexGrow: 1,
+    overflow: 'auto',
+  },
+  grid: {
+    display: 'grid',
+    'grid-template-columns': 'repeat(auto-fill, minmax(8rem, 1fr))',
+    'grid-auto-rows': '1fr',
+    gridGap: theme.spacing(1),
     padding: theme.spacing(2),
-    display: 'flex',
-    flexWrap: 'wrap',
-    overflow: 'auto'
+    '&::before': {
+      content: '""',
+      width: '0',
+      'padding-bottom': '100%',
+      'grid-row': '1 / 1',
+      'grid-column': '1 / 1',
+    },
+    '& > :first-child': {
+      'grid-row': '1 / 1',
+      'grid-column': '1 / 1',
+    }
+  },
+  firstChild: {
+    'grid-row': '1 / 1',
+    'grid-column': '1 / 1',
   }
 }))
 
@@ -25,7 +44,9 @@ export default function SearchPage() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} modalActions={modalActions} />)}
+        <div className={classes.grid}>
+          {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} modalActions={modalActions} />)}
+        </div>
       </div>
       <FullModal open={showModal} onClose={modalActions.closeModal} />
     </React.Fragment>

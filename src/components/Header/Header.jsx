@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SideMenu from './SideMenu';
-import SearchInput from './SearchInput';
+import SearchInput from './SearchInput/SearchInput';
+import SideMenu from './SideMenu/SideMenu';
 
 const useStyles = makeStyles(theme => ({
   root: {

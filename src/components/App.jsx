@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react'
-import Content from './Content';
 import useSearchQuery from '../hooks/useSearchQuery';
 import { PostContextProvider } from '../context/PostContextProvider';
+import Content from './Content/Content';
 
 export const FullScreenModalContext = createContext({});
 export const SearchQueryContext = createContext({});

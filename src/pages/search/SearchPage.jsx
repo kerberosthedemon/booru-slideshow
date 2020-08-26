@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
-import PostService from '../../../services/Post/PostService';
-import { PostListContext } from './../../../context/PostContextProvider';
-import { FullScreenModalContext } from './../../App';
-import PostMockService from './../../../services/Post/mock/PostMockService';
+import { PostListContext } from '../../context/PostContextProvider';
+import { FullScreenModalContext } from '../../components/App';
+import PostMockService from './../../services/Post/mock/PostMockService';
 
 const useStyles = makeStyles(theme => ({
   container: {

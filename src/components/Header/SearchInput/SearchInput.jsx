@@ -2,14 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { TextField, Chip, IconButton } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey'
-import { SearchQueryContext } from './App';
-import { BooruConfigurationLoader } from '../services/BooruConfiguration/BooruConfigurationLoader';
-import { PostSearchService } from '../services/Search/PostSearchService';
-import useFocusElementOnStart from '../hooks/useFocusOnStart';
-import { useConfiguration } from '../hooks/useConfiguration';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PostSearchMockService from './../services/Search/mock/PostSearchMockService';
-import { PostListContext } from './../context/PostContextProvider'
+import { PostListContext } from '../../../context/PostContextProvider';
+import { useConfiguration } from '../../../hooks/useConfiguration';
+import useFocusElementOnStart from '../../../hooks/useFocusOnStart';
+import PostSearchMockService from '../../../services/Search/mock/PostSearchMockService';
+import { SearchQueryContext } from 'components/App';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;

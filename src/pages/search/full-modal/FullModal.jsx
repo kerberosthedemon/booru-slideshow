@@ -3,8 +3,8 @@ import { Dialog, DialogContent, makeStyles } from '@material-ui/core';
 import FileRenderer from './file-renderer/FileRenderer';
 import TagsRenderer from './tags-renderer/TagsRenderer';
 import PictureController from './services/PictureController';
-import { SelectedPostIndexContext } from 'components/context/PostContextProvider';
-import { PostListContext } from './../../../../context/PostContextProvider';
+import { SelectedPostIndexContext } from 'context/PostContextProvider';
+import { PostListContext } from '../../../context/PostContextProvider';
 
 const useStyles = makeStyles(() => ({
   noPadding: {

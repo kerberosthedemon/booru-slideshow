@@ -33,7 +33,7 @@ export default function useSearchInput() {
       setPostList(prevState => {
         const length = prevState.length;
         posts.forEach((p, index) => { p.index = index + length });
-        prevState.concat(posts)
+        return prevState.concat(posts)
       });
       startLoadQueue();
     }

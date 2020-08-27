@@ -8,3 +8,9 @@ export const TagsType = {
   CopyrightTag: 7,
   MiscTag: 8
 };
+
+export const PostStatus = {
+  Unloaded: 1,
+  Loading: 2,
+  Loaded: 3
+}

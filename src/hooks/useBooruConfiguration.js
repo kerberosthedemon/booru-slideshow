@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BooruConfigurationLoader } from '../services/BooruConfiguration/BooruConfigurationLoader';
 
-export const useConfiguration = () => {
+export const useBooruConfiguration = () => {
   const [configs, setConfigs] = useState([]);
 
   useEffect(() => {

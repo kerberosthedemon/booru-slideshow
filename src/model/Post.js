@@ -1,3 +1,5 @@
+import { PostStatus } from "./Enums";
+
 export default class Post {
   constructor(id, thumbURL, sampleURL, fullURL, width, height, tags, artists, rating, charactersTags, speciesTags, copyrightTags) {
     this.id = id;
@@ -17,6 +19,7 @@ export default class Post {
     this.charactersTags = charactersTags;
     this.speciesTags = speciesTags;
     this.copyrightTags = copyrightTags;
+    this.status = PostStatus.Unloaded;
   }
 
   getFileType = () => {

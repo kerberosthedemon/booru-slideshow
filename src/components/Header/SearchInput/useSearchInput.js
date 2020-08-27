@@ -1,9 +1,10 @@
 
 import PostSearchMockService from './../../../services/Search/mock/PostSearchMockService';
-import { useConfiguration } from './../../../hooks/useConfiguration';
+import { useBooruConfiguration } from '../../../hooks/useBooruConfiguration';
 import { useState, useContext, useEffect } from 'react';
 import { SearchQueryContext } from 'components/App';
 import { PostListContext } from './../../../context/PostContextProvider';
+import usePostLoadingQueue from 'hooks/usePostLoadingQueue';
 
 export default function useSearchInput() {
   const BACKSPACE_KEYCODE = 8;
@@ -11,13 +12,15 @@ export default function useSearchInput() {
   const ENTER_KEYCODE = 13;
 
   const searchService = new PostSearchMockService();
-  const [configurations, configActions] = useConfiguration();
+  const [configurations, configActions] = useBooruConfiguration();
 
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
   const [tags, tagActions] = useContext(SearchQueryContext);
   const [, setPostList] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const startLoadQueue = usePostLoadingQueue();
 
   const handleChange = event => {
     const text = event.target.value;
@@ -27,7 +30,12 @@ export default function useSearchInput() {
   useEffect(() => {
     const search = async (booruConfiguration) => {
       var posts = await searchService.search({ tags, page: 0 }, booruConfiguration);
-      setPostList(prevState => prevState.concat(posts));
+      setPostList(prevState => {
+        const length = prevState.length;
+        posts.forEach((p, index) => { p.index = index + length });
+        prevState.concat(posts)
+      });
+      startLoadQueue();
     }
 
     if (isSubmit) {

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import useModal from './useModal';
 import usePostList from './usePostList';
+import { PostListContext } from 'context/PostContextProvider';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -39,7 +40,7 @@ export default function SearchPage() {
   const classes = useStyles();
 
   const [showModal, modalActions] = useModal();
-  const postList = usePostList();
+  const [postList,] = useContext(PostListContext);
 
   return (
     <React.Fragment>

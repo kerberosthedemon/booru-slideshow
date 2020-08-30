@@ -3,17 +3,20 @@ import { useState, useEffect, useContext } from 'react';
 import { PostListContext } from '../context/PostContextProvider';
 import useAppConfiguration from './useAppConfiguration';
 import { PostStatus } from 'model/Enums';
+import usePostLoadingService from './usePostLoadingService';
+import useArrayStateWithCallback from './useArrayStateWithCallback';
 
 export default function usePostLoadingQueue() {
   const config = useAppConfiguration();
-  let lastIndex = 0;
+  const [lastIndex, setLastIndex] = useState(0);
 
   const [postList,] = useContext(PostListContext);
+
   const [postListQueue, setQueue] = useState([]);
-  //const loadPost = usePostLoadService();
+  const loadPost = usePostLoadingService(postListQueue);
 
   const queueFreeSpaces = () => config.maxPostQueue - postListQueue.length;
-  const canAddToQueue = () => queueFreeSpaces() > 0 && postList[lastIndex + 1];
+  const canAddToQueue = () => queueFreeSpaces() > 0 && postList[lastIndex];
 
   // secuentially adds posts to the queue as the previous complete loading 
   // then starts the loading process
@@ -26,7 +29,7 @@ export default function usePostLoadingQueue() {
 
     const postsNotLoaded = postListQueue.filter(p => p.status)
     postsNotLoaded.forEach(post => {
-      //loadPost(post);
+      loadPost(post);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,10 +38,11 @@ export default function usePostLoadingQueue() {
   const addToQueue = amount => {
     setQueue(prevQueue => {
       const unloadedPosts = postList.filter(p => p.status === PostStatus.Unloaded);
-      const postsToLoad = unloadedPosts.slice(lastIndex + 1, amount);
+      const postsToLoad = unloadedPosts.slice(lastIndex, amount);
       if (postsToLoad.length > 0) {
-        lastIndex = postsToLoad.map(p => p.index).max();
-        prevQueue.concat(postsToLoad);
+        const indexes = postsToLoad.map(p => p.index);
+        setLastIndex(Math.max(indexes) + 1);
+        prevQueue = prevQueue.concat(postsToLoad);
       }
       return prevQueue;
     })
@@ -49,6 +53,8 @@ export default function usePostLoadingQueue() {
       addToQueue(config.maxPostQueue);
     }
   }
+
+  useArrayStateWithCallback(postList, startLoadingQueue);
 
   return startLoadingQueue;
 }

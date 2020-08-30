@@ -17,10 +17,10 @@ export default function useSearchInput() {
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
   const [tags, tagActions] = useContext(SearchQueryContext);
-  const [, setPostList] = useContext(PostListContext);
+  const [, postListActions] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const startLoadQueue = usePostLoadingQueue();
+  usePostLoadingQueue();
 
   const handleChange = event => {
     const text = event.target.value;
@@ -30,12 +30,11 @@ export default function useSearchInput() {
   useEffect(() => {
     const search = async (booruConfiguration) => {
       var posts = await searchService.search({ tags, page: 0 }, booruConfiguration);
-      setPostList(prevState => {
+      postListActions.setPostList(prevState => {
         const length = prevState.length;
         posts.forEach((p, index) => { p.index = index + length });
         return prevState.concat(posts)
       });
-      startLoadQueue();
     }
 
     if (isSubmit) {

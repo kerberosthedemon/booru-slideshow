@@ -6,13 +6,13 @@ export default function usePostList() {
 
   const postService = new PostMockService();
   const [postCount, setPostCount] = useState(0);
-  const [postList, setPostList] = useContext(PostListContext);
+  const [postList, postListActions] = useContext(PostListContext);
 
   const [loadingPost, setLoadingPost] = useState(false);
 
   const loadPost = async (post, index) => {
     const blobURL = await postService.loadPost(post, (progressEvent) => handleProgress(index, progressEvent), handleError);
-    setPostList(prevState => {
+    postListActions.setPostList(prevState => {
       prevState[index].fullBlobURL = blobURL;
       return prevState;
     });
@@ -25,7 +25,7 @@ export default function usePostList() {
 
   const handleProgress = (index, progressEvent) => {
     if (postList) {
-      setPostList(prevState => {
+      postListActions.setPostList(prevState => {
         let newPostList = [];
         prevState[index].loadingPercentage = calculateProgress(progressEvent);
         newPostList = newPostList.concat(prevState);

@@ -20,14 +20,20 @@ export class PostSearchService {
     let response = await this.getPosts(searchQuery, booruConfiguration);
     const jsonResponse = this.formatterService.formatResponse(response, booruConfiguration);
     return new Promise((resolve) => {
-      resolve(jsonResponse.map(jsonPost => {
-        try {
-          return this.postFactory.generateNewPost(jsonPost, booruConfiguration);
-        }
-        catch (exception) {
-          return alert(`Post ID: ${jsonPost.id} \nException: ${exception}`);
-        }
-      }).filter(element => element !== null))
+      resolve(
+        jsonResponse.map(jsonPost => {
+          try {
+            return this.postFactory.generateNewPost(jsonPost, booruConfiguration);
+          }
+          catch (exception) {
+            console.log(jsonPost, "Error Post");
+            return alert(`Post ID: ${jsonPost.id} \nException: ${exception}`);
+          }
+        })
+          .filter(
+            element => {
+              return element && element.fullURL;
+            }))
     })
   }
 

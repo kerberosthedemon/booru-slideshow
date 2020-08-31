@@ -2,8 +2,9 @@
 import { useContext } from 'react';
 import { PostListContext } from './../context/PostContextProvider';
 import PostService from './../services/Post/PostService';
+import { PostStatus } from 'model/Enums';
 
-export default function usePostLoadingService(postQueue) {
+export default function usePostLoadingService(postQueue, removePostFromQueue) {
   const [, postListActions] = useContext(PostListContext);
   const postService = new PostService();
 
@@ -13,7 +14,8 @@ export default function usePostLoadingService(postQueue) {
     const postIndex = postQueue.findIndex(p => url.includes(p.fullURL) || url.includes(p.sampleURL));
 
     if (postIndex > -1) {
-      postListActions.setProgress(postIndex, loadPercentage);
+      const post = postQueue[postIndex];
+      postListActions.setProgress(post.index, loadPercentage);
     }
   }
 
@@ -25,8 +27,18 @@ export default function usePostLoadingService(postQueue) {
     return Math.trunc(progressEvent.loaded * 100 / progressEvent.total);
   }
 
-  const loadPost = (post) => {
-    postService.loadPost(post, handleProgress, handleError)
+  const loadPost = async (post) => {
+    postListActions.setPostList(prevState => {
+      prevState[post.index].status = PostStatus.Loading;
+      return prevState;
+    });
+    const blobURL = await postService.loadPost(post, handleProgress, handleError)
+    postListActions.setPostList(prevState => {
+      prevState[post.index].fullBlobURL = blobURL;
+      prevState[post.index].status = PostStatus.Loaded;
+      return prevState;
+    });
+    removePostFromQueue(post);
   }
 
   return loadPost;

@@ -5,13 +5,14 @@ import { useState, useContext, useEffect } from 'react';
 import { SearchQueryContext } from 'components/App';
 import { PostListContext } from './../../../context/PostContextProvider';
 import usePostLoadingQueue from 'hooks/usePostLoadingQueue';
+import { PostSearchService } from '../../../services/Search/PostSearchService';
 
 export default function useSearchInput() {
   const BACKSPACE_KEYCODE = 8;
   const SPACE_KEYCODE = 32;
   const ENTER_KEYCODE = 13;
 
-  const searchService = new PostSearchMockService();
+  const searchService = new PostSearchService();
   const [configurations, configActions] = useBooruConfiguration();
 
   const [inputText, setInputText] = useState('');

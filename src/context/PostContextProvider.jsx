@@ -1,7 +1,5 @@
 import React from 'react';
 import { createContext, useState } from 'react';
-import { useEffect } from 'react';
-import useArrayStateWithCallback from './../hooks/useArrayStateWithCallback';
 
 export const PostListContext = createContext();
 export const SelectedPostIndexContext = createContext();
@@ -14,12 +12,11 @@ export const PostContextProvider = ({ children }) => {
 
   const setProgress = (index, value) => {
     setPostList(posts => {
+      const newPosts = [];
       posts[index].loadingPercentage = value;
-      return posts;
+      return newPosts.concat(posts);
     });
   }
-
-
 
   const actions = { setProgress, setPostList }
 

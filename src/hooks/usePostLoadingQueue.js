@@ -13,7 +13,13 @@ export default function usePostLoadingQueue() {
   const [postList,] = useContext(PostListContext);
 
   const [postListQueue, setQueue] = useState([]);
-  const loadPost = usePostLoadingService(postListQueue);
+
+  const removePostFromQueue = (post) => {
+    if (postListQueue.find(postInQueue => postInQueue.index === post.index))
+      setQueue(prev => prev.filter(p => p.index !== post.index))
+  }
+
+  const loadPost = usePostLoadingService(postListQueue, removePostFromQueue);
 
   const queueFreeSpaces = () => config.maxPostQueue - postListQueue.length;
   const canAddToQueue = () => queueFreeSpaces() > 0 && postList[lastIndex];
@@ -27,7 +33,9 @@ export default function usePostLoadingQueue() {
       return;
     }
 
-    const postsNotLoaded = postListQueue.filter(p => p.status)
+    const postsNotLoaded = postListQueue.filter(p => {
+      return p.status === 1;
+    })
     postsNotLoaded.forEach(post => {
       loadPost(post);
     });
@@ -37,11 +45,14 @@ export default function usePostLoadingQueue() {
 
   const addToQueue = amount => {
     setQueue(prevQueue => {
-      const unloadedPosts = postList.filter(p => p.status === PostStatus.Unloaded);
-      const postsToLoad = unloadedPosts.slice(lastIndex, amount);
+      const unloadedPosts = postList.filter(p => p.status === PostStatus.Unloaded
+        && !prevQueue.find(
+          queuePost => queuePost.index === p.index
+        ));
+      const postsToLoad = unloadedPosts.slice(0, amount);
       if (postsToLoad.length > 0) {
         const indexes = postsToLoad.map(p => p.index);
-        setLastIndex(Math.max(indexes) + 1);
+        setLastIndex(Math.max(...indexes) + 1);
         prevQueue = prevQueue.concat(postsToLoad);
       }
       return prevQueue;

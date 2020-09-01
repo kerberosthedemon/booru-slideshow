@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Paper, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { SelectedPostIndexContext } from 'context/PostContextProvider';
+import { PostStatus } from 'model/Enums';
 
 const useStyles = makeStyles(theme => ({
   thumbnail: {
@@ -65,9 +66,8 @@ export default function Thumbnail({ post, index, modalActions }) {
         !post.fullBlobURL &&
         (
           <div className={classes.loaderContainer}>
-            <div className={classes.percentageText}>{post.loadingPercentage}%</div>
-            {/* <div className={classes.loadingBackground}></div> */}
-            <div className={classes.spinner}><CircularProgress className={classes.circularProgress} disableShrink color="secondary" size={60} /></div>
+            {post.status === PostStatus.Loading && <div className={classes.percentageText}>{post.loadingPercentage}%</div>}
+            {post.status === PostStatus.Loading && <div className={classes.spinner}><CircularProgress className={classes.circularProgress} disableShrink color="secondary" size={60} /></div>}
             <div className={classes.background}></div>
           </div>
         )

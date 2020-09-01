@@ -12,7 +12,7 @@ export default function useSearchInput() {
   const SPACE_KEYCODE = 32;
   const ENTER_KEYCODE = 13;
 
-  const searchService = new PostSearchService();
+  const searchService = new PostSearchMockService();
   const [configurations, configActions] = useBooruConfiguration();
 
   const [inputText, setInputText] = useState('');

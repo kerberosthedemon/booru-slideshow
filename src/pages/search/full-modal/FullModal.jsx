@@ -32,6 +32,9 @@ export default function FullModal({ open, onClose }) {
       controller.handleInput(input, setStyle);
     }
     else {
+      if (input.key === 'Escape') {
+        onClose();
+      }
       if (input.type === "keyup")
         switchSelectedPicture(input);
     }
@@ -65,7 +68,7 @@ export default function FullModal({ open, onClose }) {
   }
 
   return (
-    <Dialog fullScreen scroll="paper" open={open} onClose={onClose}>
+    <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleInput} onKeyUp={handleInputUp}>
       <DialogContent className={classes.noPadding}>
         {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} customStyle={style} />}
         {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}

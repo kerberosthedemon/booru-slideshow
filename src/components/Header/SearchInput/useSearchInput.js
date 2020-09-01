@@ -17,7 +17,7 @@ export default function useSearchInput() {
 
   const [inputText, setInputText] = useState('');
   const [textChanged, setTextChanged] = useState(false);
-  const [tags, tagActions] = useContext(SearchQueryContext);
+  const [tags, tagActions, page] = useContext(SearchQueryContext);
   const [, postListActions] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
 
@@ -30,7 +30,7 @@ export default function useSearchInput() {
 
   useEffect(() => {
     const search = async (booruConfiguration) => {
-      var posts = await searchService.search({ tags, page: 0 }, booruConfiguration);
+      var posts = await searchService.search({ tags, page }, booruConfiguration);
       postListActions.setPostList(prevState => {
         const length = prevState.length;
         posts.forEach((p, index) => { p.index = index + length });
@@ -45,7 +45,7 @@ export default function useSearchInput() {
         }
       });
     }
-  }, [tags]);
+  }, [tags, page]);
 
 
   const handleKeyUp = event => {

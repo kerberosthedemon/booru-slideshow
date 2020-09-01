@@ -5,6 +5,7 @@ import FullModal from './full-modal/FullModal';
 import useModal from './useModal';
 import usePostList from './usePostList';
 import { PostListContext } from 'context/PostContextProvider';
+import LoadMoreButton from './load-more-button/LoadMoreButton';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -47,6 +48,7 @@ export default function SearchPage() {
       <div className={classes.container}>
         <div className={classes.grid}>
           {postList.map && postList.map((post, index) => <Thumbnail post={post} index={index} key={`thumbnail_${index}`} modalActions={modalActions} />)}
+          {postList.length > 0 && <LoadMoreButton />}
         </div>
       </div>
       <FullModal open={showModal} onClose={modalActions.closeModal} />

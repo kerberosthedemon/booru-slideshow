@@ -7,5 +7,5 @@ export default function useSearchQuery() {
 
   const actions = { ...tagActions }
 
-  return [tags, actions];
+  return [tags, actions, page, setPage];
 }

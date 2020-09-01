@@ -9,10 +9,10 @@ export default function App() {
   const searchQuery = useSearchQuery();
 
   return (
-    <SearchQueryContext.Provider value={searchQuery}>
-      <PostContextProvider>
+    <PostContextProvider>
+      <SearchQueryContext.Provider value={searchQuery}>
         <Content />
-      </PostContextProvider>
-    </SearchQueryContext.Provider>
+      </SearchQueryContext.Provider>
+    </PostContextProvider>
   )
 }

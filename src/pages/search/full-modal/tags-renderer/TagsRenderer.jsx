@@ -2,6 +2,8 @@ import React from 'react'
 import { makeStyles, DialogContent, Chip, Grid } from '@material-ui/core';
 import * as colors from '@material-ui/core/colors';
 import { Typography } from '@material-ui/core';
+import ChipWithButtons from 'components/ChipWithButtons/ChipWithButtons';
+import ChipButton from 'components/ChipWithButtons/ChipButton/ChipButton';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -44,6 +46,10 @@ const useStyles = makeStyles(theme => ({
 export default function TagsRenderer({ selectedPost }) {
   const classes = useStyles();
 
+  const addTag = () => {
+    alert('tag added');
+  }
+
   const getRatingColor = (rating) => {
     switch (rating) {
       case "safe":
@@ -65,7 +71,10 @@ export default function TagsRenderer({ selectedPost }) {
       <Grid item className={classes.container}>
         <Typography className={classes.title}>{title}</Typography>
         {tags.map((tag, index) => (
-          <Chip label={tag} key={`tag_${title}_${index}`} className={extraClass ? `${classes.chip} + ${extraClass}` : classes.chip} />
+          <ChipWithButtons label={tag} key={`tag_${title}_${index}`} className={extraClass ? `${classes.chip} + ${extraClass}` : classes.chip}>
+            <ChipButton onClick={addTag}>+</ChipButton>
+            <ChipButton onClick={addTag}>-</ChipButton>
+          </ChipWithButtons>
         ))}
       </Grid>
     );

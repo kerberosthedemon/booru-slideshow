@@ -9,14 +9,15 @@ const useStyles = makeStyles({
   loadingScreenContainer: {
     height: '100%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   loadingScreen: {
     margin: 'auto'
   }
 });
 
-export default function FileRenderer({ selectedPost, customStyle }) {
+export default function FileRenderer({ selectedPost, transform }) {
 
   const classes = useStyles();
 
@@ -42,7 +43,11 @@ export default function FileRenderer({ selectedPost, customStyle }) {
         <img className={classes.image}
           alt=""
           src={selectedPost.fullBlobURL}
-          style={customStyle} />
+          style={{
+            transform: `translateX(${transform.posX}px) 
+                        translateY(${transform.posY}px) 
+                        scale(${transform.zoom})`
+          }} />
       </div>
   }
 

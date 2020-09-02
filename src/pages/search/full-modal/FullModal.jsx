@@ -5,47 +5,64 @@ import TagsRenderer from './tags-renderer/TagsRenderer';
 import PictureController from './services/PictureController';
 import { SelectedPostIndexContext } from 'context/PostContextProvider';
 import { PostListContext } from '../../../context/PostContextProvider';
+import usePictureController from './usePictureController';
 
 const useStyles = makeStyles(() => ({
   noPadding: {
     paddingTop: '0 !important'
   }
+
 }));
 
 export default function FullModal({ open, onClose }) {
+  const classes = useStyles();
   const [postList] = useContext(PostListContext);
   const [selectedPostIndex, setSelectedPostIndex] = useContext(SelectedPostIndexContext);
-  const [editMode, setEditMode] = useState(false);
-  const [style, setStyle] = useState();
-  const controller = new PictureController(onClose);
-  const classes = useStyles();
 
-  const handleInputUp = input => {
-    input.isKeyUp = true;
-    handleInput(input);
+  const [transform, handlers] = usePictureController(onClose);
+  const [editMode, setEditMode] = useState(false);
+
+  const handleKeyUp = event => {
+    switch (event.key) {
+      case 'c':
+        handlers.handleKeyUp(event);
+        setEditMode(false);
+        break;
+
+      case 'a':
+      case 'd':
+        if (editMode)
+          handlers.handleKeyUp(event);
+
+        switchSelectedPicture(event);
+        break;
+
+      default:
+        if (editMode)
+          handlers.handleKeyUp(event);
+        break;
+    }
   }
 
-  const handleInput = input => {
-    handleEditMode(input);
-
+  const handleKeyDown = event => {
     if (editMode) {
-      controller.handleInput(input, setStyle);
+      handlers.handleKeyDown(event);
     }
     else {
-      if (input.key === 'Escape') {
-        onClose();
-      }
-      if (input.type === "keyup")
-        switchSelectedPicture(input);
-    }
-  }
+      switch (event.key) {
+        case 'q':
+          setEditMode(true);
+          handlers.handleKeyDown(event);
+          break;
 
-  const handleEditMode = input => {
-    if (!editMode && (input.key === 'q' || input.key === 'e')) {
-      setEditMode(true);
-    }
-    else if (editMode && input.key === 'c') {
-      setEditMode(false);
+        case 'e':
+          setEditMode(true);
+          handlers.handleKeyDown(event);
+          break;
+
+        default:
+          break;
+      }
     }
   }
 
@@ -68,9 +85,9 @@ export default function FullModal({ open, onClose }) {
   }
 
   return (
-    <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleInput} onKeyUp={handleInputUp}>
+    <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
       <DialogContent className={classes.noPadding}>
-        {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} customStyle={style} />}
+        {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} transform={transform} />}
         {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}
       </DialogContent>
     </Dialog>

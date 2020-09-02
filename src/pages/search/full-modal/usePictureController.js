@@ -72,7 +72,7 @@ export default function usePictureController(closeDialog) {
         if (!IposX)
           setIposX(
             setInterval(() => {
-              setPosX((prev) => prev - 10 * zoom);
+              setPosX((prev) => prev + 10 * zoom);
             }, 25)
           );
         break;
@@ -81,7 +81,7 @@ export default function usePictureController(closeDialog) {
         if (!IposX)
           setIposX(
             setInterval(() => {
-              setPosX((prev) => prev + 10 * zoom);
+              setPosX((prev) => prev - 10 * zoom);
             }, 25)
           );
         break;

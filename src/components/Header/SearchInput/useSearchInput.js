@@ -1,22 +1,23 @@
 
-import PostSearchMockService from './../../../services/Search/mock/PostSearchMockService';
 import { useBooruConfiguration } from '../../../hooks/useBooruConfiguration';
 import { useState, useContext, useEffect } from 'react';
 import { SearchQueryContext } from 'components/App';
 import { PostListContext } from './../../../context/PostContextProvider';
 import usePostLoadingQueue from 'hooks/usePostLoadingQueue';
+//import PostSearchMockService from './../../../services/Search/mock/PostSearchMockService';
 import { PostSearchService } from '../../../services/Search/PostSearchService';
 
+const BACKSPACE_KEYCODE = 8;
+const SPACE_KEYCODE = 32;
+const ENTER_KEYCODE = 13;
+
 export default function useSearchInput() {
-  const BACKSPACE_KEYCODE = 8;
-  const SPACE_KEYCODE = 32;
-  const ENTER_KEYCODE = 13;
 
   const searchService = new PostSearchService();
-  const [configurations, configActions] = useBooruConfiguration();
+  const [configurations,] = useBooruConfiguration();
 
   const [inputText, setInputText] = useState('');
-  const [textChanged, setTextChanged] = useState(false);
+  const [canRemoveTags, setCanRemoveTags] = useState(false);
   const [tags, tagActions, page] = useContext(SearchQueryContext);
   const [, postListActions] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -28,16 +29,16 @@ export default function useSearchInput() {
     setInputText(text);
   }
 
-  useEffect(() => {
-    const search = async (booruConfiguration) => {
-      var posts = await searchService.search({ tags, page }, booruConfiguration);
-      postListActions.setPostList(prevState => {
-        const length = prevState.length;
-        posts.forEach((p, index) => { p.index = index + length });
-        return prevState.concat(posts)
-      });
-    }
+  const search = async (booruConfiguration) => {
+    var posts = await searchService.search({ tags, page }, booruConfiguration);
+    postListActions.setPostList(prevState => {
+      const length = prevState.length;
+      posts.forEach((p, index) => { p.index = index + length });
+      return prevState.concat(posts)
+    });
+  }
 
+  useEffect(() => {
     if (isSubmit) {
       configurations.forEach((config) => {
         if (config.isEnabled) {
@@ -45,7 +46,23 @@ export default function useSearchInput() {
         }
       });
     }
-  }, [tags, page]);
+
+    return setIsSubmit(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tags]);
+
+  useEffect(() => {
+
+    configurations.forEach((config) => {
+      if (config.isEnabled) {
+        search(config);
+      }
+    });
+
+
+    return setIsSubmit(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
 
   const handleKeyUp = event => {
@@ -63,7 +80,7 @@ export default function useSearchInput() {
         break;
 
       case BACKSPACE_KEYCODE:
-        if (inputText === '') {
+        if (inputText === '' && canRemoveTags) {
           tagActions.removeLastTag();
           setInputText('');
         }
@@ -73,7 +90,10 @@ export default function useSearchInput() {
         break;
     }
 
-    setTextChanged(false);
+    if (inputText === '')
+      setCanRemoveTags(true);
+    else
+      setCanRemoveTags(false);
   }
 
   const inputActions = { handleKeyUp, handleChange }

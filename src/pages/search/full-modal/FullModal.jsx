@@ -1,15 +1,18 @@
 import React, { useContext, useState } from 'react'
-import { Dialog, DialogContent, makeStyles } from '@material-ui/core';
+import { Dialog, makeStyles } from '@material-ui/core';
 import FileRenderer from './file-renderer/FileRenderer';
 import TagsRenderer from './tags-renderer/TagsRenderer';
-import PictureController from './services/PictureController';
 import { SelectedPostIndexContext } from 'context/PostContextProvider';
 import { PostListContext } from '../../../context/PostContextProvider';
 import usePictureController from './usePictureController';
 
 const useStyles = makeStyles(() => ({
-  noPadding: {
-    paddingTop: '0 !important'
+  grid: {
+    display: 'grid',
+    gridTemplateRows: '1fr 1fr',
+    'grid-template-rows': '100% 1fr',
+    'grid-template-columns': '100%',
+    'overflow-x': 'hidden',
   }
 
 }));
@@ -19,15 +22,15 @@ export default function FullModal({ open, onClose }) {
   const [postList] = useContext(PostListContext);
   const [selectedPostIndex, setSelectedPostIndex] = useContext(SelectedPostIndexContext);
 
-  const [transform, handlers] = usePictureController(onClose);
+  const [transform, handlers, picControllerActions] = usePictureController();
   const [editMode, setEditMode] = useState(false);
 
   const handleKeyUp = event => {
     switch (event.key) {
       case 'Escape':
-      case 'c':
-        handlers.handleKeyUp(event);
+        picControllerActions.resetTransform();
         setEditMode(false);
+        onClose();
         break;
 
       case 'a':
@@ -87,10 +90,10 @@ export default function FullModal({ open, onClose }) {
 
   return (
     <Dialog fullScreen scroll="paper" open={open} onClose={onClose} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
-      <DialogContent className={classes.noPadding}>
+      <div className={classes.grid}>
         {selectedPostIndex !== null && <FileRenderer selectedPost={postList[selectedPostIndex]} transform={transform} />}
         {selectedPostIndex !== null && <TagsRenderer selectedPost={postList[selectedPostIndex]} />}
-      </DialogContent>
+      </div>
     </Dialog>
   )
 }

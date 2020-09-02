@@ -15,7 +15,9 @@ export const useBooruConfiguration = () => {
   const toggleConfig = (index) => {
     if (configs[index]) {
       setConfigs((prevConfigs) => {
-        prevConfigs[index].isEnabled = !prevConfigs[index].isEnabled;
+        const updatedConfigs = prevConfigs.slice();
+        updatedConfigs[index].isEnabled = !updatedConfigs[index].isEnabled;
+        return updatedConfigs;
       });
     }
   };

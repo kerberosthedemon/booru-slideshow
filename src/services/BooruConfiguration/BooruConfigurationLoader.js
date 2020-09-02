@@ -1,4 +1,4 @@
-import * as booruConfigs from './Booru.config.json';
+import * as booruConfigs from 'configs/Booru.config.json';
 import { BooruConfiguration } from '../../model/BooruConfiguration';
 
 export class BooruConfigurationLoader {

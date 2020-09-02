@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function usePictureController(closeDialog) {
+export default function usePictureController() {
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
 
@@ -54,11 +54,6 @@ export default function usePictureController(closeDialog) {
 
       case "c":
         resetTransform();
-        break;
-
-      case "Escape":
-        resetTransform();
-        closeDialog();
         break;
 
       default:
@@ -129,6 +124,7 @@ export default function usePictureController(closeDialog) {
 
   const transform = { posX, posY, zoom };
   const handlers = { handleKeyDown, handleKeyUp };
+  const actions = { resetTransform }
 
-  return [transform, handlers];
+  return [transform, handlers, actions];
 }

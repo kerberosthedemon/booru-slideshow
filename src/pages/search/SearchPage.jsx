@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import Thumbnail from './thumbnail/Thumbnail';
 import FullModal from './full-modal/FullModal';
 import useModal from './useModal';
-import usePostList from './usePostList';
 import { PostListContext } from 'context/PostContextProvider';
 import LoadMoreButton from './load-more-button/LoadMoreButton';
 

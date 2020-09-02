@@ -17,10 +17,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LoadMoreButton({ onClick }) {
+export default function LoadMoreButton() {
 
   const classes = useStyles();
-  const [tags, tagActions, page, setPage] = useContext(SearchQueryContext)
+  const [, , , setPage] = useContext(SearchQueryContext)
 
   const handleClick = () => {
     setPage(prevPage => prevPage + 1);

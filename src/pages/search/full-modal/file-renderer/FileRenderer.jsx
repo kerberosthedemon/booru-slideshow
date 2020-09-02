@@ -3,7 +3,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   image: {
-    height: '100%',
+    maxHeight: '100%',
     margin: 'auto',
   },
   loadingScreenContainer: {

@@ -8,11 +8,11 @@ import useArrayStateWithCallback from './useArrayStateWithCallback';
 
 export default function usePostLoadingQueue() {
   const config = useAppConfiguration();
-  const [lastIndex, setLastIndex] = useState(0);
 
   const [postList,] = useContext(PostListContext);
-
   const [postListQueue, setQueue] = useState([]);
+
+  const [lastIndex, setLastIndex] = useState(0);
 
   const removePostFromQueue = (post) => {
     if (postListQueue.find(postInQueue => postInQueue.index === post.index))

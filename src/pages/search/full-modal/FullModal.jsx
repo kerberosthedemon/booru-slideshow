@@ -33,6 +33,11 @@ export default function FullModal({ open, onClose }) {
         onClose();
         break;
 
+      case 'c':
+        picControllerActions.resetTransform();
+        setEditMode(false);
+        break;
+
       case 'a':
       case 'd':
         if (editMode)

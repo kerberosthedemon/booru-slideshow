@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
     'grid-template-rows': '100% 1fr',
     'grid-template-columns': '100%',
     'overflow-x': 'hidden',
+    height: '100%'
   }
 
 }));

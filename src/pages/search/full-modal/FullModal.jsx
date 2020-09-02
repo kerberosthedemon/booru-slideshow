@@ -33,8 +33,8 @@ export default function FullModal({ open, onClose }) {
       case 'd':
         if (editMode)
           handlers.handleKeyUp(event);
-
-        switchSelectedPicture(event);
+        else
+          switchSelectedPicture(event);
         break;
 
       default:

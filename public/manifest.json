@@ -1,6 +1,7 @@
 {
   "name": "Booru-Slideshow",
-  "version": "1.1",
+  "version": "1.2",
+  "description": "A booru based extension for image searching and browsing",
   "manifest_version": 2,
   "browser_action": {},
   "icons": {

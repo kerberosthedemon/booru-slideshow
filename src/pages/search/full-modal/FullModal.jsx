@@ -24,6 +24,7 @@ export default function FullModal({ open, onClose }) {
 
   const handleKeyUp = event => {
     switch (event.key) {
+      case 'Escape':
       case 'c':
         handlers.handleKeyUp(event);
         setEditMode(false);

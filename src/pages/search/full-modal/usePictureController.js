@@ -57,6 +57,7 @@ export default function usePictureController(closeDialog) {
         break;
 
       case "Escape":
+        resetTransform();
         closeDialog();
         break;
 

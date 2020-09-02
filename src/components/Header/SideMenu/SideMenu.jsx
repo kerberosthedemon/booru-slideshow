@@ -10,6 +10,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { IconButton, Typography, Toolbar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const drawerWidth = 240;
 
@@ -39,11 +40,15 @@ export default function SideMenu({ showSideMenu, toggleDrawer }) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          News
+          Menu
         </Typography>
       </Toolbar>
       <Divider />
       <List>
+        <ListItem button>
+          <ListItemIcon><SettingsIcon /></ListItemIcon>
+          <ListItemText primary={'Settings'} />
+        </ListItem>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={`listItem1_${text}`}>
             <ListItemIcon key={`listItemIcon1_${text}`}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>

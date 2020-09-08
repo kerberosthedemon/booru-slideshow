@@ -32,7 +32,7 @@ export default function useTags() {
 
   const addTagsFromString = (text) => {
     const tags = getTagsFromString(text);
-    if (tags && tags.length > 0) {
+    if (tags && tags.length >= 0) {
       addMultipleTags(tags);
     }
   };

@@ -3,7 +3,7 @@ export class SearchQueryService {
   getQueryParameters = (searchQuery, booruConfiguration) => {
     return this.getTagsQuery(searchQuery)
       + this.getPageQuery(searchQuery, booruConfiguration)
-      + this.getLimitQuery(searchQuery);
+      + this.getLimitQuery(searchQuery, booruConfiguration);
   }
 
   getTagsQuery(searchQuery) {
@@ -18,7 +18,10 @@ export class SearchQueryService {
     return booruConfiguration.isXMLFormat ? `&pid=${pageNumber}` : `&page=${pageNumber}`;
   }
 
-  getLimitQuery(searchQuery) {
+  getLimitQuery(searchQuery, booruConfiguration) {
+    if (booruConfiguration.resultLimit && booruConfiguration.resultLimit > 1) {
+      return `&limit=${booruConfiguration.resultLimit}`;
+    }
     return searchQuery.resultsPerPage ? `&limit=${searchQuery.resultsPerPage}` : '';
   }
 }

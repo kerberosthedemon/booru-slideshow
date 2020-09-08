@@ -18,17 +18,27 @@
     "ratingPropertyName": "rating",
     "shouldFormatTags": false,
     "startPageIndexOffset": 1,
-    "isEnabled": true
+    "isEnabled": false
   },
   {
     "configName": "Rule 34",
     "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index",
-    "isEnabled": true
+    "isEnabled": false
   },
   {
     "configName": "SakugaBooru",
     "baseURL": "https://www.sakugabooru.com/post.json?",
     "isXMLFormat": false,
     "isEnabled": false
+  },
+  {
+    "configName": "ATFBooru",
+    "baseURL": "https://booru.allthefallen.moe/posts.json?",
+    "isXMLFormat": false,
+    "tagsProperyName": "tag_string",
+    "previewURLPropertyName": "preview_file_url",
+    "sampleURLPropertyName": "file_url",
+    "fileURLPropertyName": "large_file_url",
+    "resultLimit": 100
   }
 ]

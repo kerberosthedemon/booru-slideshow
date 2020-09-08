@@ -14,4 +14,5 @@ export class BooruConfiguration {
   isEnabled = true;
   responseDataObject = null;
   shouldFormatTags = true;
+  resultLimit = null;
 }

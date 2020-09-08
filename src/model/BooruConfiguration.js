@@ -7,7 +7,7 @@ export class BooruConfiguration {
   fileWidthPropertyName = 'width';
   fileHeightPropertyName = 'height';
   tagsProperyName = 'tags';
-  artistsPropertyName = 'artist';
+  artistsPropertyName = null;
   ratingPropertyName = 'rating';
   isXMLFormat = true;
   startPageIndexOffset = 0;

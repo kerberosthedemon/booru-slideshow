@@ -18,12 +18,12 @@
     "ratingPropertyName": "rating",
     "shouldFormatTags": false,
     "startPageIndexOffset": 1,
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "Rule 34",
     "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index",
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "SakugaBooru",
@@ -39,6 +39,10 @@
     "previewURLPropertyName": "preview_file_url",
     "sampleURLPropertyName": "file_url",
     "fileURLPropertyName": "large_file_url",
-    "resultLimit": 100
+    "resultLimit": 100,
+    "artistsPropertyName": "tag_string_artist",
+    "charactersPropertyName": "tag_string_character",
+    "copyrightTagPropertyName": "tag_string_copyright",
+    "isEnabled": true
   }
 ]

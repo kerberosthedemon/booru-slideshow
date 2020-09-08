@@ -47,12 +47,6 @@ export class PostFactory {
     return booruConfiguration.shouldFormatTags ? tags.split(' ').filter(el => el !== "") : tags;
   }
 
-  getArtistsFromJson = (json, booruConfiguration) => {
-    let artists = this.resolve(booruConfiguration.artistsPropertyName, json);
-    if (!artists) artists = [];
-    return this.isXMLFormat ? [artists] : artists
-  }
-
   getRatingFromJson = (json, booruConfiguration) => {
     switch (this.resolve(booruConfiguration.ratingPropertyName, json)) {
       case "s":
@@ -66,23 +60,30 @@ export class PostFactory {
     }
   }
 
+  getArtistsFromJson = (json, booruConfiguration) => {
+    if (booruConfiguration.artistsPropertyName)
+      return this.formatTags(this.resolve(booruConfiguration.artistsPropertyName, json), booruConfiguration);
+    else
+      return [];
+  }
+
   getCharactersFromJson = (json, booruConfiguration) => {
     if (booruConfiguration.charactersPropertyName)
-      return this.resolve(booruConfiguration.charactersPropertyName, json);
+      return this.formatTags(this.resolve(booruConfiguration.charactersPropertyName, json), booruConfiguration);
     else
       return [];
   }
 
   getSpeciesTagFromJson = (json, booruConfiguration) => {
     if (booruConfiguration.speciesTagPropertyName)
-      return this.resolve(booruConfiguration.speciesTagPropertyName, json)
+      return this.formatTags(this.resolve(booruConfiguration.speciesTagPropertyName, json), booruConfiguration)
     else
       return [];
   }
 
   getCopyrightTagFromJson = (json, booruConfiguration) => {
     if (booruConfiguration.copyrightTagPropertyName)
-      return this.resolve(booruConfiguration.copyrightTagPropertyName, json)
+      return this.formatTags(this.resolve(booruConfiguration.copyrightTagPropertyName, json), booruConfiguration);
     else
       return [];
   }
@@ -90,5 +91,12 @@ export class PostFactory {
   resolve = (path, obj, separator = '.') => {
     var properties = Array.isArray(path) ? path : path.split(separator)
     return properties.reduce((prev, curr) => prev && prev[curr], obj)
+  }
+
+  formatTags = (tags, booruConfiguration) => {
+    if (booruConfiguration.shouldFormatTags)
+      return tags.split(' ').filter(t => t !== "");
+    else
+      return tags;
   }
 }

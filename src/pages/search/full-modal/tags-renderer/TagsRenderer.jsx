@@ -1,9 +1,8 @@
 import React from 'react'
-import { makeStyles, DialogContent, Chip, Grid } from '@material-ui/core';
+import { makeStyles, DialogContent, Grid } from '@material-ui/core';
 import * as colors from '@material-ui/core/colors';
 import { Typography } from '@material-ui/core';
-import ChipWithButtons from 'components/ChipWithButtons/ChipWithButtons';
-import ChipButton from 'components/ChipWithButtons/ChipButton/ChipButton';
+import Tag from './Tag/Tag';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,10 +45,6 @@ const useStyles = makeStyles(theme => ({
 export default function TagsRenderer({ selectedPost }) {
   const classes = useStyles();
 
-  const addTag = () => {
-    alert('tag added');
-  }
-
   const getRatingColor = (rating) => {
     switch (rating) {
       case "safe":
@@ -66,16 +61,15 @@ export default function TagsRenderer({ selectedPost }) {
     }
   };
 
-  const tagSection = (title, tags, extraClass) => {
+  const tagSection = (title, tags, extraClass, includeTitleInChip = true) => {
     return (tags.length > 0 &&
       <Grid item className={classes.container}>
         <Typography className={classes.title}>{title}</Typography>
-        {tags.map((tag, index) => (
-          <ChipWithButtons label={tag} key={`tag_${title}_${index}`} className={extraClass ? `${classes.chip} + ${extraClass}` : classes.chip}>
-            <ChipButton onClick={addTag}>+</ChipButton>
-            <ChipButton onClick={addTag}>-</ChipButton>
-          </ChipWithButtons>
-        ))}
+        {tags.map((tag, index) => {
+          const tagProps = { tag, index, title, extraClass, classes, includeTitleInChip }
+          return <Tag tagProps={tagProps} />
+        }
+        )}
       </Grid>
     );
   }
@@ -93,7 +87,7 @@ export default function TagsRenderer({ selectedPost }) {
         {tagSection('Characters:', selectedPost.charactersTags, classes.greenBackground)}
         {tagSection('Species:', selectedPost.speciesTags, classes.orangeBackground)}
         {tagSection('Copyright:', selectedPost.copyrightTags, classes.pinkBackground)}
-        {tagSection('Tags:', selectedPost.tags, classes.blueBackground)}
+        {tagSection('Tags:', selectedPost.tags, classes.blueBackground, false)}
       </Grid>
     </DialogContent>
   )

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Paper, makeStyles, Typography } from '@material-ui/core';
-import { SearchQueryContext } from 'components/App';
+import usePageContext from '../../../hooks/usePageContext';
 
 const useStyles = makeStyles(theme => ({
   thumbnail: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 export default function LoadMoreButton() {
 
   const classes = useStyles();
-  const [, , , setPage] = useContext(SearchQueryContext)
+  const [, setPage] = usePageContext();
 
   const handleClick = () => {
     setPage(prevPage => prevPage + 1);

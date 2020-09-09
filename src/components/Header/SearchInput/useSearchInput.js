@@ -1,11 +1,12 @@
 
 import { useBooruConfiguration } from '../../../hooks/useBooruConfiguration';
 import { useState, useContext, useEffect } from 'react';
-import { SearchQueryContext } from 'components/App';
 import { PostListContext } from './../../../context/PostContextProvider';
 import usePostLoadingQueue from 'hooks/usePostLoadingQueue';
 //import PostSearchMockService from './../../../services/Search/mock/PostSearchMockService';
 import { PostSearchService } from '../../../services/Search/PostSearchService';
+import useTagsContext from '../../../hooks/useTagsContext';
+import usePageContext from '../../../hooks/usePageContext';
 
 const BACKSPACE_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -18,7 +19,8 @@ export default function useSearchInput() {
 
   const [inputText, setInputText] = useState('');
   const [canRemoveTags, setCanRemoveTags] = useState(false);
-  const [tags, tagActions, page] = useContext(SearchQueryContext);
+  const [tags, tagActions] = useTagsContext();
+  const [page,] = usePageContext();
   const [, postListActions] = useContext(PostListContext);
   const [isSubmit, setIsSubmit] = useState(false);
 

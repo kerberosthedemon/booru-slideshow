@@ -1,18 +1,17 @@
 import React, { createContext } from 'react'
-import useSearchQuery from '../hooks/useSearchQuery';
 import { PostContextProvider } from '../context/PostContextProvider';
 import Content from './Content/Content';
+import { SearchContextProvider } from 'context/SearchQueryContextProvider';
 
 export const SearchQueryContext = createContext({});
 
 export default function App() {
-  const searchQuery = useSearchQuery();
 
   return (
     <PostContextProvider>
-      <SearchQueryContext.Provider value={searchQuery}>
+      <SearchContextProvider>
         <Content />
-      </SearchQueryContext.Provider>
+      </SearchContextProvider>
     </PostContextProvider>
   )
 }

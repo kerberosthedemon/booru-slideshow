@@ -15,7 +15,7 @@ const ENTER_KEYCODE = 13;
 export default function useSearchInput() {
 
   const searchService = new PostSearchService();
-  const [configurations,] = useBooruConfiguration();
+  const [configurations, configActions] = useBooruConfiguration();
 
   const [inputText, setInputText] = useState('');
   const [canRemoveTags, setCanRemoveTags] = useState(false);
@@ -100,5 +100,5 @@ export default function useSearchInput() {
 
   const inputActions = { handleKeyUp, handleChange }
 
-  return [tags, tagActions, inputText, inputActions]
+  return [tags, tagActions, inputText, inputActions, configurations, configActions]
 }

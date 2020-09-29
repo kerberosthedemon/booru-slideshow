@@ -5,6 +5,8 @@ import grey from '@material-ui/core/colors/grey'
 import DeleteIcon from '@material-ui/icons/Delete';
 import useFocusElementOnStart from '../../../hooks/useFocusOnStart';
 import useSearchInput from './useSearchInput';
+import AdvancedSearchModal from './AdvancedSearchModal/AdvancedSearchModal';
+import useModal from '../../../pages/search/useModal';
 
 const borderColorFocused = '#d97f53';
 const backgroundColor = 'rgba(1,0,0,.3)';
@@ -61,22 +63,28 @@ const useStyles = makeStyles(theme => ({
 export default function SearchInput() {
 
   const classes = useStyles();
-  const [tags, tagActions, inputText, inputActions] = useSearchInput();
+  const [tags, tagActions, inputText, inputActions, configurations, configActions] = useSearchInput();
   const inputRef = useFocusElementOnStart();
 
+  const configState = [configurations, configActions];
+  const [showModal, modalActions] = useModal();
+
   return (
-    <div className={classes.contanier}>
-      {tags.map((tag, index) => <Chip key={`chip_${index}`} className={classes.chip} onDelete={() => { tagActions.removeTagAtIndex(index) }} label={tag} />)}
-      <TextField
-        inputRef={inputRef}
-        InputProps={{ classes: { input: classes.input }, disableUnderline: true }}
-        placeholder={tags.length ? '' : 'Search...'}
-        onKeyUp={inputActions.handleKeyUp}
-        value={inputText}
-        onChange={inputActions.handleChange} />
-      <IconButton aria-label="delete" className={classes.settingsIcon}>
-        <DeleteIcon />
-      </IconButton>
-    </div>
+    <React.Fragment>
+      <div className={classes.contanier}>
+        {tags.map((tag, index) => <Chip key={`chip_${index}`} className={classes.chip} onDelete={() => { tagActions.removeTagAtIndex(index) }} label={tag} />)}
+        <TextField
+          inputRef={inputRef}
+          InputProps={{ classes: { input: classes.input }, disableUnderline: true }}
+          placeholder={tags.length ? '' : 'Search...'}
+          onKeyUp={inputActions.handleKeyUp}
+          value={inputText}
+          onChange={inputActions.handleChange} />
+        <IconButton aria-label="delete" className={classes.settingsIcon} onClick={modalActions.openModal}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+      <AdvancedSearchModal configState={configState} open={showModal} onClose={modalActions.closeModal} />
+    </React.Fragment>
   );
 }

@@ -18,12 +18,12 @@
     "ratingPropertyName": "rating",
     "shouldFormatTags": false,
     "startPageIndexOffset": 1,
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "Rule 34",
     "baseURL": "https://rule34.xxx/index.php?page=dapi&s=post&q=index",
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "SakugaBooru",
@@ -44,7 +44,7 @@
     "charactersPropertyName": "tag_string_character",
     "copyrightTagPropertyName": "tag_string_copyright",
     "startPageIndexOffset": 1,
-    "isEnabled": false
+    "isEnabled": true
   },
   {
     "configName": "Gelbooru",
